@@ -9,7 +9,7 @@ import DropdownMenu from "./DropdownMenu";
 
 function Navigation() {
   return (
-    <div className=" border-b-3 border-lightlavender flex  px-4  items-center justify-between flex-wrap basis-1/10 text-deepgrey">
+    <div className="border-b-3 border-lightlavender flex  px-4  items-center justify-between flex-wrap basis-1/10 text-deepgrey">
       <DropdownMenu />
       <div className="flex gap-8">
         <Link href="/">
