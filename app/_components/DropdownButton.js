@@ -4,7 +4,7 @@ function DropdownButton({ showDropdownMenu, mainRoot }) {
   return (
     <button
       onMouseOver={showDropdownMenu}
-      className="hover:bg-lightlavender px-4 py-2 rounded-xl cursor-pointer"
+      className="peer hover:bg-lightlavender px-4 py-2 rounded-xl cursor-pointer"
     >
       <Link href={`/${mainRoot}`}>
         {mainRoot.charAt(0).toUpperCase() + mainRoot.slice(1)}

@@ -1,5 +1,5 @@
 import Navigation from "./_components/Navigation";
-import "@/app/globals.css";
+import "./globals.css";
 import { Noto_Sans, Playfair_Display } from "next/font/google";
 import Footer from "./_components/Footer";
 
@@ -19,11 +19,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${notoSans.className} flex flex-col w-screen h-screen `}
-      >
+      <body className={`${notoSans.className} flex flex-col w-screen h-screen`}>
         <Navigation />
-        <main className="text-center basis-8/10 py-7  text-deepgrey">
+        <main className="text-center basis-8/10 py-7  text-deepgrey mb-35 mt-20">
           {children}
         </main>
         <Footer />

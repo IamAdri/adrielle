@@ -15,6 +15,19 @@
   --color-softlavender: #b9aedc;
   --color-lightlavender: #eee3f3;
   --color-lavenderhighlight: #a48db7;
+  --color-gold: #d4af37;
+  --color-red: #b22222;
+  --color-blue: #4169e1;
+  --color-pink: #ff69b4;
+  --color-grey: #a9a9a9;
+  --color-beige: #f7e7ce;
+  --color-green: #228b22;
+  --color-purple: #9370db;
+  --color-brown: #8b4513;
+  --color-yellow: #ffd700;
+  --color-silver: #778899;
+  --color-orange: #ffa500;
+  --color-claret: #800020;
 }
 
 @theme inline {
@@ -38,6 +51,10 @@
     to {
       transform: rotate(1turn);
     }
+  }
+
+  .headingSection {
+    display: block;
   }
 }
 

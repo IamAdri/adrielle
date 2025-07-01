@@ -1,0 +1,26 @@
+"use client";
+import Image from "next/image";
+import { useChangingColor } from "./ChangingColorContext";
+
+function ButtonForChangingColor({ color, itemDetails, colorsAvailable }) {
+  const { setColorSrc, setIsClickedImage } = useChangingColor();
+
+  const handleChangeColor = (e) => {
+    setColorSrc(() => e.target.src);
+    setIsClickedImage("");
+  };
+
+  return (
+    <button onClick={handleChangeColor}>
+      <Image
+        src={itemDetails.variants[color].images[0]}
+        overrideSrc={itemDetails.variants[color].images[0]}
+        width={75}
+        height={75}
+        alt="Colors available for the pair of heels from catalog."
+      />
+    </button>
+  );
+}
+
+export default ButtonForChangingColor;

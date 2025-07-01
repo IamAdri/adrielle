@@ -4,7 +4,7 @@ import { FaFacebook, FaTwitter } from "react-icons/fa";
 
 function Footer() {
   return (
-    <footer className="basis-1/10 border-t-3 border-lightlavender text-deepgrey ">
+    <footer className="basis-1/10 border-t-3 border-lightlavender text-deepgrey pb-10">
       <div className="flex justify-between">
         <ul className="flex gap-5 pt-3 pl-5">
           <Link href="/cookies">Cookie Settings</Link>

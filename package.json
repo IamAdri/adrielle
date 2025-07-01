@@ -2,6 +2,18 @@
   "name": "adrielle",
   "version": "0.1.0",
   "private": true,
+  "description": "This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).",
+  "homepage": "https://github.com/IamAdri/adrielle#readme",
+  "bugs": {
+    "url": "https://github.com/IamAdri/adrielle/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IamAdri/adrielle.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "main": "tailwind.config.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -13,12 +25,16 @@
     "@heroui/dropdown": "^2.3.21",
     "@heroui/system": "^2.4.17",
     "@heroui/theme": "^2.4.17",
+    "@supabase/supabase-js": "^2.50.0",
     "framer-motion": "^12.18.1",
-    "next": "15.3.3",
+    "next": "^15.3.4",
+    "next-ws": "^2.0.8",
     "postcss": "^8.5.6",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "webpack-node-externals": "^3.0.0",
+    "ws": "^8.18.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

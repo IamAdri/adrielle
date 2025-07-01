@@ -1,21 +1,59 @@
-"use client";
-import { useRef } from "react";
 import DropdownItems from "@/app/_components/DropdownItems";
 import Image from "next/image";
 import DropdownButton from "./DropdownButton";
 import Link from "next/link";
 
 function DropdownMenu() {
-  const shoesSection = useRef(null);
-  const accessoriesSection = useRef(null);
+  const shoesCategories = [
+    "heels",
+    "sneakers",
+    "sandals",
+    "flats",
+    "newCollection",
+  ];
+  const accessoriesCategories = [
+    "bags",
+    "bracelets",
+    "necklaces",
+    "belts",
+    "newCollection",
+  ];
 
-  const hideDropDownMenu = () => {
-    shoesSection.current.className = "hidden";
-    accessoriesSection.current.className = "hidden";
-  };
+  return (
+    <div className="flex gap-8 items-center">
+      <Link href="/">
+        <Image src="/logo.png" width="75" height="75" alt="Logo" />
+      </Link>
+      <div className="flex gap-10">
+        <div>
+          <DropdownButton mainRoot="shoes" />
+          <DropdownItems mainRoot="shoes" categories={shoesCategories} />
+        </div>
+        <div>
+          <DropdownButton mainRoot="accessories" />
+          <DropdownItems
+            mainRoot="accessories"
+            categories={accessoriesCategories}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
 
-  const shoesCategories = ["sport", "elegant", "summer"];
-  const accossoriesCategories = ["necklace", "bags", "bracelets"];
+export default DropdownMenu;
+
+/*
+//const shoesSection = useRef(null);
+  //const accessoriesSection = useRef(null);
+
+  //const hideDropDownMenu = () => {
+  //   shoesSection.current.className = "hidden";
+  //   accessoriesSection.current.className = "hidden";
+  // };
+
+  //const shoesCategories = ["heels", "sneakers", "sandals", "flats"];
+  //const accossoriesCategories = ["bracelets", "bags", "necklaces", "belts"];
 
   return (
     <div className="flex gap-8 items-center" onMouseLeave={hideDropDownMenu}>
@@ -49,7 +87,4 @@ function DropdownMenu() {
         </div>
       </div>
     </div>
-  );
-}
-
-export default DropdownMenu;
+  );*/
