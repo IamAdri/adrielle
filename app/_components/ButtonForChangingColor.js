@@ -11,7 +11,7 @@ function ButtonForChangingColor({ color, itemDetails, colorsAvailable }) {
   };
 
   return (
-    <button onClick={handleChangeColor}>
+    <button onClick={handleChangeColor} className="cursor-pointer">
       <Image
         src={itemDetails.variants[color].images[0]}
         overrideSrc={itemDetails.variants[color].images[0]}

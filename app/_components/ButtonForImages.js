@@ -27,7 +27,7 @@ function ButtonForImages({ itemDetails, colorsAvailable }) {
             <button
               key={image}
               onClick={changeMainImage}
-              className="hover:cursor-pointer"
+              className="cursor-pointer"
             >
               <Image
                 src={image}

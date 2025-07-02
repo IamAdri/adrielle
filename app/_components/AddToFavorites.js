@@ -8,7 +8,7 @@ import {
   removeFavoriteItem,
 } from "../_lib/data-service";
 
-function AddToFavorites({ itemName }) {
+function AddToFavorites({ itemName, selectedItem }) {
   const [isClicked, setIsClicked] = useState(false);
 
   useEffect(() => {
@@ -23,10 +23,10 @@ function AddToFavorites({ itemName }) {
 
   async function handleFavoriteItems() {
     setIsClicked(!isClicked);
-    if (!isClicked) await insertFavoriteItem(itemName);
+    if (!isClicked) await insertFavoriteItem(itemName, selectedItem[0].id);
     if (isClicked) await removeFavoriteItem(itemName);
   }
-
+  console.log(selectedItem[0].id);
   return (
     <button onClick={handleFavoriteItems} className="cursor-pointer">
       {isClicked ? (

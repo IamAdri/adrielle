@@ -56,7 +56,7 @@ async function Page({ params }) {
         <div className="flex flex-col flex-wrap">
           <div className="flex justify-between">
             <h1 className="text-3xl font-bold text-left">{itemName}</h1>
-            <AddToFavorites itemName={itemName} />
+            <AddToFavorites itemName={itemName} selectedItem={selectedItem} />
             {/**/}
           </div>
 

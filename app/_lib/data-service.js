@@ -19,10 +19,10 @@ export async function getFavoriteItems() {
   return data;
 }
 
-export async function insertFavoriteItem(itemName) {
+export async function insertFavoriteItem(itemName, itemID) {
   const { data, error } = await supabase
     .from("favorites")
-    .insert([{ name: itemName }])
+    .insert([{ name: itemName, favorite_id: itemID }])
     .select();
   if (error) {
     console.log(error);
@@ -36,4 +36,43 @@ export async function removeFavoriteItem(itemName) {
     .from("favorites")
     .delete()
     .eq("name", itemName);
+}
+
+export async function getShoesById(favoriteID) {
+  const { data, error } = await supabase
+    .from("shoes")
+    .select("*")
+    .eq("id", favoriteID);
+  if (error) {
+    console.log(error);
+    throw new Error("Could not load");
+  }
+  return data;
+}
+
+export async function getShoesDetailsByFavoriteTable() {
+  let { data, error } = await supabase.from("favorites").select(`
+    "favorite_id",
+    "shoes" (
+      "*"
+    )
+  `);
+  if (error) {
+    console.log(error);
+    throw new Error("Could not load");
+  }
+  return data;
+}
+
+export async function addItemToCart(itemName, cartID) {
+  const { data, error } = await supabase
+    .from("cart")
+    .insert([{ name: itemName, cart_id: cartID }])
+    .select();
+
+  if (error) {
+    console.log(error);
+    throw new Error("Could not load");
+  }
+  return data;
 }
