@@ -7,32 +7,63 @@ import {
   insertFavoriteItem,
   removeFavoriteItem,
 } from "../_lib/data-service";
+import { useFavoriteItems } from "./FavoriteItemsContextApi";
 
-function AddToFavorites({ itemName, selectedItem }) {
+function AddToFavorites({ name, itemID, position = "relative", size = 10 }) {
+  const { isFavorite, setIsFavorite } = useFavoriteItems();
   const [isClicked, setIsClicked] = useState(false);
 
   useEffect(() => {
     async function loadFavoriteItems() {
       const favoriteItems = await getFavoriteItems();
-      favoriteItems.map(
-        (favorite) => favorite.name.includes(itemName) && setIsClicked(true)
-      );
+      favoriteItems.map((favorite) => {
+        if (favorite.favorite_id === itemID) setIsClicked(true);
+      });
     }
     loadFavoriteItems();
   }, []);
 
-  async function handleFavoriteItems() {
+  useEffect(() => {
+    async function loadFavoriteItems() {
+      const favoriteItems = await getFavoriteItems();
+      //console.log(favoriteItems);
+      // if (favoriteItems.length !== isFavorite.length)
+      setIsFavorite(favoriteItems.length);
+    }
+    loadFavoriteItems();
+  }, [isFavorite, setIsFavorite, isClicked, setIsClicked]);
+
+  async function handleFavoriteItems(e) {
     setIsClicked(!isClicked);
-    if (!isClicked) await insertFavoriteItem(itemName, selectedItem[0].id);
-    if (isClicked) await removeFavoriteItem(itemName);
+    if (!isClicked) {
+      await insertFavoriteItem(name, itemID);
+      const updatedArray = await getFavoriteItems();
+      setIsFavorite(updatedArray.length);
+    }
+    if (isClicked) {
+      await removeFavoriteItem(name);
+      const updatedArray = await getFavoriteItems();
+      setIsFavorite(updatedArray.length);
+    }
   }
-  console.log(selectedItem[0].id);
+
+  const positionOptions = {
+    relative: "relative",
+    absolute: "absolute",
+  };
+  const sizeOptions = {
+    10: "size-10",
+    7: "size-7",
+  };
   return (
-    <button onClick={handleFavoriteItems} className="cursor-pointer">
+    <button
+      onClick={handleFavoriteItems}
+      className={`${positionOptions[position]} cursor-pointer`}
+    >
       {isClicked ? (
-        <SolidHeart className="size-10" />
+        <SolidHeart className={`${sizeOptions[size]}`} />
       ) : (
-        <OutlinedHeart className="size-10" />
+        <OutlinedHeart className={`${sizeOptions[size]}`} />
       )}
     </button>
   );

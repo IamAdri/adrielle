@@ -8,7 +8,7 @@ import { ArrowDownIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 function SortingItems() {
   const { radioValue, setRadioValue } = useRadioValue();
   const [isMounted, setIsMounted] = useState(false);
-  const [isClicked, setIsClicked] = useState(false);
+  const [isSortingClicked, setIsSortingClicked] = useState(false);
   useEffect(() => {
     // Așteaptă până la client render pentru a preveni hydration mismatch
     setIsMounted(true);
@@ -16,12 +16,12 @@ function SortingItems() {
 
   const handleRadioChange = (value) => {
     setRadioValue(value);
-    setIsClicked(false);
+    setIsSortingClicked(false);
   };
 
   const showRadioOptions = (e) => {
     e.preventDefault();
-    setIsClicked(!isClicked);
+    setIsSortingClicked(!isSortingClicked);
     //if (isClicked) ref.current.style.opacity = "100";
   };
   if (!isMounted) return <Spinner />;
@@ -38,7 +38,7 @@ function SortingItems() {
 
         <div
           className={`${
-            isClicked ? "opacity-100 b-t" : "opacity-0"
+            isSortingClicked ? "opacity-100 b-t" : "opacity-0"
           } absolute flex flex-col gap-2 items-center pl-0.5 py-1 w-40 z-2 border-x border-b border-coolgrey bg-white`}
         >
           <div className="flex gap-1">

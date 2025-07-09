@@ -3,8 +3,8 @@ import { TrashIcon } from "@heroicons/react/24/outline";
 import { getFavoriteItems, removeFavoriteItem } from "../_lib/data-service";
 import { useFavoriteItems } from "./FavoriteItemsContextApi";
 
-function ButtonForDeletingFavoriteItem({ favoriteItem }) {
-  const { isFavorite, setIsFavorite } = useFavoriteItems();
+function ButtonForDeletingCartItem({ favoriteItem }) {
+  //const { isFavorite, setIsFavorite } = useFavoriteItems();
   const handleDeleteFavoriteItem = (e) => {
     const targetedItem = e.currentTarget.parentNode.parentNode;
     (async function remove() {

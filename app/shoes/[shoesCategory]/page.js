@@ -6,7 +6,7 @@ import Link from "next/link";
 
 async function Page({ params }) {
   const category = await params;
-  console.log(category.shoesCategory);
+  //console.log(category.shoesCategory);
   const heading = getCategory(category);
   //category.shoesCategory.charAt(0).toUpperCase() +
   //category.shoesCategory.slice(1);

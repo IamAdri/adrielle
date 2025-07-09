@@ -1,9 +1,5 @@
-import Image from "next/image";
 import { getShoes } from "../_lib/data-service";
-import Link from "next/link";
 import SortingItems from "./SortingItems";
-import { Suspense } from "react";
-import Spinner from "./Spinner";
 import GridSection from "./GridSection";
 import { RadioValueProvider } from "./RadioValueContext";
 
@@ -15,7 +11,7 @@ async function HeelsCatalog({ category }) {
   );
 
   return (
-    <div className="mx-55 my-25">
+    <div className="mx-55 xl:mx-55 lg:mx-45 my-25 md:mx-25 sm:15">
       <RadioValueProvider>
         <SortingItems />
         <GridSection selectCategory={selectCategory} category={category} />

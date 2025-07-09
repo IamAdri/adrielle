@@ -10,6 +10,20 @@ export async function getShoes() {
   return data;
 }
 
+export async function getItemById(name) {
+  const { data, error } = await supabase
+    .from("shoes")
+    .select("*")
+    .eq("name", name)
+    .single();
+
+  if (error) {
+    console.log(error);
+    throw new Error("Could not load");
+  }
+  return data;
+}
+
 export async function getFavoriteItems() {
   const { data, error } = await supabase.from("favorites").select("*");
   if (error) {
@@ -28,6 +42,20 @@ export async function insertFavoriteItem(itemName, itemID) {
     console.log(error);
     throw new Error("Could not insert");
   }
+
+  return data;
+}
+
+export async function insertCartItem(itemName, itemID, size) {
+  const { data, error } = await supabase
+    .from("cart")
+    .insert([{ name: itemName, cart_id: itemID, size: size }])
+    .select();
+  if (error) {
+    console.log(error);
+    throw new Error("Could not insert");
+  }
+
   return data;
 }
 
@@ -53,6 +81,20 @@ export async function getShoesById(favoriteID) {
 export async function getShoesDetailsByFavoriteTable() {
   let { data, error } = await supabase.from("favorites").select(`
     "favorite_id",
+    "shoes" (
+      "*"
+    )
+  `);
+  if (error) {
+    console.log(error);
+    throw new Error("Could not load");
+  }
+  return data;
+}
+
+export async function getShoesDetailsByCartTable() {
+  let { data, error } = await supabase.from("cart").select(`
+    "*",
     "shoes" (
       "*"
     )

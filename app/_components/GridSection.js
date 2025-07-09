@@ -2,10 +2,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRadioValue } from "./RadioValueContext";
+import AddToFavorites from "./AddToFavorites";
 
 function GridSection({ selectCategory, category }) {
-  const { radioValue, setRadioValue } = useRadioValue();
-  //console.log(radioValue);
+  const { radioValue } = useRadioValue();
   //console.log(selectCategory);
   const ascendingOrder = selectCategory.slice().sort(function (a, b) {
     return a.price - b.price;
@@ -20,7 +20,6 @@ function GridSection({ selectCategory, category }) {
       ? descendingOrder
       : selectCategory;
 
-  //console.log(selectCategory.slice());
   return (
     <div className="grid grid-flow-row grid-cols-4 gap-x-0.5 justify-items-center mt-5">
       {chooseOrder.map((heel) => {
@@ -31,20 +30,27 @@ function GridSection({ selectCategory, category }) {
             key={`${heel.id}, ${heel.mainColorImage}`}
             className="flex flex-col items-center group relative"
           >
-            <Link
-              href={`/shoes/${category.shoesCategory}/${heel.name.replaceAll(
-                " ",
-                "_"
-              )}`}
-            >
-              <Image
-                src={mainColorImage[0]}
-                alt="Main image of the pair of heels from catalog."
-                width={350}
-                height={350}
+            <div className="relative">
+              <AddToFavorites
+                position="absolute"
+                size="7"
+                itemID={heel.id}
+                name={heel.name}
               />
-            </Link>
-
+              <Link
+                href={`/shoes/${category.shoesCategory}/${heel.name.replaceAll(
+                  " ",
+                  "_"
+                )}`}
+              >
+                <Image
+                  src={mainColorImage[0]}
+                  alt="Main image of the pair of heels from catalog."
+                  width={350}
+                  height={350}
+                />
+              </Link>
+            </div>
             <div className="flex gap-0.5 items-center">
               {colorsAvailable.map((color) => {
                 const colorMap = {

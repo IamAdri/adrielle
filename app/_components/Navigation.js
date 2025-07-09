@@ -8,14 +8,25 @@ import {
 } from "@heroicons/react/24/solid";
 import DropdownMenu from "./DropdownMenu";
 import { useCallback, useEffect, useState } from "react";
+import { useFavoriteItems } from "./FavoriteItemsContextApi";
+import { getFavoriteItems } from "../_lib/data-service";
 
 function Navigation() {
   const [scrollY, setScrollY] = useState(0);
-
+  const { isFavorite, setIsFavorite } = useFavoriteItems();
+  // console.log(isFavorite);
   const onScroll = useCallback((event) => {
     const { pageYOffset, scrollY } = window;
     //console.log("yOffset", pageYOffset, "scrollY", scrollY);
     setScrollY(window.pageYOffset);
+  }, []);
+
+  useEffect(() => {
+    async function loadFavoriteItems() {
+      const favoriteItems = await getFavoriteItems();
+      if (isFavorite === 0) setIsFavorite(favoriteItems.length);
+    }
+    loadFavoriteItems();
   }, []);
 
   useEffect(() => {
@@ -26,6 +37,7 @@ function Navigation() {
       window.removeEventListener("scroll", onScroll, { passive: true });
     };
   }, []);
+
   return (
     <div
       className={`fixed top-0 right-0 left-0 z-100 ${
@@ -37,9 +49,13 @@ function Navigation() {
         <Link href="/">
           <HomeIcon className="size-7 text-deepgrey" />
         </Link>
-        <Link href="/favorites">
-          <HeartIcon className="size-7 text-deepgrey" />
-        </Link>
+        <div className="flex gap-0.5 items-center">
+          <Link href="/favorites">
+            <HeartIcon className="size-7 text-deepgrey" />
+          </Link>
+          <span>{isFavorite > 0 && isFavorite}</span>
+        </div>
+
         <Link href="/bag">
           <ShoppingBagIcon className="size-7 text-deepgrey" />
         </Link>
