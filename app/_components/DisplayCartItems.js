@@ -2,18 +2,21 @@
 
 import Image from "next/image";
 import { useChooseSize } from "./ChooseSizeContextApi";
+import ButtonForDeletingCartItem from "./ButtonForDeletingCartItem";
 
 function DisplayCartItems({ cartItems }) {
   const { clickedSize } = useChooseSize();
   return (
     <div className="">
       {cartItems.map((cartItem) => {
-        console.log(cartItem);
         const colorsAvailable = Object.keys(cartItem.shoes.variants);
         const mainColorImage =
           cartItem.shoes.variants[colorsAvailable[0]].images[0];
         return (
-          <ul className="flex flex-col gap-15  " key={cartItem.shoes.id}>
+          <ul
+            className="flex flex-col gap-15  "
+            key={`${cartItem.shoes.id}, ${cartItem.size}`}
+          >
             <li className="flex gap-15">
               <Image
                 src={mainColorImage}
@@ -34,6 +37,7 @@ function DisplayCartItems({ cartItems }) {
                   </span>
                 </div>
                 <span className="font-medium text-base text-deepgrey text-end">{`${cartItem.shoes.price} ${cartItem.shoes.currency}`}</span>
+                <ButtonForDeletingCartItem cartItem={cartItem} />
               </div>
             </li>
           </ul>

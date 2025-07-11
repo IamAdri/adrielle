@@ -9,11 +9,13 @@ import {
 import DropdownMenu from "./DropdownMenu";
 import { useCallback, useEffect, useState } from "react";
 import { useFavoriteItems } from "./FavoriteItemsContextApi";
-import { getFavoriteItems } from "../_lib/data-service";
+import { getCartItems, getFavoriteItems } from "../_lib/data-service";
+import { useCartItems } from "./CartItemsContextApi";
 
 function Navigation() {
   const [scrollY, setScrollY] = useState(0);
   const { isFavorite, setIsFavorite } = useFavoriteItems();
+  const { isCart, setIsCart } = useCartItems();
   // console.log(isFavorite);
   const onScroll = useCallback((event) => {
     const { pageYOffset, scrollY } = window;
@@ -27,6 +29,14 @@ function Navigation() {
       if (isFavorite === 0) setIsFavorite(favoriteItems.length);
     }
     loadFavoriteItems();
+  }, []);
+
+  useEffect(() => {
+    async function loadCartItems() {
+      const cartItems = await getCartItems();
+      setIsCart(cartItems.length);
+    }
+    loadCartItems();
   }, []);
 
   useEffect(() => {
@@ -55,10 +65,13 @@ function Navigation() {
           </Link>
           <span>{isFavorite > 0 && isFavorite}</span>
         </div>
+        <div className="flex gap-0.5 items-center">
+          <Link href="/bag">
+            <ShoppingBagIcon className="size-7 text-deepgrey" />
+          </Link>
+          <span>{isCart > 0 && isCart}</span>
+        </div>
 
-        <Link href="/bag">
-          <ShoppingBagIcon className="size-7 text-deepgrey" />
-        </Link>
         <Link href="/login">
           <UserIcon className="size-7 text-deepgrey" />
         </Link>

@@ -1,24 +1,24 @@
 "use client";
 import { TrashIcon } from "@heroicons/react/24/outline";
-import { getFavoriteItems, removeFavoriteItem } from "../_lib/data-service";
-import { useFavoriteItems } from "./FavoriteItemsContextApi";
+import { getCartItems, removeCartItem } from "../_lib/data-service";
+import { useCartItems } from "./CartItemsContextApi";
 
-function ButtonForDeletingCartItem({ favoriteItem }) {
-  //const { isFavorite, setIsFavorite } = useFavoriteItems();
-  const handleDeleteFavoriteItem = (e) => {
+function ButtonForDeletingCartItem({ cartItem }) {
+  const { setIsCart } = useCartItems();
+  const handleDeleteCartItem = (e) => {
     const targetedItem = e.currentTarget.parentNode.parentNode;
     (async function remove() {
-      await removeFavoriteItem(favoriteItem.shoes.name);
-      const updatedArray = await getFavoriteItems();
-      setIsFavorite(updatedArray.length);
+      await removeCartItem(cartItem.shoes.name, cartItem.size);
+      const updatedArray = await getCartItems();
+      setIsCart(updatedArray.length);
     })();
     targetedItem.style.display = "none";
   };
   return (
-    <button className="absolute right-0 p-1" onClick={handleDeleteFavoriteItem}>
+    <button className="absolute right-0 p-1" onClick={handleDeleteCartItem}>
       <TrashIcon className="size-6 cursor-pointer" />
     </button>
   );
 }
 
-export default ButtonForDeletingFavoriteItem;
+export default ButtonForDeletingCartItem;

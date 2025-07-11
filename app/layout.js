@@ -4,6 +4,7 @@ import { Noto_Sans, Playfair_Display } from "next/font/google";
 import Footer from "./_components/Footer";
 import { FavoriteItemsProvider } from "./_components/FavoriteItemsContextApi";
 import { ChooseSizeProvider } from "./_components/ChooseSizeContextApi";
+import { CartItemsProvider } from "./_components/CartItemsContextApi";
 
 const notoSans = Noto_Sans({
   subsets: ["latin"],
@@ -23,12 +24,14 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${notoSans.className} flex flex-col w-screen h-screen`}>
         <FavoriteItemsProvider>
-          <Navigation />
-          <ChooseSizeProvider>
-            <main className="text-center basis-8/10 py-7  text-deepgrey mb-35 mt-20">
-              {children}
-            </main>
-          </ChooseSizeProvider>
+          <CartItemsProvider>
+            <Navigation />
+            <ChooseSizeProvider>
+              <main className="text-center basis-8/10 py-7  text-deepgrey mb-35 mt-20">
+                {children}
+              </main>
+            </ChooseSizeProvider>
+          </CartItemsProvider>
         </FavoriteItemsProvider>
 
         <Footer />

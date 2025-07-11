@@ -1,20 +1,52 @@
 "use client";
-import { redirect } from "next/navigation";
 import { useChooseSize } from "./ChooseSizeContextApi";
-import { insertCartItem } from "../_lib/data-service";
+import { getCartItems, insertCartItem } from "../_lib/data-service";
+import { useEffect, useState } from "react";
+import { useCartItems } from "./CartItemsContextApi";
 
 function AddToCart({ id, name }) {
-  const { clickedSize, isNotSelected, setIsNotSelected } = useChooseSize();
+  const {
+    clickedSize,
+    isNotSelected,
+    setIsNotSelected,
+    sameCartItem,
+    setSameCartItem,
+  } = useChooseSize();
+  const { isCart, setIsCart } = useCartItems();
+  useEffect(() => {
+    async function insert() {
+      if (!sameCartItem && sameCartItem !== "") {
+        await insertCartItem(name, id, clickedSize);
+        const updatedArray = await getCartItems();
+        setIsCart(updatedArray.length);
+      }
+    }
+    insert();
+  }, [sameCartItem, clickedSize]);
+
+  useEffect(() => {
+    async function loadCartItems() {
+      const cartItems = await getCartItems();
+      setIsCart(cartItems.length);
+    }
+    loadCartItems();
+  }, [isCart, setIsCart]);
+
   const handleAddToCart = async () => {
-    console.log(clickedSize);
+    const cartItems = await getCartItems();
     if (!clickedSize) setIsNotSelected(true);
-    const insertToCartTable = await insertCartItem(name, id, clickedSize);
     if (clickedSize) {
-      setIsNotSelected(false);
-      redirect("/bag");
+      const isItemInCart = cartItems.filter((item) => {
+        return item.cart_id === id && item.size === clickedSize;
+      });
+      if (isItemInCart.length > 0) {
+        setSameCartItem(true);
+      } else {
+        setSameCartItem(false);
+      }
     }
   };
-  console.log(name);
+  console.log(sameCartItem);
   return (
     <div className="flex flex-col items-start gap-1">
       <button

@@ -33,6 +33,15 @@ export async function getFavoriteItems() {
   return data;
 }
 
+export async function getCartItems() {
+  const { data, error } = await supabase.from("cart").select("*");
+  if (error) {
+    console.log(error);
+    throw new Error("Could not load");
+  }
+  return data;
+}
+
 export async function insertFavoriteItem(itemName, itemID) {
   const { data, error } = await supabase
     .from("favorites")
@@ -64,6 +73,14 @@ export async function removeFavoriteItem(itemName) {
     .from("favorites")
     .delete()
     .eq("name", itemName);
+}
+
+export async function removeCartItem(itemName, size) {
+  const { error } = await supabase
+    .from("cart")
+    .delete()
+    .eq("name", itemName)
+    .eq("size", size);
 }
 
 export async function getShoesById(favoriteID) {

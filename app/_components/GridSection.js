@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRadioValue } from "./RadioValueContext";
 import AddToFavorites from "./AddToFavorites";
+import AddToCartIcon from "./AddToCartIcon";
 
 function GridSection({ selectCategory, category }) {
   const { radioValue } = useRadioValue();
@@ -31,12 +32,16 @@ function GridSection({ selectCategory, category }) {
             className="flex flex-col items-center group relative"
           >
             <div className="relative">
-              <AddToFavorites
-                position="absolute"
-                size="7"
-                itemID={heel.id}
-                name={heel.name}
-              />
+              <div className="absolute right-0 flex gap-1.5 ">
+                <AddToFavorites size="7" itemID={heel.id} name={heel.name} />
+                <AddToCartIcon
+                  category={category}
+                  itemID={heel.id}
+                  name={heel.name}
+                  item={heel}
+                />
+              </div>
+
               <Link
                 href={`/shoes/${category.shoesCategory}/${heel.name.replaceAll(
                   " ",

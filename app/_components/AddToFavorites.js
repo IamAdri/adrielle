@@ -58,7 +58,7 @@ function AddToFavorites({ name, itemID, position = "relative", size = 10 }) {
   return (
     <button
       onClick={handleFavoriteItems}
-      className={`${positionOptions[position]} cursor-pointer`}
+      className={`${positionOptions[position]} cursor-pointer right-0`}
     >
       {isClicked ? (
         <SolidHeart className={`${sizeOptions[size]}`} />
