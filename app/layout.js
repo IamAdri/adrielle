@@ -2,9 +2,10 @@ import Navigation from "./_components/Navigation";
 import "./globals.css";
 import { Noto_Sans, Playfair_Display } from "next/font/google";
 import Footer from "./_components/Footer";
-import { FavoriteItemsProvider } from "./_components/FavoriteItemsContextApi";
-import { ChooseSizeProvider } from "./_components/ChooseSizeContextApi";
-import { CartItemsProvider } from "./_components/CartItemsContextApi";
+import { FavoriteItemsProvider } from "./_contextAPI/FavoriteItemsContextApi";
+import { ChooseSizeProvider } from "./_contextAPI/ChooseSizeContextApi";
+import { CartItemsProvider } from "./_contextAPI/CartItemsContextApi";
+import { ShoesParamsProvider } from "./_contextAPI/ShoesParamsContextApi";
 
 const notoSans = Noto_Sans({
   subsets: ["latin"],
@@ -25,12 +26,14 @@ export default function RootLayout({ children }) {
       <body className={`${notoSans.className} flex flex-col w-screen h-screen`}>
         <FavoriteItemsProvider>
           <CartItemsProvider>
-            <Navigation />
-            <ChooseSizeProvider>
-              <main className="text-center basis-8/10 py-7  text-deepgrey mb-35 mt-20">
-                {children}
-              </main>
-            </ChooseSizeProvider>
+            <ShoesParamsProvider>
+              <Navigation />
+              <ChooseSizeProvider>
+                <main className="text-center basis-8/10 py-7  text-deepgrey mb-35 mt-20">
+                  {children}
+                </main>
+              </ChooseSizeProvider>
+            </ShoesParamsProvider>
           </CartItemsProvider>
         </FavoriteItemsProvider>
 

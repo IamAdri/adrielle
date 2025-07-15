@@ -1,29 +1,42 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useRadioValue } from "./RadioValueContext";
+import { useRadioValue } from "../_contextAPI/RadioValueContextApi";
 import AddToFavorites from "./AddToFavorites";
 import AddToCartIcon from "./AddToCartIcon";
+import { useShoesParams } from "../_contextAPI/ShoesParamsContextApi";
+import { useEffect } from "react";
 
-function GridSection({ selectCategory, category }) {
+function GridSection({ selectItemsOfSameCategory, category }) {
   const { radioValue } = useRadioValue();
-  //console.log(selectCategory);
-  const ascendingOrder = selectCategory.slice().sort(function (a, b) {
-    return a.price - b.price;
-  });
-  const descendingOrder = selectCategory.slice().sort(function (a, b) {
-    return b.price - a.price;
-  });
+  const { itemCategory, setItemCategory } = useShoesParams();
+  useEffect(() => {
+    setItemCategory(category.shoesCategory);
+  }, []);
+
+  const ascendingOrder = selectItemsOfSameCategory
+    .slice()
+    .sort(function (a, b) {
+      return a.price - b.price;
+    });
+
+  const descendingOrder = selectItemsOfSameCategory
+    .slice()
+    .sort(function (a, b) {
+      return b.price - a.price;
+    });
+
   const chooseOrder =
     radioValue === "Price(Low-High)"
       ? ascendingOrder
       : radioValue === "Price(High-Low)"
       ? descendingOrder
-      : selectCategory;
+      : selectItemsOfSameCategory;
 
   return (
     <div className="grid grid-flow-row grid-cols-4 gap-x-0.5 justify-items-center mt-5">
       {chooseOrder.map((heel) => {
+        //console.log(heel);
         const colorsAvailable = Object.keys(heel.variants);
         const mainColorImage = heel.variants[colorsAvailable[0]].images;
         return (
@@ -34,12 +47,7 @@ function GridSection({ selectCategory, category }) {
             <div className="relative">
               <div className="absolute right-0 flex gap-1.5 ">
                 <AddToFavorites size="7" itemID={heel.id} name={heel.name} />
-                <AddToCartIcon
-                  category={category}
-                  itemID={heel.id}
-                  name={heel.name}
-                  item={heel}
-                />
+                <AddToCartIcon itemID={heel.id} name={heel.name} item={heel} />
               </div>
 
               <Link

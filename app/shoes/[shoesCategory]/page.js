@@ -1,16 +1,16 @@
 import HeelsCatalog from "@/app/_components/HeelsCatalog";
 import MainHeading from "@/app/_components/MainHeading";
+import {
+  ShoesParamsProvider,
+  useShoesParams,
+} from "@/app/_contextAPI/ShoesParamsContextApi";
 import { getCategory } from "@/app/_lib/helper";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
 async function Page({ params }) {
   const category = await params;
-  console.log(category);
-  //console.log(category.shoesCategory);
   const heading = getCategory(category);
-  //category.shoesCategory.charAt(0).toUpperCase() +
-  //category.shoesCategory.slice(1);
   return (
     <div>
       <div className="flex justify-start ml-10 gap-1 items-center">
@@ -26,8 +26,6 @@ async function Page({ params }) {
         </Link>
       </div>
       <MainHeading>{heading}</MainHeading>
-
-      <span>FILTER</span>
       <HeelsCatalog category={category} />
     </div>
   );

@@ -1,28 +1,44 @@
 "use client";
-import { useChooseSize } from "./ChooseSizeContextApi";
-import { getCartItems, insertCartItem } from "../_lib/data-service";
+import { useChooseSize } from "../_contextAPI/ChooseSizeContextApi";
+import {
+  getCartItems,
+  insertCartItem,
+  updateCartQuantityColumn,
+} from "../_lib/data-service";
 import { useEffect, useState } from "react";
-import { useCartItems } from "./CartItemsContextApi";
+import { useCartItems } from "../_contextAPI/CartItemsContextApi";
 
-function AddToCart({ id, name }) {
+function AddToCart({ item }) {
   const {
     clickedSize,
     isNotSelected,
     setIsNotSelected,
     sameCartItem,
     setSameCartItem,
+    setAddedToCartSuccessfully,
   } = useChooseSize();
+
+  const [quantity, setQuantity] = useState(0);
+
   const { isCart, setIsCart } = useCartItems();
+
   useEffect(() => {
     async function insert() {
       if (!sameCartItem && sameCartItem !== "") {
-        await insertCartItem(name, id, clickedSize);
+        await insertCartItem(item.name, item.id, clickedSize, item.price);
         const updatedArray = await getCartItems();
         setIsCart(updatedArray.length);
+        setAddedToCartSuccessfully(true);
+      }
+      if (sameCartItem) {
+        console.log(quantity);
+        console.log(item.name);
+        await updateCartQuantityColumn(item.name, clickedSize, quantity);
+        setAddedToCartSuccessfully(true);
       }
     }
     insert();
-  }, [sameCartItem, clickedSize]);
+  }, [sameCartItem, clickedSize, quantity, setQuantity]);
 
   useEffect(() => {
     async function loadCartItems() {
@@ -37,16 +53,17 @@ function AddToCart({ id, name }) {
     if (!clickedSize) setIsNotSelected(true);
     if (clickedSize) {
       const isItemInCart = cartItems.filter((item) => {
-        return item.cart_id === id && item.size === clickedSize;
+        return item.cart_id === item.id && item.size === clickedSize;
       });
       if (isItemInCart.length > 0) {
         setSameCartItem(true);
+        setQuantity((quantity) => (quantity = isItemInCart[0].quantity + 1));
       } else {
         setSameCartItem(false);
       }
     }
   };
-  console.log(sameCartItem);
+  //console.log(sameCartItem);
   return (
     <div className="flex flex-col items-start gap-1">
       <button

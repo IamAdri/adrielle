@@ -55,10 +55,18 @@ export async function insertFavoriteItem(itemName, itemID) {
   return data;
 }
 
-export async function insertCartItem(itemName, itemID, size) {
+export async function insertCartItem(itemName, itemID, size, price) {
   const { data, error } = await supabase
     .from("cart")
-    .insert([{ name: itemName, cart_id: itemID, size: size }])
+    .insert([
+      {
+        name: itemName,
+        cart_id: itemID,
+        size: size,
+        quantity: 1,
+        pricePerQuantity: price,
+      },
+    ])
     .select();
   if (error) {
     console.log(error);
@@ -122,11 +130,26 @@ export async function getShoesDetailsByCartTable() {
   }
   return data;
 }
-
+/*
 export async function addItemToCart(itemName, cartID) {
   const { data, error } = await supabase
     .from("cart")
     .insert([{ name: itemName, cart_id: cartID }])
+    .select();
+
+  if (error) {
+    console.log(error);
+    throw new Error("Could not load");
+  }
+  return data;
+}
+*/
+export async function updateCartQuantityColumn(itemName, size, quantity) {
+  const { data, error } = await supabase
+    .from("cart")
+    .update({ quantity: quantity })
+    .eq("name", itemName)
+    .eq("size", size)
     .select();
 
   if (error) {

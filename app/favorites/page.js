@@ -1,4 +1,5 @@
 import DisplayFavoriteItems from "../_components/DisplayFavoriteItems";
+import MainHeading from "../_components/MainHeading";
 
 export const metadata = {
   title: "Favorites",
@@ -7,10 +8,10 @@ export const metadata = {
 async function Page() {
   return (
     <div>
-      <h1 className="font-bold text-xl">Favorites items</h1>
+      <MainHeading className="font-bold text-xl">Favorites items</MainHeading>
       <DisplayFavoriteItems />
     </div>
-  )
+  );
 }
 
 export default Page;

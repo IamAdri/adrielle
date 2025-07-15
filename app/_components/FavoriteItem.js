@@ -1,19 +1,21 @@
-"use client";
 import Image from "next/image";
-import ButtonForAddingToCart from "./ButtonForAddingtoCart";
 import ButtonForDeletingFavoriteItem from "./ButtonForDeletingFavoriteItem";
 import Link from "next/link";
-import { useState } from "react";
+import AddToCartIcon from "./AddToCartIcon";
 
 function FavoriteItem({ favoriteItem, mainColorImage }) {
-  const [isHovered, setIsHovered] = useState(false);
+  //console.log(favoriteItem);
   return (
     <ul className="flex flex-col items-center gap-5 ">
       <li className="relative">
-        <ButtonForDeletingFavoriteItem favoriteItem={favoriteItem} />
+        <div className="absolute right-0 flex gap-1.5">
+          <AddToCartIcon
+            name={favoriteItem.shoes.name}
+            item={favoriteItem.shoes}
+          />
+          <ButtonForDeletingFavoriteItem item={favoriteItem} />
+        </div>
         <Link
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
           href={`/shoes/${
             favoriteItem.shoes.category
           }/${favoriteItem.shoes.name.replaceAll(" ", "_")}`}
@@ -27,11 +29,18 @@ function FavoriteItem({ favoriteItem, mainColorImage }) {
           />
         </Link>
       </li>
-      <ButtonForAddingToCart
-        isHovered={isHovered}
-        setIsHovered={setIsHovered}
-        favoriteItem={favoriteItem}
-      />
+      <div className="justify-center w-50 h-15 py-1.5 text-xl text-warmwhite">
+        <li>
+          <h2 className="font-bold text-lg text-deepgrey">
+            {favoriteItem.shoes.name}
+          </h2>
+        </li>
+        <li>
+          <h3 className="font-medium text-base text-deepgrey">
+            {`${favoriteItem.shoes.price} ${favoriteItem.shoes.currency}`}
+          </h3>
+        </li>
+      </div>
     </ul>
   );
 }

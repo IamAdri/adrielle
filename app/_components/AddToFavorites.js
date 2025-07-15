@@ -7,7 +7,7 @@ import {
   insertFavoriteItem,
   removeFavoriteItem,
 } from "../_lib/data-service";
-import { useFavoriteItems } from "./FavoriteItemsContextApi";
+import { useFavoriteItems } from "../_contextAPI/FavoriteItemsContextApi";
 
 function AddToFavorites({ name, itemID, position = "relative", size = 10 }) {
   const { isFavorite, setIsFavorite } = useFavoriteItems();
@@ -26,8 +26,6 @@ function AddToFavorites({ name, itemID, position = "relative", size = 10 }) {
   useEffect(() => {
     async function loadFavoriteItems() {
       const favoriteItems = await getFavoriteItems();
-      //console.log(favoriteItems);
-      // if (favoriteItems.length !== isFavorite.length)
       setIsFavorite(favoriteItems.length);
     }
     loadFavoriteItems();

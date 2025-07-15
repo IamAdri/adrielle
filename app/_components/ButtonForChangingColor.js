@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
-import { useChangingColor } from "./ChangingColorContext";
+import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
 
-function ButtonForChangingColor({ color, itemDetails, colorsAvailable }) {
+function ButtonForChangingColor({ color, itemDetails }) {
   const { setColorSrc, setIsClickedImage } = useChangingColor();
 
   const handleChangeColor = (e) => {

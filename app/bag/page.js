@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { getShoesDetailsByCartTable } from "../_lib/data-service";
 import DisplayCartItems from "../_components/DisplayCartItems";
 
@@ -7,15 +6,8 @@ export const metadata = {
 };
 
 async function Page() {
-    const cartItems = await getShoesDetailsByCartTable();
-  //const colorsAvailable = Object.keys(cartItem.variants);
-  //console.log(cartItem);
-  return (
-    
-
-        <DisplayCartItems cartItems={cartItems} />
-  
-  );
+  const cartItems = await getShoesDetailsByCartTable();
+  return <DisplayCartItems cartItems={cartItems} />;
 }
 
 export default Page;

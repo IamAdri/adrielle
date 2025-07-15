@@ -8,9 +8,9 @@ import {
 } from "@heroicons/react/24/solid";
 import DropdownMenu from "./DropdownMenu";
 import { useCallback, useEffect, useState } from "react";
-import { useFavoriteItems } from "./FavoriteItemsContextApi";
+import { useFavoriteItems } from "../_contextAPI/FavoriteItemsContextApi";
 import { getCartItems, getFavoriteItems } from "../_lib/data-service";
-import { useCartItems } from "./CartItemsContextApi";
+import { useCartItems } from "../_contextAPI/CartItemsContextApi";
 
 function Navigation() {
   const [scrollY, setScrollY] = useState(0);

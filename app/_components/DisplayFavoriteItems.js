@@ -3,7 +3,6 @@ import FavoriteItem from "./FavoriteItem";
 
 async function DisplayFavoriteItems() {
   const favoriteItems = await getShoesDetailsByFavoriteTable();
-  //console.log(favoriteItems);
 
   return (
     <div className="flex sm:flex-wrap gap-5 py-15 px-75 md:px-25 sm:px-10 justify-center">

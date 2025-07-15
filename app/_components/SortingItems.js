@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
-import { useRadioValue } from "./RadioValueContext";
-import { ArrowDownIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
+import { useRadioValue } from "../_contextAPI/RadioValueContextApi";
+import { ArrowDownIcon } from "@heroicons/react/24/solid";
 
 function SortingItems() {
   const { radioValue, setRadioValue } = useRadioValue();
@@ -22,7 +22,6 @@ function SortingItems() {
   const showRadioOptions = (e) => {
     e.preventDefault();
     setIsSortingClicked(!isSortingClicked);
-    //if (isClicked) ref.current.style.opacity = "100";
   };
   if (!isMounted) return <Spinner />;
   return (
@@ -38,8 +37,10 @@ function SortingItems() {
 
         <div
           className={`${
-            isSortingClicked ? "opacity-100 b-t" : "opacity-0"
-          } absolute flex flex-col gap-2 items-center pl-0.5 py-1 w-40 z-2 border-x border-b border-coolgrey bg-white`}
+            isSortingClicked
+              ? "opacity-100 b-t absolute flex flex-col gap-2 items-center pl-0.5 py-1 w-40 z-2 border-x border-b border-coolgrey bg-white"
+              : "hidden"
+          } `}
         >
           <div className="flex gap-1">
             <input

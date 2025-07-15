@@ -1,13 +1,11 @@
-//import AddToCart from "@/app/_components/AddToCart";
 import AddToCart from "@/app/_components/AddToCart";
 import AddToFavorites from "@/app/_components/AddToFavorites";
 import ButtonForChangingColor from "@/app/_components/ButtonForChangingColor";
 import ButtonForImages from "@/app/_components/ButtonForImages";
 import ButtonForSize from "@/app/_components/ButtonForSize";
-import { ChangingColorProvider } from "@/app/_components/ChangingColorContext";
-import { ChooseSizeProvider } from "@/app/_components/ChooseSizeContextApi";
+import { ChangingColorProvider } from "@/app/_contextAPI/ChangingColorContextApi";
 import Drawer from "@/app/_components/Drawer";
-import { getItemById, getShoes } from "@/app/_lib/data-service";
+import { getItemById } from "@/app/_lib/data-service";
 import { getCategory } from "@/app/_lib/helper";
 import {
   ChevronRightIcon,
@@ -15,18 +13,15 @@ import {
 } from "@heroicons/react/24/solid";
 
 import Link from "next/link";
+import MainHeading from "@/app/_components/MainHeading";
 
 async function Page({ params }) {
   const itemParams = await params;
-  //const shoes = await getShoes();
   const itemName = itemParams.itemID.replaceAll("_", " ");
   const item = await getItemById(itemName);
-  //const selectedItem = shoes.filter((item) => item.name === itemName);
-  //const itemDetails = selectedItem[0];
   const colorsAvailable = Object.keys(item.variants);
   const heading = getCategory(itemParams);
 
-  //console.log(item);
   return (
     <ChangingColorProvider>
       <div className="flex justify-start ml-10 gap-1 items-center">
@@ -57,7 +52,9 @@ async function Page({ params }) {
         </div>
         <div className="flex flex-col flex-wrap">
           <div className="flex justify-between">
-            <h1 className="text-3xl font-bold text-left">{itemName}</h1>
+            <MainHeading className="text-3xl font-bold text-left">
+              {itemName}
+            </MainHeading>
             <AddToFavorites name={itemName} itemID={item.id} />
           </div>
 
@@ -74,7 +71,6 @@ async function Page({ params }) {
                   key={color}
                   color={color}
                   itemDetails={item}
-                  colorsAvailable={colorsAvailable}
                 />
               );
             })}
@@ -85,7 +81,7 @@ async function Page({ params }) {
               <Drawer />
             </div>
             <ButtonForSize />
-            <AddToCart id={item.id} name={itemName} />
+            <AddToCart item={item} />
           </div>
         </div>
       </div>

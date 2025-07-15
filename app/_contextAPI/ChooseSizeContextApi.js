@@ -7,11 +7,24 @@ const ChooseSizeContext = createContext();
 function ChooseSizeProvider({ children }) {
   const [clickedSize, setClickedSize] = useState("");
   const [isNotSelected, setIsNotSelected] = useState(false);
-   const [sameCartItem, setSameCartItem] = useState("");
+  const [sameCartItem, setSameCartItem] = useState("");
+  const [addedToCartSuccessfully, setAddedToCartSuccessfully] = useState(false);
+  const [isModalOpened, setIsModalOpened] = useState(false);
 
   return (
     <ChooseSizeContext.Provider
-      value={{ clickedSize, setClickedSize, isNotSelected, setIsNotSelected, sameCartItem, setSameCartItem }}
+      value={{
+        clickedSize,
+        setClickedSize,
+        isNotSelected,
+        setIsNotSelected,
+        sameCartItem,
+        setSameCartItem,
+        addedToCartSuccessfully,
+        setAddedToCartSuccessfully,
+        isModalOpened,
+        setIsModalOpened,
+      }}
     >
       {children}
     </ChooseSizeContext.Provider>
