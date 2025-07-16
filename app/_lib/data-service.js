@@ -158,3 +158,22 @@ export async function updateCartQuantityColumn(itemName, size, quantity) {
   }
   return data;
 }
+
+export async function updateCartPricePerQuantityColumn(
+  itemName,
+  size,
+  pricePerQuantity
+) {
+  const { data, error } = await supabase
+    .from("cart")
+    .update({ pricePerQuantity: pricePerQuantity })
+    .eq("name", itemName)
+    .eq("size", size)
+    .select();
+
+  if (error) {
+    console.log(error);
+    throw new Error("Could not load");
+  }
+  return data;
+}

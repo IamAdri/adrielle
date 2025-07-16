@@ -1,4 +1,3 @@
-import AddToCart from "@/app/_components/AddToCart";
 import AddToFavorites from "@/app/_components/AddToFavorites";
 import ButtonForChangingColor from "@/app/_components/ButtonForChangingColor";
 import ButtonForImages from "@/app/_components/ButtonForImages";
@@ -15,13 +14,14 @@ import {
 import Link from "next/link";
 import MainHeading from "@/app/_components/MainHeading";
 
+import AddToCartFromItemPage from "@/app/_components/AddToCartFromItemPage";
+
 async function Page({ params }) {
   const itemParams = await params;
   const itemName = itemParams.itemID.replaceAll("_", " ");
   const item = await getItemById(itemName);
   const colorsAvailable = Object.keys(item.variants);
   const heading = getCategory(itemParams);
-
   return (
     <ChangingColorProvider>
       <div className="flex justify-start ml-10 gap-1 items-center">
@@ -81,7 +81,7 @@ async function Page({ params }) {
               <Drawer />
             </div>
             <ButtonForSize />
-            <AddToCart item={item} />
+            <AddToCartFromItemPage item={item} />
           </div>
         </div>
       </div>

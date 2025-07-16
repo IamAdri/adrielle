@@ -3,27 +3,31 @@ import { useChooseSize } from "../_contextAPI/ChooseSizeContextApi";
 import {
   getCartItems,
   insertCartItem,
+  updateCartPricePerQuantityColumn,
   updateCartQuantityColumn,
 } from "../_lib/data-service";
 import { useEffect, useState } from "react";
 import { useCartItems } from "../_contextAPI/CartItemsContextApi";
+import { CheckCircleIcon } from "@heroicons/react/24/outline";
+import { redirect } from "next/navigation";
 
 function AddToCart({ item }) {
   const {
     clickedSize,
+    setClickedSize,
     isNotSelected,
     setIsNotSelected,
     sameCartItem,
     setSameCartItem,
+    addedToCartSuccessfully,
     setAddedToCartSuccessfully,
   } = useChooseSize();
-
   const [quantity, setQuantity] = useState(0);
-
+  const [pricePerQuantity, setPricePerQuantity] = useState(0);
   const { isCart, setIsCart } = useCartItems();
-
+  // console.log(addedToCartSuccessfully);
   useEffect(() => {
-    async function insert() {
+    (async function insert() {
       if (!sameCartItem && sameCartItem !== "") {
         await insertCartItem(item.name, item.id, clickedSize, item.price);
         const updatedArray = await getCartItems();
@@ -31,14 +35,27 @@ function AddToCart({ item }) {
         setAddedToCartSuccessfully(true);
       }
       if (sameCartItem) {
+        console.log(pricePerQuantity);
         console.log(quantity);
-        console.log(item.name);
+        setPricePerQuantity(item.price * quantity);
         await updateCartQuantityColumn(item.name, clickedSize, quantity);
+
         setAddedToCartSuccessfully(true);
       }
-    }
-    insert();
-  }, [sameCartItem, clickedSize, quantity, setQuantity]);
+    })();
+    (async function changePricePerQuantity() {
+      if (pricePerQuantity > 0) {
+        await updateCartPricePerQuantityColumn(
+          item.name,
+          clickedSize,
+          pricePerQuantity
+        );
+      }
+    })();
+
+    // insert();
+    // changePricePerQuantity();
+  }, [sameCartItem, clickedSize, quantity, pricePerQuantity]);
 
   useEffect(() => {
     async function loadCartItems() {
@@ -52,18 +69,20 @@ function AddToCart({ item }) {
     const cartItems = await getCartItems();
     if (!clickedSize) setIsNotSelected(true);
     if (clickedSize) {
-      const isItemInCart = cartItems.filter((item) => {
-        return item.cart_id === item.id && item.size === clickedSize;
+      const isItemInCart = cartItems.filter((itemFiltered) => {
+        return (
+          item.id === itemFiltered.cart_id && itemFiltered.size === clickedSize
+        );
       });
       if (isItemInCart.length > 0) {
         setSameCartItem(true);
-        setQuantity((quantity) => (quantity = isItemInCart[0].quantity + 1));
+        setQuantity(isItemInCart[0].quantity + 1);
       } else {
         setSameCartItem(false);
       }
     }
   };
-  //console.log(sameCartItem);
+
   return (
     <div className="flex flex-col items-start gap-1">
       <button

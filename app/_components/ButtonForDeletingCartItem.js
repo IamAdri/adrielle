@@ -6,7 +6,8 @@ import { useCartItems } from "../_contextAPI/CartItemsContextApi";
 function ButtonForDeletingCartItem({ item }) {
   const { setIsCart } = useCartItems();
   const handleDeleteCartItem = (e) => {
-    const targetedItem = e.currentTarget.parentNode.parentNode.parentNode;
+    const targetedItem =
+      e.currentTarget.parentNode.parentNode.parentNode.parentNode;
     console.log(targetedItem);
     (async function remove() {
       await removeCartItem(item.shoes.name, item.size);

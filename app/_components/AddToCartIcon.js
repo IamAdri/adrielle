@@ -15,6 +15,7 @@ function AddToCartIcon({ name, item }) {
     setClickedSize("");
     setAddedToCartSuccessfully(false);
   };
+
   return (
     <div>
       <button onClick={handleOpenModal}>

@@ -1,14 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { updateCartQuantityColumn } from "../_lib/data-service";
+import {
+  updateCartPricePerQuantityColumn,
+  updateCartQuantityColumn,
+} from "../_lib/data-service";
 
 function ButtonForAddingQuantity({ cartItem }) {
   const [quantity, setQuantity] = useState(cartItem.quantity);
-  const [price, setPrice] = useState(cartItem.shoes.price);
+  const [price, setPrice] = useState(cartItem.pricePerQuantity);
   const [isMinDisabled, setIsMinDisabled] = useState(true);
   const [isMaxDisabled, setIsMaxDisabled] = useState(false);
-
+  //console.log(cartItem);
   useEffect(() => {
     if (quantity === 1) {
       setIsMinDisabled(true);
@@ -19,10 +22,20 @@ function ButtonForAddingQuantity({ cartItem }) {
       setIsMaxDisabled(false);
     }
     (async function updateQuantity() {
+      setPrice(cartItem.shoes.price * quantity);
       await updateCartQuantityColumn(cartItem.name, cartItem.size, quantity);
     })();
   }, [quantity]);
 
+  useEffect(() => {
+    (async function updatePrice() {
+      await updateCartPricePerQuantityColumn(
+        cartItem.name,
+        cartItem.size,
+        price
+      );
+    })();
+  }, [price]);
   const handleDecreaseQuantity = () => {
     setQuantity(quantity - 1);
     setPrice(price);

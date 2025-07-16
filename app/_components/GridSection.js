@@ -96,7 +96,9 @@ function GridSection({ selectItemsOfSameCategory, category }) {
               {colorsAvailable.map((color) => {
                 return (
                   <Link
-                    href={`/shoes/heels/${heel.name.replaceAll(" ", "_")}`}
+                    href={`/shoes/${
+                      category.shoesCategory
+                    }/${heel.name.replaceAll(" ", "_")}`}
                     key={color}
                   >
                     <div className="w-[75px] h-[75px]">
