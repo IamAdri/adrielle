@@ -8,7 +8,6 @@ function ButtonForImages({ itemDetails, colorsAvailable }) {
   const secondColorImage = itemDetails.variants[colorsAvailable[1]].images[0];
   const mainColorGallery = itemDetails.variants[colorsAvailable[0]].images;
   const secondColorGallery = itemDetails.variants[colorsAvailable[1]].images;
-
   const chooseGallery = secondColorGallery.includes(colorSrc)
     ? secondColorGallery
     : mainColorGallery;
@@ -19,6 +18,7 @@ function ButtonForImages({ itemDetails, colorsAvailable }) {
   const changeMainImage = (e) => {
     setIsClickedImage(e.target.src);
   };
+  console.log(colorSrc);
   return (
     <>
       <div className="flex flex-col gap-1">

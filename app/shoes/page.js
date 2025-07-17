@@ -1,6 +1,5 @@
 import MainHeading from "../_components/MainHeading";
 import OverlayOnHover from "../_components/OverlayOnHover";
-import { ShoesParamsProvider } from "../_contextAPI/ShoesParamsContextApi";
 
 export const metadata = {
   title: "Shoes",

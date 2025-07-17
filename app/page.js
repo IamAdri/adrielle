@@ -1,11 +1,14 @@
 import { Playfair_Display } from "next/font/google";
 import HomepageImages from "./_components/HomepageImages";
+import { auth } from "./_lib/auth";
 
 const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
 });
 
-export default function Page() {
+export default async function Page() {
+  //const session = await auth();
+  //console.log(session);
   return (
     <div>
       <h1

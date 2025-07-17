@@ -17,7 +17,6 @@ function Modal({ setOpenModal, name, item }) {
 
   const colorsAvailable = Object.keys(item.variants);
   const mainColorImage = item.variants[colorsAvailable[0]].images[0];
-  //console.log(item);
 
   const closeCartModal = () => {
     setOpenModal(false);
@@ -80,71 +79,3 @@ function Modal({ setOpenModal, name, item }) {
 }
 
 export default Modal;
-/* <div className="fixed inset-0 z-10 overflow-y-auto">
-        <div
-          className="fixed inset-0 w-full h-full bg-black opacity-40"
-          onClick={closeCartModal}
-        ></div>
-        <div className="flex justify-center items-center min-h-screen px-4 py-8">
-          <div className="bg-warmwhite relative pt-1 px-1 pb-5">
-            <div className="flex flex-col items-end">
-              <button
-                className="w-fit border px-2 mb-2 rounded-full hover:cursor-pointer"
-                onClick={closeCartModal}
-              >
-                x
-              </button>
-              {!addedToCartSuccessfully ? (
-                <div className="flex gap-2 items-center px-3">
-                  <div>
-                    <Link
-                      href={`/shoes/${itemCategory}/${name.replaceAll(
-                        " ",
-                        "_"
-                      )}`}
-                    >
-                      <Image
-                        src={mainColorImage}
-                        sizes="100vw"
-                        width={175}
-                        height={175}
-                        alt="Main picture of selected item."
-                      />
-                    </Link>
-                  </div>
-
-                  <div className="flex flex-col items-center">
-                    <h2 className="font-bold text-xl">{name}</h2>
-                    <h3 className="mt-5 mb-1 font-medium">Choose size</h3>
-                    <ButtonForSize />
-                    <AddToCart item={item} />
-                  </div>
-                </div>
-              ) : (
-                <div>
-                  <div className="flex items-center gap-0.5 pb-5 ">
-                    <CheckCircleIcon className="size-5 text-green-700 ml-4" />
-                    <h3 className="font-medium mr-4">
-                      Successfully added to your cart!
-                    </h3>
-                  </div>
-                  <div className="flex gap-5 justify-center">
-                    <button
-                      className="border border-deepgrey py-1 px-3 hover:bg-deepgrey hover:text-warmwhite cursor-pointer"
-                      onClick={handleGoToCart}
-                    >
-                      Go to cart
-                    </button>
-                    <button
-                      className="border border-deepgrey py-1 px-3 hover:bg-deepgrey hover:text-warmwhite cursor-pointer"
-                      onClick={closeCartModal}
-                    >
-                      Close
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>*/

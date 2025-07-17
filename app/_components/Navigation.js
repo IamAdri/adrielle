@@ -11,15 +11,15 @@ import { useCallback, useEffect, useState } from "react";
 import { useFavoriteItems } from "../_contextAPI/FavoriteItemsContextApi";
 import { getCartItems, getFavoriteItems } from "../_lib/data-service";
 import { useCartItems } from "../_contextAPI/CartItemsContextApi";
+import AuthUserAvatar from "./AuthUserAvatar";
 
-function Navigation() {
+function Navigation({ children }) {
   const [scrollY, setScrollY] = useState(0);
   const { isFavorite, setIsFavorite } = useFavoriteItems();
   const { isCart, setIsCart } = useCartItems();
-  // console.log(isFavorite);
+
   const onScroll = useCallback((event) => {
     const { pageYOffset, scrollY } = window;
-    //console.log("yOffset", pageYOffset, "scrollY", scrollY);
     setScrollY(window.pageYOffset);
   }, []);
 
@@ -50,9 +50,9 @@ function Navigation() {
 
   return (
     <div
-      className={`fixed top-0 right-0 left-0 z-100 ${
+      className={`fixed top-0 right-0 left-0 z-100 border-b-3 border-lightlavender flex  px-4  items-center justify-between flex-wrap  text-deepgrey ${
         scrollY > 0 ? "bg-nude border-none" : ""
-      } border-b-3 border-lightlavender flex  px-4  items-center justify-between flex-wrap basis-1/10 text-deepgrey`}
+      } `}
     >
       <DropdownMenu />
       <div className="flex gap-8">
@@ -70,11 +70,8 @@ function Navigation() {
             <ShoppingBagIcon className="size-7 text-deepgrey" />
           </Link>
           <span>{isCart > 0 && isCart}</span>
+          {children}
         </div>
-
-        <Link href="/login">
-          <UserIcon className="size-7 text-deepgrey" />
-        </Link>
       </div>
     </div>
   );

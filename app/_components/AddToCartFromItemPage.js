@@ -12,7 +12,6 @@ function AddToCartFromItemPage({ item }) {
   } = useChooseSize();
 
   const closeSmallCartModal = () => {
-    // setOpenModal(false);
     setSameCartItem("");
     setClickedSize("");
     setAddedToCartSuccessfully(false);

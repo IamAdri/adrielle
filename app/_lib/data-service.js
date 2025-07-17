@@ -55,7 +55,14 @@ export async function insertFavoriteItem(itemName, itemID) {
   return data;
 }
 
-export async function insertCartItem(itemName, itemID, size, price) {
+export async function insertCartItem(
+  itemName,
+  itemID,
+  size,
+  price,
+  selectedColorSrc,
+  selectedColor
+) {
   const { data, error } = await supabase
     .from("cart")
     .insert([
@@ -65,6 +72,8 @@ export async function insertCartItem(itemName, itemID, size, price) {
         size: size,
         quantity: 1,
         pricePerQuantity: price,
+        selectedColorSrc: selectedColorSrc,
+        selectedColor: selectedColor,
       },
     ])
     .select();
@@ -130,26 +139,19 @@ export async function getShoesDetailsByCartTable() {
   }
   return data;
 }
-/*
-export async function addItemToCart(itemName, cartID) {
-  const { data, error } = await supabase
-    .from("cart")
-    .insert([{ name: itemName, cart_id: cartID }])
-    .select();
 
-  if (error) {
-    console.log(error);
-    throw new Error("Could not load");
-  }
-  return data;
-}
-*/
-export async function updateCartQuantityColumn(itemName, size, quantity) {
+export async function updateCartQuantityColumn(
+  itemName,
+  size,
+  selectedColorSrc,
+  quantity
+) {
   const { data, error } = await supabase
     .from("cart")
     .update({ quantity: quantity })
     .eq("name", itemName)
     .eq("size", size)
+    .eq("selectedColorSrc", selectedColorSrc)
     .select();
 
   if (error) {
@@ -162,6 +164,7 @@ export async function updateCartQuantityColumn(itemName, size, quantity) {
 export async function updateCartPricePerQuantityColumn(
   itemName,
   size,
+  selectedColorSrc,
   pricePerQuantity
 ) {
   const { data, error } = await supabase
@@ -169,6 +172,7 @@ export async function updateCartPricePerQuantityColumn(
     .update({ pricePerQuantity: pricePerQuantity })
     .eq("name", itemName)
     .eq("size", size)
+    .eq("selectedColorSrc", selectedColorSrc)
     .select();
 
   if (error) {

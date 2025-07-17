@@ -3,15 +3,10 @@ import { useChooseSize } from "../_contextAPI/ChooseSizeContextApi";
 import { redirect } from "next/navigation";
 
 function ModalAddCartSuccessfully({ closeCartModal }) {
-  const {
-    setClickedSize,
-    setSameCartItem,
-    addedToCartSuccessfully,
-    setAddedToCartSuccessfully,
-  } = useChooseSize();
+  const { setClickedSize, setSameCartItem, setAddedToCartSuccessfully } =
+    useChooseSize();
 
   const handleGoToCart = () => {
-    //setOpenModal(false);
     setSameCartItem("");
     setClickedSize("");
     setAddedToCartSuccessfully(false);

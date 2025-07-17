@@ -6,6 +6,9 @@ import { FavoriteItemsProvider } from "./_contextAPI/FavoriteItemsContextApi";
 import { ChooseSizeProvider } from "./_contextAPI/ChooseSizeContextApi";
 import { CartItemsProvider } from "./_contextAPI/CartItemsContextApi";
 import { ShoesParamsProvider } from "./_contextAPI/ShoesParamsContextApi";
+import { ChangingColorProvider } from "./_contextAPI/ChangingColorContextApi";
+import NavigationBar from "./_components/NavigationBar";
+import AuthUserAvatar from "./_components/AuthUserAvatar";
 
 const notoSans = Noto_Sans({
   subsets: ["latin"],
@@ -27,11 +30,15 @@ export default function RootLayout({ children }) {
         <FavoriteItemsProvider>
           <CartItemsProvider>
             <ShoesParamsProvider>
-              <Navigation />
+              <Navigation>
+                <AuthUserAvatar />
+              </Navigation>
               <ChooseSizeProvider>
-                <main className="text-center basis-8/10 py-7  text-deepgrey mb-35 mt-20">
-                  {children}
-                </main>
+                <ChangingColorProvider>
+                  <main className="text-center basis-8/10 py-7  text-deepgrey mb-35 mt-20">
+                    {children}
+                  </main>
+                </ChangingColorProvider>
               </ChooseSizeProvider>
             </ShoesParamsProvider>
           </CartItemsProvider>

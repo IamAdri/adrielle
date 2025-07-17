@@ -2,7 +2,6 @@ import { getShoes } from "../_lib/data-service";
 import SortingItems from "./SortingItems";
 import GridSection from "./GridSection";
 import { RadioValueProvider } from "../_contextAPI/RadioValueContextApi";
-import { ShoesParamsProvider } from "../_contextAPI/ShoesParamsContextApi";
 
 async function HeelsCatalog({ category }) {
   const shoes = await getShoes();

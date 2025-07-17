@@ -1,15 +1,17 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
 import { useRadioValue } from "../_contextAPI/RadioValueContextApi";
 import AddToFavorites from "./AddToFavorites";
 import AddToCartIcon from "./AddToCartIcon";
 import { useShoesParams } from "../_contextAPI/ShoesParamsContextApi";
 import { useEffect } from "react";
+import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
+import { redirect } from "next/navigation";
 
 function GridSection({ selectItemsOfSameCategory, category }) {
   const { radioValue } = useRadioValue();
-  const { itemCategory, setItemCategory } = useShoesParams();
+  const { setItemCategory } = useShoesParams();
+  const { setColorSrc, setIsClickedImage } = useChangingColor();
   useEffect(() => {
     setItemCategory(category.shoesCategory);
   }, []);
@@ -33,10 +35,25 @@ function GridSection({ selectItemsOfSameCategory, category }) {
       ? descendingOrder
       : selectItemsOfSameCategory;
 
+  const handleClickOnMainImage = (item) => {
+    setColorSrc("");
+    setIsClickedImage("");
+    redirect(
+      `/shoes/${category.shoesCategory}/${item.name.replaceAll(" ", "_")}`
+    );
+  };
+
+  const handleClickOnImagesForColors = (e, item) => {
+    setColorSrc(e.target.src);
+    setIsClickedImage("");
+    redirect(
+      `/shoes/${category.shoesCategory}/${item.name.replaceAll(" ", "_")}`
+    );
+  };
+
   return (
     <div className="grid grid-flow-row grid-cols-4 gap-x-0.5 justify-items-center mt-5">
       {chooseOrder.map((heel) => {
-        //console.log(heel);
         const colorsAvailable = Object.keys(heel.variants);
         const mainColorImage = heel.variants[colorsAvailable[0]].images;
         return (
@@ -49,12 +66,9 @@ function GridSection({ selectItemsOfSameCategory, category }) {
                 <AddToFavorites size="7" itemID={heel.id} name={heel.name} />
                 <AddToCartIcon itemID={heel.id} name={heel.name} item={heel} />
               </div>
-
-              <Link
-                href={`/shoes/${category.shoesCategory}/${heel.name.replaceAll(
-                  " ",
-                  "_"
-                )}`}
+              <button
+                className="cursor-pointer"
+                onClick={() => handleClickOnMainImage(heel)}
               >
                 <Image
                   src={mainColorImage[0]}
@@ -62,7 +76,7 @@ function GridSection({ selectItemsOfSameCategory, category }) {
                   width={350}
                   height={350}
                 />
-              </Link>
+              </button>
             </div>
             <div className="flex gap-0.5 items-center">
               {colorsAvailable.map((color) => {
@@ -95,21 +109,21 @@ function GridSection({ selectItemsOfSameCategory, category }) {
             <div className="flex justify-center h-0 w-0 opacity-0 group-hover:opacity-100 group-hover:h-[75px] group-hover:w-[75px]">
               {colorsAvailable.map((color) => {
                 return (
-                  <Link
-                    href={`/shoes/${
-                      category.shoesCategory
-                    }/${heel.name.replaceAll(" ", "_")}`}
+                  <button
+                    className="cursor-pointer"
                     key={color}
+                    onClick={(e) => handleClickOnImagesForColors(e, heel)}
                   >
                     <div className="w-[75px] h-[75px]">
                       <Image
                         src={heel.variants[color].images[0]}
+                        overrideSrc={heel.variants[color].images[0]}
                         width={75}
                         height={75}
                         alt="Colors available for the pair of heels from catalog."
                       />
                     </div>
-                  </Link>
+                  </button>
                 );
               })}
             </div>

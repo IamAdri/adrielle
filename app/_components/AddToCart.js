@@ -8,28 +8,44 @@ import {
 } from "../_lib/data-service";
 import { useEffect, useState } from "react";
 import { useCartItems } from "../_contextAPI/CartItemsContextApi";
-import { CheckCircleIcon } from "@heroicons/react/24/outline";
-import { redirect } from "next/navigation";
+import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
 
 function AddToCart({ item }) {
   const {
     clickedSize,
-    setClickedSize,
     isNotSelected,
     setIsNotSelected,
     sameCartItem,
     setSameCartItem,
-    addedToCartSuccessfully,
     setAddedToCartSuccessfully,
   } = useChooseSize();
   const [quantity, setQuantity] = useState(0);
   const [pricePerQuantity, setPricePerQuantity] = useState(0);
   const { isCart, setIsCart } = useCartItems();
-  // console.log(addedToCartSuccessfully);
+  const { colorSrc, setIsClickedImage } = useChangingColor();
+  const colorsAvailable = Object.keys(item.variants);
+  const mainColorImage = item.variants[colorsAvailable[0]].images[0];
+  const displayedImageInCart = colorSrc !== "" ? colorSrc : mainColorImage;
+  const secondColorGallery = item.variants[colorsAvailable[1]].images;
+  const chooseColor = secondColorGallery.includes(displayedImageInCart)
+    ? colorsAvailable[1]
+    : colorsAvailable[0];
+
+  useEffect(() => {
+    setIsClickedImage("");
+  }, []);
+
   useEffect(() => {
     (async function insert() {
       if (!sameCartItem && sameCartItem !== "") {
-        await insertCartItem(item.name, item.id, clickedSize, item.price);
+        await insertCartItem(
+          item.name,
+          item.id,
+          clickedSize,
+          item.price,
+          displayedImageInCart,
+          chooseColor
+        );
         const updatedArray = await getCartItems();
         setIsCart(updatedArray.length);
         setAddedToCartSuccessfully(true);
@@ -38,7 +54,12 @@ function AddToCart({ item }) {
         console.log(pricePerQuantity);
         console.log(quantity);
         setPricePerQuantity(item.price * quantity);
-        await updateCartQuantityColumn(item.name, clickedSize, quantity);
+        await updateCartQuantityColumn(
+          item.name,
+          clickedSize,
+          displayedImageInCart,
+          quantity
+        );
 
         setAddedToCartSuccessfully(true);
       }
@@ -52,9 +73,6 @@ function AddToCart({ item }) {
         );
       }
     })();
-
-    // insert();
-    // changePricePerQuantity();
   }, [sameCartItem, clickedSize, quantity, pricePerQuantity]);
 
   useEffect(() => {
@@ -71,7 +89,9 @@ function AddToCart({ item }) {
     if (clickedSize) {
       const isItemInCart = cartItems.filter((itemFiltered) => {
         return (
-          item.id === itemFiltered.cart_id && itemFiltered.size === clickedSize
+          item.id === itemFiltered.cart_id &&
+          itemFiltered.size === clickedSize &&
+          itemFiltered.selectedColorSrc === displayedImageInCart
         );
       });
       if (isItemInCart.length > 0) {
@@ -81,6 +101,7 @@ function AddToCart({ item }) {
         setSameCartItem(false);
       }
     }
+    console.log(colorSrc, item);
   };
 
   return (

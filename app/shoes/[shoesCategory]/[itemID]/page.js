@@ -2,7 +2,6 @@ import AddToFavorites from "@/app/_components/AddToFavorites";
 import ButtonForChangingColor from "@/app/_components/ButtonForChangingColor";
 import ButtonForImages from "@/app/_components/ButtonForImages";
 import ButtonForSize from "@/app/_components/ButtonForSize";
-import { ChangingColorProvider } from "@/app/_contextAPI/ChangingColorContextApi";
 import Drawer from "@/app/_components/Drawer";
 import { getItemById } from "@/app/_lib/data-service";
 import { getCategory } from "@/app/_lib/helper";
@@ -23,7 +22,7 @@ async function Page({ params }) {
   const colorsAvailable = Object.keys(item.variants);
   const heading = getCategory(itemParams);
   return (
-    <ChangingColorProvider>
+    <div>
       <div className="flex justify-start ml-10 gap-1 items-center">
         <Link href="/shoes" className="font-medium hover:underline ">
           Shoes
@@ -85,7 +84,7 @@ async function Page({ params }) {
           </div>
         </div>
       </div>
-    </ChangingColorProvider>
+    </div>
   );
 }
 

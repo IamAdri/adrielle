@@ -5,13 +5,14 @@ import {
   updateCartPricePerQuantityColumn,
   updateCartQuantityColumn,
 } from "../_lib/data-service";
+import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
 
 function ButtonForAddingQuantity({ cartItem }) {
   const [quantity, setQuantity] = useState(cartItem.quantity);
   const [price, setPrice] = useState(cartItem.pricePerQuantity);
   const [isMinDisabled, setIsMinDisabled] = useState(true);
   const [isMaxDisabled, setIsMaxDisabled] = useState(false);
-  //console.log(cartItem);
+  const { colorSrc } = useChangingColor();
   useEffect(() => {
     if (quantity === 1) {
       setIsMinDisabled(true);
@@ -23,7 +24,12 @@ function ButtonForAddingQuantity({ cartItem }) {
     }
     (async function updateQuantity() {
       setPrice(cartItem.shoes.price * quantity);
-      await updateCartQuantityColumn(cartItem.name, cartItem.size, quantity);
+      await updateCartQuantityColumn(
+        cartItem.name,
+        cartItem.size,
+        cartItem.selectedColorSrc,
+        quantity
+      );
     })();
   }, [quantity]);
 
@@ -32,6 +38,7 @@ function ButtonForAddingQuantity({ cartItem }) {
       await updateCartPricePerQuantityColumn(
         cartItem.name,
         cartItem.size,
+        cartItem.selectedColorSrc,
         price
       );
     })();

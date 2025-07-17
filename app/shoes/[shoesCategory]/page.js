@@ -1,9 +1,5 @@
 import HeelsCatalog from "@/app/_components/HeelsCatalog";
 import MainHeading from "@/app/_components/MainHeading";
-import {
-  ShoesParamsProvider,
-  useShoesParams,
-} from "@/app/_contextAPI/ShoesParamsContextApi";
 import { getCategory } from "@/app/_lib/helper";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
