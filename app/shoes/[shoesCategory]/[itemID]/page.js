@@ -14,6 +14,7 @@ import Link from "next/link";
 import MainHeading from "@/app/_components/MainHeading";
 
 import AddToCartFromItemPage from "@/app/_components/AddToCartFromItemPage";
+import { auth } from "@/app/_lib/auth";
 
 async function Page({ params }) {
   const itemParams = await params;
@@ -21,6 +22,8 @@ async function Page({ params }) {
   const item = await getItemById(itemName);
   const colorsAvailable = Object.keys(item.variants);
   const heading = getCategory(itemParams);
+  const session = await auth();
+  const currentUser = session?.user.email || "not loged in";
   return (
     <div>
       <div className="flex justify-start ml-10 gap-1 items-center">
@@ -54,7 +57,11 @@ async function Page({ params }) {
             <MainHeading className="text-3xl font-bold text-left">
               {itemName}
             </MainHeading>
-            <AddToFavorites name={itemName} itemID={item.id} />
+            <AddToFavorites
+              name={itemName}
+              itemID={item.id}
+              currentUser={currentUser}
+            />
           </div>
 
           <h4 className="font-bold text-2xl mt-1 text-left">{`${item.price} ${item.currency}`}</h4>

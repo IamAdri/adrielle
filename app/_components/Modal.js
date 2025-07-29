@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import ButtonForSize from "./ButtonForSize";
 import AddToCart from "./AddToCart";
@@ -8,6 +9,8 @@ import ModalAddCartSuccessfully from "./ModalAddCartSuccessfully";
 
 function Modal({ setOpenModal, name, item }) {
   const { itemCategory } = useShoesParams();
+  // const session = await auth();
+  // const currentUser = session?.user.email || "not loged in";
   const {
     setClickedSize,
     setSameCartItem,

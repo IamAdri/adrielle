@@ -1,34 +1,53 @@
-"use client";
 import Link from "next/link";
 import {
   HeartIcon,
   HomeIcon,
   ShoppingBagIcon,
-  UserIcon,
 } from "@heroicons/react/24/solid";
 import DropdownMenu from "./DropdownMenu";
-import { useCallback, useEffect, useState } from "react";
-import { useFavoriteItems } from "../_contextAPI/FavoriteItemsContextApi";
-import { getCartItems, getFavoriteItems } from "../_lib/data-service";
-import { useCartItems } from "../_contextAPI/CartItemsContextApi";
-import AuthUserAvatar from "./AuthUserAvatar";
+import DisplayedNumberOfFavoriteItems from "./DisplayedNumberOfFavoriteItems";
+import { auth } from "../_lib/auth";
+import DisplayNumberOfCartItems from "./DisplayNumberOfCartItems";
 
-function Navigation({ children }) {
-  const [scrollY, setScrollY] = useState(0);
-  const { isFavorite, setIsFavorite } = useFavoriteItems();
+async function Navigation({ children }) {
+  const session = await auth();
+  const currentUser = session?.user.email || "not loged in";
+  return (
+    <div
+      className={`fixed bg-nude top-0 right-0 left-0 z-100 flex  px-4  items-center justify-between flex-wrap  text-deepgrey 
+       `}
+    >
+      <DropdownMenu />
+      <div className="flex gap-8">
+        <Link href="/">
+          <HomeIcon className="size-7 text-deepgrey" />
+        </Link>
+        <div className="flex gap-0.5 items-center">
+          <Link href="/favorites">
+            <HeartIcon className="size-7 text-deepgrey" />
+          </Link>
+          <DisplayedNumberOfFavoriteItems currentUser={currentUser} />
+        </div>
+        <div className="flex gap-0.5 items-center">
+          <Link href="/bag">
+            <ShoppingBagIcon className="size-7 text-deepgrey" />
+          </Link>
+          <DisplayNumberOfCartItems currentUser={currentUser} />
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+export default Navigation;
+
+/*
+ const [scrollY, setScrollY] = useState(0);
   const { isCart, setIsCart } = useCartItems();
-
   const onScroll = useCallback((event) => {
     const { pageYOffset, scrollY } = window;
     setScrollY(window.pageYOffset);
-  }, []);
-
-  useEffect(() => {
-    async function loadFavoriteItems() {
-      const favoriteItems = await getFavoriteItems();
-      if (isFavorite === 0) setIsFavorite(favoriteItems.length);
-    }
-    loadFavoriteItems();
   }, []);
 
   useEffect(() => {
@@ -47,34 +66,6 @@ function Navigation({ children }) {
       window.removeEventListener("scroll", onScroll, { passive: true });
     };
   }, []);
-
-  return (
-    <div
-      className={`fixed top-0 right-0 left-0 z-100 border-b-3 border-lightlavender flex  px-4  items-center justify-between flex-wrap  text-deepgrey ${
-        scrollY > 0 ? "bg-nude border-none" : ""
-      } `}
-    >
-      <DropdownMenu />
-      <div className="flex gap-8">
-        <Link href="/">
-          <HomeIcon className="size-7 text-deepgrey" />
-        </Link>
-        <div className="flex gap-0.5 items-center">
-          <Link href="/favorites">
-            <HeartIcon className="size-7 text-deepgrey" />
-          </Link>
-          <span>{isFavorite > 0 && isFavorite}</span>
-        </div>
-        <div className="flex gap-0.5 items-center">
-          <Link href="/bag">
-            <ShoppingBagIcon className="size-7 text-deepgrey" />
-          </Link>
-          <span>{isCart > 0 && isCart}</span>
-          {children}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default Navigation;
+*/
+//${
+//       scrollY > 0 ? "bg-nude border-none" : ""}

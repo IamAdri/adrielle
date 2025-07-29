@@ -1,14 +1,16 @@
 import { Playfair_Display } from "next/font/google";
 import HomepageImages from "./_components/HomepageImages";
 import { auth } from "./_lib/auth";
+import SessionLocalStorage from "./_components/SessionLocalStorage";
 
 const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
 });
 
 export default async function Page() {
-  //const session = await auth();
-  //console.log(session);
+  const session = await auth();
+  console.log(session);
+  const currentUser = session?.user.email || "not loged in";
   return (
     <div>
       <h1
@@ -20,6 +22,7 @@ export default async function Page() {
         Discover timeless designs, crafted for confident women. From heels to
         flats — style begins here.
       </h3>
+      <SessionLocalStorage currentUser={currentUser} />
       <HomepageImages />
     </div>
   );

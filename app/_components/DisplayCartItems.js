@@ -5,6 +5,8 @@ import ButtonForAddingQuantity from "./ButtonForAddingQuantity";
 import MainHeading from "./MainHeading";
 import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
 import { redirect } from "next/navigation";
+import MakeOrderBox from "./MakeOrderBox";
+import { PricePerQuantityProvider } from "../_contextAPI/PricePerQuantityContextApi";
 
 function DisplayCartItems({ cartItems }) {
   const { setColorSrc, colorSrc } = useChangingColor();
@@ -16,55 +18,60 @@ function DisplayCartItems({ cartItems }) {
     );
   };
   return (
-    <div className="flex flex-col items-start ml-25">
-      <MainHeading>My shopping cart</MainHeading>
-      <div className="relative w-200">
-        {cartItems.map((cartItem) => {
-          return (
-            <ul
-              className="flex flex-col gap-15 mt-15"
-              key={`${cartItem.shoes.id}, ${cartItem.size}, ${cartItem.id}`}
-            >
-              <li className="flex gap-15">
-                <button
-                  onClick={() => handleDisplayImage(cartItem)}
-                  className="cursor-pointer"
+    <PricePerQuantityProvider>
+      <div className="flex flex-wrap justify-around gap-15 mx-5">
+        <div className="flex flex-col items-start border-2 border-lightlavender p-5 rounded-sm">
+          <MainHeading>My shopping cart</MainHeading>
+          <div className="relative w-200">
+            {cartItems.map((cartItem) => {
+              return (
+                <ul
+                  className="flex flex-col gap-15 mt-15"
+                  key={`${cartItem.shoes.id}, ${cartItem.size}, ${cartItem.id}`}
                 >
-                  <Image
-                    src={cartItem.selectedColorSrc}
-                    width={250}
-                    height={250}
-                    alt="Main image for favorite item."
-                  />
-                </button>
-
-                <div className="flex flex-col gap-10 w-full">
-                  <div className="flex flex-col items-start">
+                  <li className="flex gap-15">
                     <button
                       onClick={() => handleDisplayImage(cartItem)}
                       className="cursor-pointer"
                     >
-                      {cartItem.shoes.name}
+                      <Image
+                        src={cartItem.selectedColorSrc}
+                        width={250}
+                        height={250}
+                        alt="Main image for favorite item."
+                      />
                     </button>
 
-                    <span>{`Size: ${cartItem.size}`}</span>
-                    <span>{cartItem.selectedColor}</span>
-                    <span className="text-coolgrey text-sm mt-1">
-                      Selled by Adrielle
-                    </span>
-                    <ButtonForAddingQuantity cartItem={cartItem} />
-                  </div>
+                    <div className="flex flex-col gap-10 w-full">
+                      <div className="flex flex-col items-start">
+                        <button
+                          onClick={() => handleDisplayImage(cartItem)}
+                          className="cursor-pointer"
+                        >
+                          {cartItem.shoes.name}
+                        </button>
 
-                  <div className="absolute right-0">
-                    <ButtonForDeletingCartItem item={cartItem} />
-                  </div>
-                </div>
-              </li>
-            </ul>
-          );
-        })}
+                        <span>{`Size: ${cartItem.size}`}</span>
+                        <span>{cartItem.selectedColor}</span>
+                        <span className="text-coolgrey text-sm mt-1">
+                          Selled by Adrielle
+                        </span>
+                        <ButtonForAddingQuantity cartItem={cartItem} />
+                      </div>
+
+                      <div className="absolute right-0">
+                        <ButtonForDeletingCartItem item={cartItem} />
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              );
+            })}
+          </div>
+        </div>
+        <MakeOrderBox />
       </div>
-    </div>
+    </PricePerQuantityProvider>
   );
 }
 

@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import { useCartItems } from "../_contextAPI/CartItemsContextApi";
 import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
+import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
 
 function AddToCart({ item }) {
   const {
@@ -19,6 +20,7 @@ function AddToCart({ item }) {
     setSameCartItem,
     setAddedToCartSuccessfully,
   } = useChooseSize();
+  const { isCurrentUser } = useCurrentUserEmail();
   const [quantity, setQuantity] = useState(0);
   const [pricePerQuantity, setPricePerQuantity] = useState(0);
   const { isCart, setIsCart } = useCartItems();
@@ -44,21 +46,26 @@ function AddToCart({ item }) {
           clickedSize,
           item.price,
           displayedImageInCart,
-          chooseColor
+          chooseColor,
+          isCurrentUser,
+          localStorage.getItem("guestID")
         );
-        const updatedArray = await getCartItems();
+        const updatedArray = await getCartItems(
+          isCurrentUser,
+          localStorage.getItem("guestID")
+        );
         setIsCart(updatedArray.length);
         setAddedToCartSuccessfully(true);
       }
       if (sameCartItem) {
-        console.log(pricePerQuantity);
-        console.log(quantity);
         setPricePerQuantity(item.price * quantity);
         await updateCartQuantityColumn(
           item.name,
           clickedSize,
           displayedImageInCart,
-          quantity
+          quantity,
+          isCurrentUser,
+          localStorage.getItem("guestID")
         );
 
         setAddedToCartSuccessfully(true);
@@ -69,7 +76,9 @@ function AddToCart({ item }) {
         await updateCartPricePerQuantityColumn(
           item.name,
           clickedSize,
-          pricePerQuantity
+          pricePerQuantity,
+          isCurrentUser,
+          localStorage.getItem("guestID")
         );
       }
     })();
@@ -77,14 +86,20 @@ function AddToCart({ item }) {
 
   useEffect(() => {
     async function loadCartItems() {
-      const cartItems = await getCartItems();
+      const cartItems = await getCartItems(
+        isCurrentUser,
+        localStorage.getItem("guestID")
+      );
       setIsCart(cartItems.length);
     }
     loadCartItems();
   }, [isCart, setIsCart]);
 
   const handleAddToCart = async () => {
-    const cartItems = await getCartItems();
+    const cartItems = await getCartItems(
+      isCurrentUser,
+      localStorage.getItem("guestID")
+    );
     if (!clickedSize) setIsNotSelected(true);
     if (clickedSize) {
       const isItemInCart = cartItems.filter((itemFiltered) => {

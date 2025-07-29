@@ -3,7 +3,7 @@ import ButtonForDeletingFavoriteItem from "./ButtonForDeletingFavoriteItem";
 import Link from "next/link";
 import AddToCartIcon from "./AddToCartIcon";
 
-function FavoriteItem({ favoriteItem, mainColorImage }) {
+function FavoriteItem({ favoriteItem, mainColorImage, currentUser }) {
   //console.log(favoriteItem);
   return (
     <ul className="flex flex-col items-center gap-5 ">
@@ -13,7 +13,10 @@ function FavoriteItem({ favoriteItem, mainColorImage }) {
             name={favoriteItem.shoes.name}
             item={favoriteItem.shoes}
           />
-          <ButtonForDeletingFavoriteItem item={favoriteItem} />
+          <ButtonForDeletingFavoriteItem
+            item={favoriteItem}
+            currentUser={currentUser}
+          />
         </div>
         <Link
           href={`/shoes/${

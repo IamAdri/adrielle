@@ -8,24 +8,38 @@ import {
   removeFavoriteItem,
 } from "../_lib/data-service";
 import { useFavoriteItems } from "../_contextAPI/FavoriteItemsContextApi";
+import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
 
-function AddToFavorites({ name, itemID, position = "relative", size = 10 }) {
+function AddToFavorites({
+  currentUser,
+  name,
+  itemID,
+  position = "relative",
+  size = 10,
+}) {
   const { isFavorite, setIsFavorite } = useFavoriteItems();
   const [isClicked, setIsClicked] = useState(false);
 
   useEffect(() => {
     async function loadFavoriteItems() {
-      const favoriteItems = await getFavoriteItems();
+      const favoriteItems = await getFavoriteItems(
+        currentUser,
+        localStorage.getItem("guestID")
+      );
       favoriteItems.map((favorite) => {
         if (favorite.favorite_id === itemID) setIsClicked(true);
       });
     }
     loadFavoriteItems();
   }, []);
+  //console.log(currentUser);
 
   useEffect(() => {
     async function loadFavoriteItems() {
-      const favoriteItems = await getFavoriteItems();
+      const favoriteItems = await getFavoriteItems(
+        currentUser,
+        localStorage.getItem("guestID")
+      );
       setIsFavorite(favoriteItems.length);
     }
     loadFavoriteItems();
@@ -34,13 +48,30 @@ function AddToFavorites({ name, itemID, position = "relative", size = 10 }) {
   async function handleFavoriteItems(e) {
     setIsClicked(!isClicked);
     if (!isClicked) {
-      await insertFavoriteItem(name, itemID);
-      const updatedArray = await getFavoriteItems();
+      // console.log(currentUser);
+      await insertFavoriteItem(
+        name,
+        itemID,
+        currentUser,
+        localStorage.getItem("guestID")
+      );
+      const updatedArray = await getFavoriteItems(
+        currentUser,
+        localStorage.getItem("guestID")
+      );
+      console.log(updatedArray);
       setIsFavorite(updatedArray.length);
     }
     if (isClicked) {
-      await removeFavoriteItem(name);
-      const updatedArray = await getFavoriteItems();
+      await removeFavoriteItem(
+        name,
+        currentUser,
+        localStorage.getItem("guestID")
+      );
+      const updatedArray = await getFavoriteItems(
+        currentUser,
+        localStorage.getItem("guestID")
+      );
       setIsFavorite(updatedArray.length);
     }
   }

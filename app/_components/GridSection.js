@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
 import { redirect } from "next/navigation";
 
-function GridSection({ selectItemsOfSameCategory, category }) {
+function GridSection({ selectItemsOfSameCategory, category, currentUser }) {
   const { radioValue } = useRadioValue();
   const { setItemCategory } = useShoesParams();
   const { setColorSrc, setIsClickedImage } = useChangingColor();
@@ -63,7 +63,12 @@ function GridSection({ selectItemsOfSameCategory, category }) {
           >
             <div className="relative">
               <div className="absolute right-0 flex gap-1.5 ">
-                <AddToFavorites size="7" itemID={heel.id} name={heel.name} />
+                <AddToFavorites
+                  size="7"
+                  itemID={heel.id}
+                  name={heel.name}
+                  currentUser={currentUser}
+                />
                 <AddToCartIcon itemID={heel.id} name={heel.name} item={heel} />
               </div>
               <button

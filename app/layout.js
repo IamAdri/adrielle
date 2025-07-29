@@ -7,8 +7,8 @@ import { ChooseSizeProvider } from "./_contextAPI/ChooseSizeContextApi";
 import { CartItemsProvider } from "./_contextAPI/CartItemsContextApi";
 import { ShoesParamsProvider } from "./_contextAPI/ShoesParamsContextApi";
 import { ChangingColorProvider } from "./_contextAPI/ChangingColorContextApi";
-import NavigationBar from "./_components/NavigationBar";
 import AuthUserAvatar from "./_components/AuthUserAvatar";
+import { CurrentUserEmailProvider } from "./_contextAPI/CurrentUserEmailContextApi";
 
 const notoSans = Noto_Sans({
   subsets: ["latin"],
@@ -27,23 +27,24 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${notoSans.className} flex flex-col w-screen h-screen`}>
-        <FavoriteItemsProvider>
-          <CartItemsProvider>
-            <ShoesParamsProvider>
-              <Navigation>
-                <AuthUserAvatar />
-              </Navigation>
-              <ChooseSizeProvider>
-                <ChangingColorProvider>
-                  <main className="text-center basis-8/10 py-7  text-deepgrey mb-35 mt-20">
-                    {children}
-                  </main>
-                </ChangingColorProvider>
-              </ChooseSizeProvider>
-            </ShoesParamsProvider>
-          </CartItemsProvider>
-        </FavoriteItemsProvider>
-
+        <CurrentUserEmailProvider>
+          <FavoriteItemsProvider>
+            <CartItemsProvider>
+              <ShoesParamsProvider>
+                <Navigation>
+                  <AuthUserAvatar width={35} height={35} />
+                </Navigation>
+                <ChooseSizeProvider>
+                  <ChangingColorProvider>
+                    <main className="text-center basis-8/10 py-7  text-deepgrey mb-35 mt-20">
+                      {children}
+                    </main>
+                  </ChangingColorProvider>
+                </ChooseSizeProvider>
+              </ShoesParamsProvider>
+            </CartItemsProvider>
+          </FavoriteItemsProvider>
+        </CurrentUserEmailProvider>
         <Footer />
       </body>
     </html>

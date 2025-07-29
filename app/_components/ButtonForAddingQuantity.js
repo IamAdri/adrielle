@@ -5,14 +5,17 @@ import {
   updateCartPricePerQuantityColumn,
   updateCartQuantityColumn,
 } from "../_lib/data-service";
-import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
+import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
+import { usePricePerQuantity } from "../_contextAPI/PricePerQuantityContextApi";
 
 function ButtonForAddingQuantity({ cartItem }) {
   const [quantity, setQuantity] = useState(cartItem.quantity);
+  const { isQuantityChanged, setIsQuantityChanged } = usePricePerQuantity();
   const [price, setPrice] = useState(cartItem.pricePerQuantity);
   const [isMinDisabled, setIsMinDisabled] = useState(true);
   const [isMaxDisabled, setIsMaxDisabled] = useState(false);
-  const { colorSrc } = useChangingColor();
+  const { isCurrentUser } = useCurrentUserEmail();
+
   useEffect(() => {
     if (quantity === 1) {
       setIsMinDisabled(true);
@@ -28,7 +31,9 @@ function ButtonForAddingQuantity({ cartItem }) {
         cartItem.name,
         cartItem.size,
         cartItem.selectedColorSrc,
-        quantity
+        quantity,
+        isCurrentUser,
+        localStorage.getItem("guestID")
       );
     })();
   }, [quantity]);
@@ -39,17 +44,21 @@ function ButtonForAddingQuantity({ cartItem }) {
         cartItem.name,
         cartItem.size,
         cartItem.selectedColorSrc,
-        price
+        price,
+        isCurrentUser,
+        localStorage.getItem("guestID")
       );
     })();
   }, [price]);
   const handleDecreaseQuantity = () => {
     setQuantity(quantity - 1);
     setPrice(price);
+    setIsQuantityChanged(isQuantityChanged + 1);
   };
 
   const handleAddQuantity = () => {
     setQuantity(quantity + 1);
+    setIsQuantityChanged(isQuantityChanged - 1);
   };
 
   return (
