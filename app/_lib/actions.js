@@ -21,11 +21,11 @@ export async function updateDeliveryDetails(formData) {
   const session = await auth();
   console.log(session);
   if (!session) throw new Error("You must be logged in");
-  const streetName = formData.get("street");
-  const streetNumber = formData.get("streetNumber");
-  const house = formData.get("house");
-  const postalCode = formData.get("postalCode");
-  const phone = formData.get("phone");
+  const streetName = formData?.get("street");
+  const streetNumber = formData?.get("streetNumber");
+  const house = formData?.get("house");
+  const postalCode = formData?.get("postalCode");
+  const phone = formData?.get("phone");
   //console.log(streetName, postalCode);
   const updateData = { streetName, streetNumber, house, postalCode, phone };
 

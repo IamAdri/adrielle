@@ -25,7 +25,7 @@
     "@heroui/dropdown": "^2.3.21",
     "@heroui/system": "^2.4.17",
     "@heroui/theme": "^2.4.17",
-    "@supabase/supabase-js": "^2.50.0",
+    "@supabase/supabase-js": "^2.53.0",
     "framer-motion": "^12.18.1",
     "next": "^15.3.4",
     "next-auth": "^5.0.0-beta.29",

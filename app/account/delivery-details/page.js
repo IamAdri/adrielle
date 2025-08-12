@@ -3,7 +3,6 @@
 import Spinner from "@/app/_components/Spinner";
 import { useUserDetails } from "@/app/_contextAPI/userDetailsContextApi";
 import { updateDeliveryDetails } from "@/app/_lib/actions";
-import { getUserDetails, getUserEmail } from "@/app/_lib/data-service";
 import { useEffect, useState } from "react";
 
 function page() {
@@ -13,8 +12,7 @@ function page() {
   const [houseNumber, setHouseNumber] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [phone, setPhone] = useState("");
-  const { userDetails, setUserDetails } = useUserDetails();
-  //const [userDetails, setUserDetails] = useState("");
+  const { userDetails } = useUserDetails();
   useEffect(() => {
     // Așteaptă până la client render pentru a preveni hydration mismatch
     setIsMounted(true);

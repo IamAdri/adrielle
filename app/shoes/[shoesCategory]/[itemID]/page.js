@@ -60,6 +60,7 @@ async function Page({ params }) {
             <AddToFavorites
               name={itemName}
               itemID={item.id}
+              item={item}
               currentUser={currentUser}
             />
           </div>

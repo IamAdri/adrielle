@@ -12,7 +12,10 @@ function DisplayNumberOfCartItems({ currentUser }) {
   useEffect(() => {
     setIsCurrentUser(currentUser);
     async function loadCartItems() {
-      const cartItems = await getCartItems(currentUser);
+      const cartItems = await getCartItems(
+        currentUser,
+        localStorage.getItem("guestID")
+      );
       setIsCart(cartItems.length);
     }
     loadCartItems();

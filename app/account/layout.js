@@ -5,7 +5,7 @@ function layout({ children }) {
   return (
     <div className="flex gap-5 lg:gap-25 lg:mx-10 items-center">
       <AccountNavigationBar />
-      <UserDetailsProvider>{children}</UserDetailsProvider>
+      {children}
     </div>
   );
 }

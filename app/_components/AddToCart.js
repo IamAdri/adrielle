@@ -11,7 +11,7 @@ import { useCartItems } from "../_contextAPI/CartItemsContextApi";
 import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
 import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
 
-function AddToCart({ item }) {
+function AddToCart({ item, selectedColorSrc }) {
   const {
     clickedSize,
     isNotSelected,
@@ -27,7 +27,14 @@ function AddToCart({ item }) {
   const { colorSrc, setIsClickedImage } = useChangingColor();
   const colorsAvailable = Object.keys(item.variants);
   const mainColorImage = item.variants[colorsAvailable[0]].images[0];
-  const displayedImageInCart = colorSrc !== "" ? colorSrc : mainColorImage;
+  console.log(selectedColorSrc);
+  //const displayedImageInCart = colorSrc !== "" ? colorSrc : mainColorImage;
+  const displayedImageInCart =
+    colorSrc === ""
+      ? selectedColorSrc === ""
+        ? mainColorImage
+        : selectedColorSrc
+      : colorSrc;
   const secondColorGallery = item.variants[colorsAvailable[1]].images;
   const chooseColor = secondColorGallery.includes(displayedImageInCart)
     ? colorsAvailable[1]

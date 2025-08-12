@@ -1,19 +1,23 @@
 "use client";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   getUserDetails,
   getUserEmail,
   insertUserEmail,
+  removeUserDetails,
 } from "../_lib/data-service";
 import Spinner from "./Spinner";
 import { useUserDetails } from "../_contextAPI/userDetailsContextApi";
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
 
 function DeliveryDetailsDiv({ sessionUser }) {
+  const router = useRouter();
   const [user, setUser] = useState("");
 
   const { userDetails, setUserDetails } = useUserDetails();
-  //console.log(sessionUser);
+
+  console.log(sessionUser);
   useEffect(() => {
     const isEmailInDatabase = async () => {
       const userDetailsFromDatabase = await getUserDetails(sessionUser);
@@ -37,7 +41,13 @@ function DeliveryDetailsDiv({ sessionUser }) {
     })();
   }, [user]);
   //console.log(logedInUser);
-
+  const handleDeleteUserDetails = async () => {
+    removeUserDetails(sessionUser);
+    const userDetailsFromDatabase = await getUserDetails(sessionUser);
+    // console.log(userDetailsFromDatabase);
+    setUserDetails(userDetailsFromDatabase[0]);
+    // redirect("/account");
+  };
   return (
     <>
       {userDetails === "" && <Spinner />}
@@ -73,12 +83,22 @@ function DeliveryDetailsDiv({ sessionUser }) {
             <span className="text-coolgrey">Phone number: </span>
             <span>{userDetails.phone}</span>
           </p>
-          <button
-            className="bg-lightlavender px-3 py-1 rounded-md cursor-pointer hover:bg-lavenderhighlight hover:text-warmwhite"
-            onClick={() => redirect("/account/delivery-details")}
-          >
-            Edit delivery details
-          </button>
+          <div className="flex gap-3">
+            <button
+              className="flex gap-1 items-center bg-lightlavender px-3 py-1 rounded-md cursor-pointer hover:bg-lavenderhighlight hover:text-warmwhite"
+              onClick={() => redirect("/account/delivery-details")}
+            >
+              <PencilSquareIcon className="size-5" />
+              <span>Edit</span>
+            </button>
+            <button
+              className="flex gap-1 items-center bg-coolgrey px-3 py-1 rounded-md cursor-pointer hover:bg-gray-600 hover:text-warmwhite"
+              onClick={handleDeleteUserDetails}
+            >
+              <TrashIcon className="size-5" />
+              <span>Delete</span>
+            </button>
+          </div>
         </div>
       )}
     </>

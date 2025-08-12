@@ -15,6 +15,7 @@ function ButtonForDeletingCartItem({ item }) {
       await removeCartItem(
         item.shoes.name,
         item.size,
+        item.selectedColor,
         isCurrentUser,
         localStorage.getItem("guestID")
       );

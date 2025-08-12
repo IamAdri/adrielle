@@ -8,31 +8,26 @@ import {
   removeFavoriteItem,
 } from "../_lib/data-service";
 import { useFavoriteItems } from "../_contextAPI/FavoriteItemsContextApi";
-import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
+import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
 
 function AddToFavorites({
   currentUser,
   name,
+  item,
   itemID,
   position = "relative",
   size = 10,
 }) {
   const { isFavorite, setIsFavorite } = useFavoriteItems();
   const [isClicked, setIsClicked] = useState(false);
-
-  useEffect(() => {
-    async function loadFavoriteItems() {
-      const favoriteItems = await getFavoriteItems(
-        currentUser,
-        localStorage.getItem("guestID")
-      );
-      favoriteItems.map((favorite) => {
-        if (favorite.favorite_id === itemID) setIsClicked(true);
-      });
-    }
-    loadFavoriteItems();
-  }, []);
-  //console.log(currentUser);
+  const { colorSrc } = useChangingColor();
+  const colorsAvailable = Object.keys(item.variants);
+  const mainColorImage = item.variants[colorsAvailable[0]].images[0];
+  const displayedImageInFavorite = colorSrc !== "" ? colorSrc : mainColorImage;
+  const secondColorGallery = item.variants[colorsAvailable[1]].images;
+  const chooseColor = secondColorGallery.includes(displayedImageInFavorite)
+    ? colorsAvailable[1]
+    : colorsAvailable[0];
 
   useEffect(() => {
     async function loadFavoriteItems() {
@@ -41,10 +36,17 @@ function AddToFavorites({
         localStorage.getItem("guestID")
       );
       setIsFavorite(favoriteItems.length);
+      const favoriteExists = favoriteItems.some(
+        (favorite) =>
+          favorite.favorite_id === itemID &&
+          favorite.selectedColor === chooseColor
+      );
+      setIsClicked(favoriteExists);
     }
     loadFavoriteItems();
-  }, [isFavorite, setIsFavorite, isClicked, setIsClicked]);
+  }, [isFavorite, isClicked, colorSrc]);
 
+  console.log(isClicked);
   async function handleFavoriteItems(e) {
     setIsClicked(!isClicked);
     if (!isClicked) {
@@ -52,6 +54,8 @@ function AddToFavorites({
       await insertFavoriteItem(
         name,
         itemID,
+        displayedImageInFavorite,
+        chooseColor,
         currentUser,
         localStorage.getItem("guestID")
       );
@@ -59,12 +63,13 @@ function AddToFavorites({
         currentUser,
         localStorage.getItem("guestID")
       );
-      console.log(updatedArray);
+      //  console.log(updatedArray);
       setIsFavorite(updatedArray.length);
     }
     if (isClicked) {
       await removeFavoriteItem(
         name,
+        chooseColor,
         currentUser,
         localStorage.getItem("guestID")
       );

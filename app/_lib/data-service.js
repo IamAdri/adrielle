@@ -43,6 +43,7 @@ export async function getCartItems(currentUserEmail, guestID) {
     .select("*")
     .eq("logedInUser", currentUserEmail)
     .eq("guestID", guestID || "empty");
+
   if (error) {
     console.log(error);
     throw new Error("Could not load");
@@ -53,6 +54,8 @@ export async function getCartItems(currentUserEmail, guestID) {
 export async function insertFavoriteItem(
   itemName,
   itemID,
+  selectedColorSrc,
+  selectedColor,
   logedInUser,
   guestID
 ) {
@@ -62,6 +65,8 @@ export async function insertFavoriteItem(
       {
         name: itemName,
         favorite_id: itemID,
+        selectedColorSrc: selectedColorSrc,
+        selectedColor: selectedColor,
         logedInUser: logedInUser,
         guestID: guestID || "empty",
       },
@@ -102,7 +107,11 @@ export async function updateNotLogedInFavoriteItems(logedInUser, guestID) {
   // console.log(favoriteItemsOfNotLogedIn);
   favoriteItemsOfCurrentUser.map((favoriteItemOfUser) => {
     favoriteItemsOfNotLogedIn.map((favoriteItemOfNotLogedIn) => {
-      if (favoriteItemOfUser.name === favoriteItemOfNotLogedIn.name) {
+      if (
+        favoriteItemOfUser.name === favoriteItemOfNotLogedIn.name &&
+        favoriteItemOfUser.selectedColor ===
+          favoriteItemOfNotLogedIn.selectedColor
+      ) {
         sameFavoriteItems.push(favoriteItemOfUser.name);
       }
     });
@@ -145,7 +154,11 @@ export async function updateNotLogedInCartItems(logedInUser, guestID) {
   const cartItemsOfNotLogedIn = await getCartItems("not loged in", guestID);
   cartItemsOfCurrentUser.map((cartItemOfUser) => {
     cartItemsOfNotLogedIn.map((cartItemOfNotLogedIn) => {
-      if (cartItemOfUser.name === cartItemOfNotLogedIn.name) {
+      if (
+        cartItemOfUser.name === cartItemOfNotLogedIn.name &&
+        cartItemOfUser.size === cartItemOfNotLogedIn.size &&
+        cartItemOfUser.selectedColor === cartItemOfNotLogedIn.selectedColor
+      ) {
         sameCartItems.push(cartItemOfUser.name);
       }
     });
@@ -201,21 +214,34 @@ export async function insertCartItem(
   return data;
 }
 
-export async function removeFavoriteItem(itemName, currentUser, guestID) {
+export async function removeFavoriteItem(
+  itemName,
+  selectedColor,
+  currentUser,
+  guestID
+) {
   const { error } = await supabase
     .from("favorites")
     .delete()
     .eq("name", itemName)
+    .eq("selectedColor", selectedColor)
     .eq("logedInUser", currentUser)
     .eq("guestID", guestID || "empty");
 }
 
-export async function removeCartItem(itemName, size, currentUser, guestID) {
+export async function removeCartItem(
+  itemName,
+  size,
+  selectedColor,
+  currentUser,
+  guestID
+) {
   const { error } = await supabase
     .from("cart")
     .delete()
     .eq("name", itemName)
     .eq("size", size)
+    .eq("selectedColor", selectedColor)
     .eq("logedInUser", currentUser)
     .eq("guestID", guestID || "empty");
 }
@@ -232,11 +258,15 @@ export async function getShoesById(favoriteID) {
   return data;
 }
 
-export async function getShoesDetailsByFavoriteTable(currentUserEmail) {
+export async function getShoesDetailsByFavoriteTable(
+  currentUserEmail,
+  guestID
+) {
   let { data, error } = await supabase
     .from("favorites")
     .select()
     .eq("logedInUser", currentUserEmail)
+    .eq("guestID", guestID || "empty")
     .select(`"*","shoes"("*")`);
 
   if (error) {
@@ -246,11 +276,12 @@ export async function getShoesDetailsByFavoriteTable(currentUserEmail) {
   return data;
 }
 
-export async function getShoesDetailsByCartTable(currentUserEmail) {
+export async function getShoesDetailsByCartTable(currentUserEmail, guestID) {
   let { data, error } = await supabase
     .from("cart")
     .select()
     .eq("logedInUser", currentUserEmail)
+    .eq("guestID", guestID || "empty")
     .select(`"*","shoes"("*")`);
   if (error) {
     console.log(error);
@@ -335,6 +366,25 @@ export async function getUserDetails(email) {
   let { data, error } = await supabase
     .from("userDetails")
     .select("*")
+    .eq("email", email);
+
+  if (error) {
+    console.log(error);
+    throw new Error("Could not load");
+  }
+  return data;
+}
+
+export async function removeUserDetails(email) {
+  let { data, error } = await supabase
+    .from("userDetails")
+    .update({
+      streetName: null,
+      streetNumber: null,
+      house: null,
+      postalCode: null,
+      phone: null,
+    })
     .eq("email", email);
 
   if (error) {

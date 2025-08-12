@@ -67,6 +67,7 @@ function GridSection({ selectItemsOfSameCategory, category, currentUser }) {
                   size="7"
                   itemID={heel.id}
                   name={heel.name}
+                  item={heel}
                   currentUser={currentUser}
                 />
                 <AddToCartIcon itemID={heel.id} name={heel.name} item={heel} />

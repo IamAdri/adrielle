@@ -7,7 +7,7 @@ function SessionLocalStorage({ currentUser }) {
   const { setGuestIDIsRemoved } = useCurrentUserEmail();
   console.log(currentUser);
   useEffect(() => {
-    if (currentUser === "not loged in") {
+    if (currentUser === "not loged in" && !localStorage.getItem("guestID")) {
       localStorage.setItem("guestID", crypto.randomUUID());
       setGuestIDIsRemoved(false);
     }

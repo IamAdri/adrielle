@@ -6,6 +6,8 @@ const PricePerQuantityContext = createContext();
 
 function PricePerQuantityProvider({ children }) {
   const [isQuantityChanged, setIsQuantityChanged] = useState(0);
+  const [isPriceArrayChanged, setIsPriceArrayChanged] = useState([]);
+  // console.log(isQuantityChanged);
   return (
     <PricePerQuantityContext.Provider
       value={{ isQuantityChanged, setIsQuantityChanged }}

@@ -3,41 +3,103 @@
 import { useEffect, useState } from "react";
 import { getCartItems } from "../_lib/data-service";
 import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
-import { IconContext } from "react-icons";
-import { usePricePerQuantity } from "../_contextAPI/PricePerQuantityContextApi";
+import { supabase } from "../_lib/supabase";
+import { useCartItems } from "../_contextAPI/CartItemsContextApi";
+import { redirect, usePathname } from "next/navigation";
 
-function MakeOrderBox() {
+function MakeOrderBox({ currentUser }) {
+  const pathname = usePathname();
+  console.log(pathname);
   const { isCurrentUser } = useCurrentUserEmail();
-  const { isQuantityChanged, setIsQuantityChanged } = usePricePerQuantity();
-  // const [itemsFromCart, setItemsFromCart] = useState("");
+  const { isCart } = useCartItems();
+  const [itemsFromCart, setItemsFromCart] = useState([]);
+  const [pricesOfItems, setPricesOfItems] = useState([]);
+  const [totalProductsPrice, setTotalProductsPrice] = useState(0);
+  const [deliveryCost, setDeliveryCost] = useState(0);
+  console.log(currentUser);
   useEffect(() => {
-    (async function loadCartItems() {
-      let itemsFromCart = [];
-      const cartItems = await getCartItems(
+    (async function getItemsFromCart() {
+      const items = await getCartItems(
         isCurrentUser,
         localStorage.getItem("guestID")
       );
-      console.log(cartItems);
-      cartItems.map((item) => {
-        itemsFromCart.push(item.pricePerQuantity);
-      });
-      console.log(itemsFromCart);
-      // setItemsFromCart(cartItems);
+      // console.log(items);
+      setItemsFromCart(items);
     })();
-  }, [isCurrentUser, isQuantityChanged]);
+  }, [isCurrentUser, isCart]);
+
+  useEffect(() => {
+    const channel = supabase
+      .channel("cart")
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "cart",
+        },
+        (payload) => {
+          setItemsFromCart((prev) => [
+            payload.new,
+            ...prev.filter((item) => item.id !== payload.new.id),
+          ]);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [itemsFromCart]);
   //console.log(itemsFromCart);
+
+  useEffect(() => {
+    let itemPrices = [];
+    itemsFromCart.map((item) => {
+      itemPrices.push(item.pricePerQuantity);
+    });
+    setPricesOfItems(itemPrices);
+  }, [itemsFromCart]);
+  //console.log(pricesOfItems);
+
+  useEffect(() => {
+    setTotalProductsPrice(pricesOfItems.reduce((acc, curr) => acc + curr, 0));
+  }, [pricesOfItems]);
+  //console.log(totalProductsPrice);
+
+  useEffect(() => {
+    if (totalProductsPrice >= 200) {
+      setDeliveryCost(0);
+    } else {
+      setDeliveryCost(25);
+    }
+  }, [totalProductsPrice]);
+
+  const handleGoToDelivery = () => {
+    currentUser === "not loged in"
+      ? redirect("/login")
+      : pathname === "/bag"
+      ? redirect("/delivery")
+      : redirect("/bag");
+  };
+
   return (
-    <div className="border-2 border-lightlavender rounded-sm p-5">
+    <div className="border-2 border-lightlavender rounded-sm py-5 px-10 h-full">
       <div className="flex flex-col gap-5">
+        <h2 className="font-bold text-xl">Order summary</h2>
         <div className=" flex flex-col items-start gap-3">
-          <h2 className="font-bold">Order summary</h2>
-          <span>Product cost:</span>
-          <span>Delivery cost:</span>
-          <span className="font-bold">Total:</span>
+          <span>Product cost: {totalProductsPrice} EUR</span>
+          <span>Delivery cost: {deliveryCost} EUR</span>
+          <span className="font-bold text-lg">
+            Total: {totalProductsPrice + deliveryCost} EUR
+          </span>
         </div>
         <div className="flex justify-center">
-          <button className="bg-lavenderhighlight rounded-sm border-2 border-darklavender font-semibold px-3 py-1 cursor-pointer text-base hover:text-lg  hover:font-bold text-warmwhite hover:text-white">
-            Continue
+          <button
+            className="bg-lavenderhighlight rounded-sm border-2 border-darklavender font-semibold px-3 py-1 cursor-pointer text-base hover:text-lg  hover:font-bold text-warmwhite hover:text-white"
+            onClick={handleGoToDelivery}
+          >
+            {pathname === "/bag" ? "Continue" : "Back to cart"}
           </button>
         </div>
       </div>

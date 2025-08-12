@@ -9,6 +9,7 @@ import { ShoesParamsProvider } from "./_contextAPI/ShoesParamsContextApi";
 import { ChangingColorProvider } from "./_contextAPI/ChangingColorContextApi";
 import AuthUserAvatar from "./_components/AuthUserAvatar";
 import { CurrentUserEmailProvider } from "./_contextAPI/CurrentUserEmailContextApi";
+import { UserDetailsProvider } from "./_contextAPI/userDetailsContextApi";
 
 const notoSans = Noto_Sans({
   subsets: ["latin"],
@@ -36,9 +37,11 @@ export default function RootLayout({ children }) {
                 </Navigation>
                 <ChooseSizeProvider>
                   <ChangingColorProvider>
-                    <main className="text-center basis-8/10 py-7  text-deepgrey mb-35 mt-20">
-                      {children}
-                    </main>
+                    <UserDetailsProvider>
+                      <main className="text-center basis-8/10 py-7  text-deepgrey mb-35 mt-20">
+                        {children}
+                      </main>
+                    </UserDetailsProvider>
                   </ChangingColorProvider>
                 </ChooseSizeProvider>
               </ShoesParamsProvider>

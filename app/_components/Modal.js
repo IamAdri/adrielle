@@ -6,9 +6,11 @@ import Link from "next/link";
 import { useChooseSize } from "../_contextAPI/ChooseSizeContextApi";
 import { useShoesParams } from "../_contextAPI/ShoesParamsContextApi";
 import ModalAddCartSuccessfully from "./ModalAddCartSuccessfully";
+import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
 
-function Modal({ setOpenModal, name, item }) {
+function Modal({ setOpenModal, name, item, selectedColorSrc }) {
   const { itemCategory } = useShoesParams();
+  const { setColorSrc } = useChangingColor();
   // const session = await auth();
   // const currentUser = session?.user.email || "not loged in";
   const {
@@ -19,15 +21,19 @@ function Modal({ setOpenModal, name, item }) {
   } = useChooseSize();
 
   const colorsAvailable = Object.keys(item.variants);
-  const mainColorImage = item.variants[colorsAvailable[0]].images[0];
-
+  const mainColorImage =
+    selectedColorSrc === ""
+      ? item.variants[colorsAvailable[0]].images[0]
+      : selectedColorSrc;
+  console.log(mainColorImage);
+  //if (selectedColorSrc !== "") setColorSrc(selectedColorSrc);
   const closeCartModal = () => {
     setOpenModal(false);
     setSameCartItem("");
     setClickedSize("");
     setAddedToCartSuccessfully(false);
   };
-
+  console.log(item);
   return (
     <>
       <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -67,7 +73,10 @@ function Modal({ setOpenModal, name, item }) {
                     <h2 className="font-bold text-xl">{name}</h2>
                     <h3 className="mt-5 mb-1 font-medium">Choose size</h3>
                     <ButtonForSize />
-                    <AddToCart item={item} />
+                    <AddToCart
+                      item={item}
+                      selectedColorSrc={selectedColorSrc}
+                    />
                   </div>
                 </div>
               ) : (

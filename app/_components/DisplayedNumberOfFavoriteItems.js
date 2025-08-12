@@ -13,7 +13,10 @@ function DisplayedNumberOfFavoriteItems({ currentUser }) {
     setIsCurrentUser(currentUser);
     async function loadFavoriteItems() {
       //console.log(localStorage.getItem("guestID"));
-      const favoriteItems = await getFavoriteItems(currentUser);
+      const favoriteItems = await getFavoriteItems(
+        currentUser,
+        localStorage.getItem("guestID")
+      );
       //console.log(favoriteItems);
       setIsFavorite(favoriteItems.length);
     }

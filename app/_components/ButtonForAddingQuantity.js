@@ -10,7 +10,12 @@ import { usePricePerQuantity } from "../_contextAPI/PricePerQuantityContextApi";
 
 function ButtonForAddingQuantity({ cartItem }) {
   const [quantity, setQuantity] = useState(cartItem.quantity);
-  const { isQuantityChanged, setIsQuantityChanged } = usePricePerQuantity();
+  const {
+    isQuantityChanged,
+    setIsQuantityChanged,
+    isPriceArrayChanged,
+    setIsPriceArrayChanged,
+  } = usePricePerQuantity();
   const [price, setPrice] = useState(cartItem.pricePerQuantity);
   const [isMinDisabled, setIsMinDisabled] = useState(true);
   const [isMaxDisabled, setIsMaxDisabled] = useState(false);
@@ -53,14 +58,14 @@ function ButtonForAddingQuantity({ cartItem }) {
   const handleDecreaseQuantity = () => {
     setQuantity(quantity - 1);
     setPrice(price);
-    setIsQuantityChanged(isQuantityChanged + 1);
+    setIsQuantityChanged(isQuantityChanged - 1);
   };
 
   const handleAddQuantity = () => {
     setQuantity(quantity + 1);
-    setIsQuantityChanged(isQuantityChanged - 1);
+    setIsQuantityChanged(isQuantityChanged + 1);
   };
-
+  //console.log(isQuantityChanged);
   return (
     <div className="flex items-end justify-between w-full">
       <div className="border border-coolgrey flex gap-3 px-3 items-center mt-3">

@@ -5,7 +5,7 @@ import Modal from "./Modal";
 import { useChooseSize } from "../_contextAPI/ChooseSizeContextApi";
 import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
 
-function AddToCartIcon({ name, item }) {
+function AddToCartIcon({ name, item, selectedSrc = "" }) {
   const [isModalOpened, setIsModalOpened] = useState(false);
   const { setSameCartItem, setClickedSize, setAddedToCartSuccessfully } =
     useChooseSize();
@@ -25,7 +25,12 @@ function AddToCartIcon({ name, item }) {
         <ShoppingBagIcon className="size-7 cursor-pointer" />
       </button>
       {isModalOpened && (
-        <Modal setOpenModal={setIsModalOpened} name={name} item={item} />
+        <Modal
+          setOpenModal={setIsModalOpened}
+          name={name}
+          item={item}
+          selectedColorSrc={selectedSrc}
+        />
       )}
     </div>
   );
