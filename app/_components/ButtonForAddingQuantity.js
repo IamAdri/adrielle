@@ -10,12 +10,7 @@ import { usePricePerQuantity } from "../_contextAPI/PricePerQuantityContextApi";
 
 function ButtonForAddingQuantity({ cartItem }) {
   const [quantity, setQuantity] = useState(cartItem.quantity);
-  const {
-    isQuantityChanged,
-    setIsQuantityChanged,
-    isPriceArrayChanged,
-    setIsPriceArrayChanged,
-  } = usePricePerQuantity();
+  const { isQuantityChanged, setIsQuantityChanged } = usePricePerQuantity();
   const [price, setPrice] = useState(cartItem.pricePerQuantity);
   const [isMinDisabled, setIsMinDisabled] = useState(true);
   const [isMaxDisabled, setIsMaxDisabled] = useState(false);

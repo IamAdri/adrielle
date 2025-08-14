@@ -69,7 +69,7 @@ function DisplayCartItems({ currentUser }) {
                             {cartItem.shoes.name}
                           </button>
 
-                          <span>{`Size: ${cartItem.size}`}</span>
+                          <span>{`size: ${cartItem.size}`}</span>
                           <span>{cartItem.selectedColor}</span>
                           <span className="text-coolgrey text-sm mt-1">
                             Selled by Adrielle

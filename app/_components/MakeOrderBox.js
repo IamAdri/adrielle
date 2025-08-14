@@ -9,14 +9,13 @@ import { redirect, usePathname } from "next/navigation";
 
 function MakeOrderBox({ currentUser }) {
   const pathname = usePathname();
-  console.log(pathname);
   const { isCurrentUser } = useCurrentUserEmail();
   const { isCart } = useCartItems();
   const [itemsFromCart, setItemsFromCart] = useState([]);
   const [pricesOfItems, setPricesOfItems] = useState([]);
   const [totalProductsPrice, setTotalProductsPrice] = useState(0);
   const [deliveryCost, setDeliveryCost] = useState(0);
-  console.log(currentUser);
+
   useEffect(() => {
     (async function getItemsFromCart() {
       const items = await getCartItems(

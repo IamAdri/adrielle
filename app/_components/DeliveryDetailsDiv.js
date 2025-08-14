@@ -1,5 +1,5 @@
 "use client";
-import { redirect, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   getUserDetails,
@@ -12,12 +12,9 @@ import { useUserDetails } from "../_contextAPI/userDetailsContextApi";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
 
 function DeliveryDetailsDiv({ sessionUser }) {
-  const router = useRouter();
   const [user, setUser] = useState("");
-
   const { userDetails, setUserDetails } = useUserDetails();
 
-  console.log(sessionUser);
   useEffect(() => {
     const isEmailInDatabase = async () => {
       const userDetailsFromDatabase = await getUserDetails(sessionUser);
@@ -65,7 +62,7 @@ function DeliveryDetailsDiv({ sessionUser }) {
         </div>
       )}
       {userDetails && userDetails.streetName !== null && (
-        <div className="flex flex-col items-start gap-5 mx-15  my-10 p-5 border-nude border-2">
+        <div className="flex flex-col items-start gap-5  my-10 p-5 w-full border-nude border-2">
           <h2 className="font-semibold">Delivery details</h2>
           <p>
             <span className="text-coolgrey">Address 1: </span>
