@@ -246,6 +246,18 @@ export async function removeCartItem(
     .eq("guestID", guestID || "empty");
 }
 
+export async function removeCartItemsAfterSentOrder(email) {
+  const { error } = await supabase
+    .from("cart")
+    .delete()
+    .eq("logedInUser", email);
+
+  if (error) {
+    console.log(error);
+    throw new Error("Could not remove items from carte after sending order");
+  }
+}
+
 export async function getShoesById(favoriteID) {
   const { data, error } = await supabase
     .from("shoes")
@@ -390,6 +402,48 @@ export async function removeUserDetails(email) {
   if (error) {
     console.log(error);
     throw new Error("Could not load");
+  }
+  return data;
+}
+
+export async function insertOrderDetails(
+  date,
+  userEmail,
+  status,
+  deliveryDate,
+  products,
+  paymentMethod
+) {
+  const { data, error } = await supabase
+    .from("orders")
+    .insert([
+      {
+        created_at: date,
+        email: userEmail,
+        status: status,
+        deliveryDate: deliveryDate,
+        products: products,
+        paymentMethod: paymentMethod,
+      },
+    ])
+    .select();
+  if (error) {
+    console.log(error);
+    throw new Error("Could not insert order details!");
+  }
+
+  return data;
+}
+
+export async function getOrdersDetails(sessionUser) {
+  const { data, error } = await supabase
+    .from("orders")
+    .select("*")
+    .eq("email", sessionUser);
+
+  if (error) {
+    console.log(error);
+    throw new Error("Could not load order details.");
   }
   return data;
 }
