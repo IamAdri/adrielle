@@ -73,3 +73,10 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+.star-container {
+  direction: rtl; /* we need to reverse direction to fill all stars to the left on hover */
+}
+.star:hover ~ .star .star-icon,
+.star:hover .star-icon {
+  @apply fill-amber-400;
+}

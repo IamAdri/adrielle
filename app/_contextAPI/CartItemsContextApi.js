@@ -6,8 +6,11 @@ const CartItemsContext = createContext();
 
 function CartItemsProvider({ children }) {
   const [isCart, setIsCart] = useState(0);
+  const [totalProductsPrice, setTotalProductsPrice] = useState(0);
   return (
-    <CartItemsContext.Provider value={{ isCart, setIsCart }}>
+    <CartItemsContext.Provider
+      value={{ isCart, setIsCart, totalProductsPrice, setTotalProductsPrice }}
+    >
       {children}
     </CartItemsContext.Provider>
   );

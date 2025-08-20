@@ -412,7 +412,8 @@ export async function insertOrderDetails(
   status,
   deliveryDate,
   products,
-  paymentMethod
+  paymentMethod,
+  totalProductsPrice
 ) {
   const { data, error } = await supabase
     .from("orders")
@@ -424,6 +425,7 @@ export async function insertOrderDetails(
         deliveryDate: deliveryDate,
         products: products,
         paymentMethod: paymentMethod,
+        totalPrice: totalProductsPrice,
       },
     ])
     .select();
@@ -446,4 +448,72 @@ export async function getOrdersDetails(sessionUser) {
     throw new Error("Could not load order details.");
   }
   return data;
+}
+
+export async function getOrderDeliveryDate() {
+  let { data, error } = await supabase.from("orders").select("deliveryDate");
+
+  if (error) {
+    console.log(error);
+    throw new Error("Could not load delivery date.");
+  }
+  return data;
+}
+
+export async function updateOrderStatus(todaysDate) {
+  const { data, error } = await supabase
+    .from("orders")
+    .update({ status: "delivered" })
+    .eq("status", "processing")
+    .lte("deliveryDate", todaysDate)
+    .select();
+  // 👈 without this, update() returns null
+  if (error) {
+    console.error(error);
+    throw new Error("Could not update delivery status.");
+  }
+
+  return data;
+}
+
+export async function getReviewsAndRatingsByUser(userEmail, productName) {
+  const { data, error } = await supabase
+    .from("reviews")
+    .select("*")
+    .eq("userEmail", userEmail)
+    .eq("productName", productName);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Could not get reviews and ratings by user.");
+  }
+
+  return data;
+}
+
+export async function updateRatingAndReviewByProductName(
+  rating,
+  review,
+  productName,
+  userEmail
+) {
+  const { data, error } = await supabase
+    .from("reviews")
+    .update({ rating: rating, review: review })
+    .eq("productName", productName)
+    .eq("userEmail", userEmail)
+    .select();
+}
+
+export async function deleteReviewsAndRatingsByUser(userEmail, productName) {
+  const { error } = await supabase
+    .from("reviews")
+    .delete()
+    .eq("productName", productName)
+    .eq("userEmail", userEmail);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Could not get reviews and ratings by user.");
+  }
 }

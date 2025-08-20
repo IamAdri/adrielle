@@ -13,7 +13,7 @@ function MakeOrderBox({ currentUser }) {
   const { isCart } = useCartItems();
   const [itemsFromCart, setItemsFromCart] = useState([]);
   const [pricesOfItems, setPricesOfItems] = useState([]);
-  const [totalProductsPrice, setTotalProductsPrice] = useState(0);
+  const { totalProductsPrice, setTotalProductsPrice } = useCartItems();
   const [deliveryCost, setDeliveryCost] = useState(0);
 
   useEffect(() => {

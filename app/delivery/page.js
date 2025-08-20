@@ -1,5 +1,3 @@
-import DeliveryDetailsDiv from "../_components/DeliveryDetailsDiv";
-import MainHeading from "../_components/MainHeading";
 import MakeOrderBox from "../_components/MakeOrderBox";
 import OrderDetails from "../_components/OrderDetails";
 import { auth } from "../_lib/auth";

@@ -16,7 +16,8 @@ import OrderedProductsDetails from "./OrderedProductsDetails";
 function OrderDetails({ sessionUser }) {
   const [paymentMethod, setPaymentMethod] = useState("cashPayment");
   const [cartItems, setCartItems] = useState("");
-  const { setIsCart } = useCartItems();
+  const { setIsCart, totalProductsPrice, setTotalProductsPrice } =
+    useCartItems();
   useEffect(() => {
     (async function loadCartItemsDetails() {
       const cartItemsDetails = await getShoesDetailsByCartTable(
@@ -32,7 +33,7 @@ function OrderDetails({ sessionUser }) {
   const orderDate = new Date(date);
   orderDate.setDate(orderDate.getDate() + 3);
   const deliveryDate = orderDate.toLocaleDateString("en-CA");
-  console.log(deliveryDate);
+  console.log(cartItems);
 
   const handleSendOrder = async () => {
     const products = cartItems.map((cartItem) => {
@@ -40,6 +41,7 @@ function OrderDetails({ sessionUser }) {
         name: cartItem.shoes.name,
         size: cartItem.size,
         color: cartItem.selectedColor,
+        image: cartItem.selectedColorSrc,
         quantity: cartItem.quantity,
         pricePerQuantity: cartItem.pricePerQuantity,
       };
@@ -51,7 +53,8 @@ function OrderDetails({ sessionUser }) {
       "processing",
       deliveryDate,
       products,
-      paymentMethod
+      paymentMethod,
+      totalProductsPrice
     );
 
     await removeCartItemsAfterSentOrder(sessionUser);
