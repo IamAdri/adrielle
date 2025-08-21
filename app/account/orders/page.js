@@ -1,6 +1,5 @@
 import MainHeading from "@/app/_components/MainHeading";
 import ReviewAndRating from "@/app/_components/ReviewAndRating";
-import { RatingProvider } from "@/app/_contextAPI/RatingContextApi";
 import { auth } from "@/app/_lib/auth";
 import { getOrdersDetails, updateOrderStatus } from "@/app/_lib/data-service";
 import Image from "next/image";
@@ -70,6 +69,7 @@ async function Orders() {
                     </ul>
                     <ReviewAndRating
                       productName={product.name}
+                      productImage={product.image}
                       currentUser={currentUser}
                     />
                   </div>

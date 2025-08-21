@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import { useRating } from "../_contextAPI/RatingContextApi";
 import {
   deleteReviewsAndRatingsByUser,
-  getReviewsAndRatingsByUser,
+  getReviewsAndRatingsByUserAndProductName,
 } from "../_lib/data-service";
 import { TrashIcon } from "@heroicons/react/24/outline";
+import { usePathname } from "next/navigation";
 
 function RatingStars({
   setIsModalReviewOpened,
@@ -14,20 +15,27 @@ function RatingStars({
   productName,
   currentUser,
   isModalReviewOpened,
+  hovered,
+  setHovered,
+  rating,
+  setRating,
 }) {
-  const [hovered, setHovered] = useState(null); // track hovered index
-  //  const [rating, setRating] = useState(0); // track clicked rating
-  const { rating, setRating, reviewText, setReviewText } = useRating();
-  //const [reviewText, setReviewText] = useState("");
+  //const [hovered, setHovered] = useState(null); // track hovered index
+  const { reviewText, setReviewText, setPathName } = useRating();
+  const pathname = usePathname();
+
   useEffect(() => {
     async function loadReviews() {
-      const data = await getReviewsAndRatingsByUser(currentUser, productName);
-      //console.log(data.rating);
+      const data = await getReviewsAndRatingsByUserAndProductName(
+        currentUser,
+        productName
+      );
       if (!data) return;
       if (data[0]?.rating) setRating(data[0].rating);
       if (data[0]?.review) setReviewText(data[0].review);
     }
     loadReviews();
+    setPathName(pathname);
   }, []);
   const handleDeleteRating = async () => {
     await deleteReviewsAndRatingsByUser(currentUser, productName);
@@ -35,7 +43,7 @@ function RatingStars({
     setReviewText("");
   };
   //console.log(rating);
-  console.log(reviewText);
+  //console.log(reviewText);
   return (
     <div className="flex gap-3 items-center">
       <div>

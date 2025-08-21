@@ -45,8 +45,6 @@ function AddToFavorites({
     }
     loadFavoriteItems();
   }, [isFavorite, isClicked, colorSrc]);
-
-  console.log(isClicked);
   async function handleFavoriteItems(e) {
     setIsClicked(!isClicked);
     if (!isClicked) {

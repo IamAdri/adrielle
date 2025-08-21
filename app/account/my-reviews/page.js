@@ -1,5 +1,53 @@
-function MyReviews() {
-  return <div>My reviews</div>;
+import MainHeading from "@/app/_components/MainHeading";
+import ReviewAndRating from "@/app/_components/ReviewAndRating";
+import { auth } from "@/app/_lib/auth";
+import { getReviewsAndRatingsByUser } from "@/app/_lib/data-service";
+import { image } from "@heroui/theme";
+import Image from "next/image";
+
+async function MyReviews() {
+  const session = await auth();
+  const currentUser = session?.user.email || "not loged in";
+  const reviewsDetails = await getReviewsAndRatingsByUser(currentUser);
+
+  return (
+    <div>
+      <MainHeading>My reviews</MainHeading>
+      <div className="flex flex-col items-start gap-15 mt-15">
+        {reviewsDetails.map((review) => {
+          return (
+            <div key={review.id} className="bg-lightnude p-5 w-200 flex gap-15">
+              <div className="flex flex-col items-start gap-3">
+                <span className="font-medium">{review.productName}</span>
+                <div className="w-[100px] h-[100px]">
+                  <Image
+                    src={review.productImage}
+                    width={100}
+                    height={100}
+                    alt="Image of ordered product"
+                  />
+                </div>
+              </div>
+
+              <ReviewAndRating
+                productName={review.productName}
+                currentUser={currentUser}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 export default MyReviews;
+/*
+                    <div className="w-[100px] h-[100px]">
+                      <Image
+                        src={product.image}
+                        width={100}
+                        height={100}
+                        alt="Image of ordered product"
+                      />
+                    </div>*/

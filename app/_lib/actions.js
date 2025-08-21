@@ -4,11 +4,12 @@ import { redirect } from "next/navigation";
 import { auth, signIn, signOut } from "./auth";
 import { supabase } from "./supabase";
 import {
-  getReviewsAndRatingsByUser,
+  getReviewsAndRatingsByUserAndProductName,
   updateNotLogedInCartItems,
   updateNotLogedInFavoriteItems,
   updateRatingAndReviewByProductName,
 } from "./data-service";
+import { revalidatePath } from "next/cache";
 
 export async function signInAction() {
   await signIn("google", { redirectTo: "/account" });
@@ -43,11 +44,14 @@ export async function updateDeliveryDetails(formData) {
 export async function sendReview(formData) {
   const session = await auth();
   const userEmail = session.user.email;
+  const userName = session.user.name;
   const rating = formData.get("rating");
   const review = formData.get("review");
   const productName = formData.get("productName");
+  const productImage = formData.get("productImage");
+  const pathName = formData.get("pathName");
   console.log(formData, session.user.email);
-  const isProductRated = await getReviewsAndRatingsByUser(
+  const isProductRated = await getReviewsAndRatingsByUserAndProductName(
     userEmail,
     productName
   );
@@ -65,16 +69,18 @@ export async function sendReview(formData) {
       .insert([
         {
           userEmail: userEmail,
+          userName: userName,
           rating: rating,
           review: review,
           productName: productName,
+          productImage: productImage,
         },
       ])
       .select();
     if (error) console.log(error);
   }
 
-  redirect("/account/orders");
+  redirect(pathName);
 }
 
 export async function removeStorage(currentUser) {

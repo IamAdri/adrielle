@@ -3,17 +3,27 @@ import { useState } from "react";
 import RatingStars from "./RatingStars";
 import { sendReview } from "../_lib/actions";
 import { useRating } from "../_contextAPI/RatingContextApi";
-import { getReviewsAndRatingsByUser } from "../_lib/data-service";
+import { getReviewsAndRatingsByUserAndProductName } from "../_lib/data-service";
+import { StarIcon } from "@heroicons/react/24/solid";
 
 function ModalForAddingReview({
   setIsModalReviewOpened,
   productName,
+  productImage,
   currentUser,
+  hovered,
+  setHovered,
+  rating,
+  setRating,
 }) {
   //  const [reviewText, setReviewText] = useState("");
-  const { rating, setRating, reviewText, setReviewText } = useRating();
+  const { reviewText, setReviewText, pathName } = useRating();
+  //const [hovered, setHovered] = useState(null);
   const closeModalReview = async () => {
-    const data = await getReviewsAndRatingsByUser(currentUser, productName);
+    const data = await getReviewsAndRatingsByUserAndProductName(
+      currentUser,
+      productName
+    );
     setRating(data[0]?.rating);
     setIsModalReviewOpened(false);
   };
@@ -35,10 +45,29 @@ function ModalForAddingReview({
           </div>
           <div className="flex flex-col items-start gap-5 m-5">
             <div className="flex items-center gap-3">
-              <RatingStars
-                setIsModalReviewOpened={setIsModalReviewOpened}
-                size={10}
-              />
+              {Array.from(Array(5)).map((_, i) => {
+                const index = i + 1;
+                return (
+                  <button
+                    key={i}
+                    className="cursor-pointer peer group/star"
+                    onClick={() => {
+                      setIsModalReviewOpened(true);
+                      setRating(index);
+                    }}
+                    onMouseEnter={() => setHovered(index)}
+                    onMouseLeave={() => setHovered(null)}
+                  >
+                    <StarIcon
+                      className={`size-7 transition-colors ${
+                        index <= (hovered || rating)
+                          ? "fill-amber-300"
+                          : "fill-gray-300"
+                      }`}
+                    />
+                  </button>
+                );
+              })}
               <span className="font-medium text-xl">
                 {rating > 0 && rating}
               </span>
@@ -75,6 +104,20 @@ function ModalForAddingReview({
                 readOnly
                 className="hidden"
               />
+              <textarea
+                id="productImage"
+                name="productImage"
+                value={productImage}
+                readOnly
+                className="hidden"
+              />
+              <textarea
+                id="pathName"
+                name="pathName"
+                value={pathName}
+                readOnly
+                className="hidden"
+              />
 
               <button
                 type="submit"
@@ -91,3 +134,7 @@ function ModalForAddingReview({
 }
 
 export default ModalForAddingReview;
+/*<RatingStars
+                setIsModalReviewOpened={setIsModalReviewOpened}
+                size={10}
+              />*/

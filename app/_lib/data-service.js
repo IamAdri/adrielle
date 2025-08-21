@@ -24,6 +24,19 @@ export async function getItemById(name) {
   return data;
 }
 
+export async function getImageByShoesName(name) {
+  let { data, error } = await supabase
+    .from("shoes")
+    .select("variants")
+    .eq("name", name);
+
+  if (error) {
+    console.log(error);
+    throw new Error("Could not load images.");
+  }
+  return data;
+}
+
 export async function getFavoriteItems(logedInUser, guestID) {
   const { data, error } = await supabase
     .from("favorites")
@@ -476,12 +489,75 @@ export async function updateOrderStatus(todaysDate) {
   return data;
 }
 
-export async function getReviewsAndRatingsByUser(userEmail, productName) {
+export async function getReviewsAndRatingsByUserAndProductName(
+  userEmail,
+  productName
+) {
   const { data, error } = await supabase
     .from("reviews")
     .select("*")
     .eq("userEmail", userEmail)
     .eq("productName", productName);
+
+  if (error) {
+    console.error(error);
+    throw new Error(
+      "Could not get reviews and ratings by user and product name."
+    );
+  }
+
+  return data;
+}
+
+export async function getReviewsAndRatingsByProductName(productName) {
+  const { data, error } = await supabase
+    .from("reviews")
+    .select("*")
+    .eq("productName", productName);
+
+  if (error) {
+    console.error(error);
+    throw new Error(
+      "Could not get reviews and ratings by user and product name."
+    );
+  }
+
+  return data;
+}
+
+export async function getReviewsAndRatingsByUser(userEmail) {
+  const { data, error } = await supabase
+    .from("reviews")
+    .select("*")
+    .eq("userEmail", userEmail);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Could not get reviews and ratings by user.");
+  }
+
+  return data;
+}
+
+export async function getAllRatingsByProductName(name) {
+  const { data, error } = await supabase
+    .from("reviews")
+    .select("rating")
+    .eq("productName", name);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Could not get reviews and ratings by user.");
+  }
+
+  return data;
+}
+
+export async function getAllReviewsByProductName(name) {
+  const { data, error } = await supabase
+    .from("reviews")
+    .select("review")
+    .eq("productName", name);
 
   if (error) {
     console.error(error);
