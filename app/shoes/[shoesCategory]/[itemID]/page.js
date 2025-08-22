@@ -28,7 +28,7 @@ async function Page({ params }) {
   //  console.log(session);
   const currentUser = session?.user.email || "not loged in";
   return (
-    <div className="flex flex-col items-start gap-25 ml-15">
+    <div className="flex flex-col items-start gap-25 xl:ml-45 lg:ml-25 ml-20">
       <div>
         <div className="flex justify-start ml-10 gap-1 items-center">
           <Link href="/shoes" className="font-medium hover:underline ">
@@ -49,15 +49,15 @@ async function Page({ params }) {
             {itemName}
           </Link>
         </div>
-        <div className="flex justify-center gap-35 mt-25">
+        <div className="flex flex-wrap  lg:flex-nowrap gap-10 2xl:gap-35 xl:gap-25 md:gap-10 mt-25">
           <div className="flex gap-2 items-center">
             <ButtonForImages
               itemDetails={item}
               colorsAvailable={colorsAvailable}
             />
           </div>
-          <div className="flex flex-col flex-wrap">
-            <div className="flex justify-between">
+          <div className="flex flex-col flex-wrap lg:w-150 mr-5">
+            <div className="flex justify-between lg:w-115 md:55">
               <MainHeading className="text-3xl font-bold text-left">
                 {itemName}
               </MainHeading>
@@ -71,9 +71,7 @@ async function Page({ params }) {
 
             <h4 className="font-bold text-2xl mt-1 text-left">{`${item.price} ${item.currency}`}</h4>
 
-            <p className="lg:w-200 sm:w-100 mt-10 text-left">
-              {item.description}
-            </p>
+            <p className="mt-10 text-left lg:w-125 w-100">{item.description}</p>
             <p className="mt-10 text-left">Colors available</p>
             <div className="flex mt-2">
               {colorsAvailable.map((color) => {
@@ -97,16 +95,22 @@ async function Page({ params }) {
           </div>
         </div>
       </div>
-
-      <RatingAndReviewsFromAllUsers
-        itemName={itemName}
-        currentUser={currentUser}
-      />
-      <ReviewAndRating
-        productName={itemName}
-        productImage={item.variants[colorsAvailable[0]].images[0]}
-        currentUser={currentUser}
-      />
+      <div className="flex flex-wrap xl:flex-nowrap 2xl:gap-35 gap-15 items-start">
+        <RatingAndReviewsFromAllUsers
+          itemName={itemName}
+          currentUser={currentUser}
+        />
+        {currentUser !== "not loged in" && (
+          <div className="flex flex-col items-center gap-7">
+            <MainHeading>My review</MainHeading>
+            <ReviewAndRating
+              productName={itemName}
+              productImage={item.variants[colorsAvailable[0]].images[0]}
+              currentUser={currentUser}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

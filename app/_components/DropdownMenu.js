@@ -4,20 +4,8 @@ import DropdownButton from "./DropdownButton";
 import Link from "next/link";
 
 function DropdownMenu() {
-  const shoesCategories = [
-    "heels",
-    "sneakers",
-    "sandals",
-    "flats",
-    "newCollection",
-  ];
-  const accessoriesCategories = [
-    "bags",
-    "bracelets",
-    "necklaces",
-    "belts",
-    "newCollection",
-  ];
+  const shoesCategories = ["heels", "sandals", "flats", "newCollection"];
+  const accessoriesCategories = ["bags", "belts", "newCollection"];
 
   return (
     <div className="flex gap-8 items-center">

@@ -1,10 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import ModalForAddingReview from "./ModalForAddingReview";
-import RatingStars from "./RatingStars";
-import { RatingProvider } from "../_contextAPI/RatingContextApi";
 import { StarIcon, TrashIcon } from "@heroicons/react/24/solid";
-import StaticRatingStars from "./StaticRatingStars";
 import { sendReview } from "../_lib/actions";
 import { getReviewsAndRatingsByUserAndProductName } from "../_lib/data-service";
 import { usePathname } from "next/navigation";
@@ -42,35 +38,37 @@ function ReviewAndRating({ productName, productImage, currentUser }) {
     setRating(0);
     setReviewText("");
   };
-  //console.log(isModalReviewOpened);
-  console.log(rating);
+
   return (
-    <div>
-      <div className="flex-col gap-3 items-center">
-        <div className="flex">
-          {Array.from(Array(5)).map((_, i) => {
-            const index = i + 1;
-            return (
-              <button
-                key={i}
-                className="cursor-pointer peer group/star"
-                onClick={() => {
-                  setIsModalReviewOpened(true);
-                  setRating(index);
-                }}
-                onMouseEnter={() => setHovered(index)}
-                onMouseLeave={() => setHovered(null)}
-              >
-                <StarIcon
-                  className={`size-7 transition-colors ${
-                    index <= (hovered || rating)
-                      ? "fill-amber-300"
-                      : "fill-gray-300"
-                  }`}
-                />
-              </button>
-            );
-          })}
+    <div className="ml-5 mr-5">
+      <div className="flex flex-col gap-3 items-start ">
+        <div className="flex gap-3 items-center">
+          <div>
+            {Array.from(Array(5)).map((_, i) => {
+              const index = i + 1;
+              return (
+                <button
+                  key={i}
+                  className="cursor-pointer peer group/star"
+                  onClick={() => {
+                    setIsModalReviewOpened(true);
+                    setRating(index);
+                  }}
+                  onMouseEnter={() => setHovered(index)}
+                  onMouseLeave={() => setHovered(null)}
+                >
+                  <StarIcon
+                    className={`size-9 transition-colors ${
+                      index <= (hovered || rating)
+                        ? "fill-amber-300"
+                        : "fill-gray-300"
+                    }`}
+                  />
+                </button>
+              );
+            })}
+          </div>
+
           <div>
             {rating > 0 && isModalReviewOpened === false && (
               <button className="cursor-pointer" onClick={handleDeleteRating}>
@@ -79,12 +77,14 @@ function ReviewAndRating({ productName, productImage, currentUser }) {
             )}
           </div>
         </div>
-
-        {reviewText && isModalReviewOpened === false && (
-          <p className="w-95 h-fit text-left text-wrap">{reviewText}</p>
-        )}
+        <div>
+          {reviewText && isModalReviewOpened === false && (
+            <p className="w-95 h-fit text-left text-wrap italic">
+              "{reviewText}"
+            </p>
+          )}
+        </div>
       </div>
-
       {isModalReviewOpened && (
         <div className="fixed inset-0 z-10 overflow-y-auto">
           <div
@@ -103,34 +103,36 @@ function ReviewAndRating({ productName, productImage, currentUser }) {
               </div>
               <div className="flex flex-col items-start gap-5 m-5">
                 <div className="flex items-center gap-3">
-                  {Array.from(Array(5)).map((_, i) => {
-                    const index = i + 1;
-                    return (
-                      <button
-                        key={i}
-                        className="cursor-pointer peer group/star"
-                        onClick={() => {
-                          setIsModalReviewOpened(true);
-                          setRating(index);
-                        }}
-                        onMouseEnter={() => setHovered(index)}
-                        onMouseLeave={() => setHovered(null)}
-                      >
-                        <StarIcon
-                          className={`size-7 transition-colors ${
-                            index <= (hovered || rating)
-                              ? "fill-amber-300"
-                              : "fill-gray-300"
-                          }`}
-                        />
-                      </button>
-                    );
-                  })}
+                  <div>
+                    {Array.from(Array(5)).map((_, i) => {
+                      const index = i + 1;
+                      return (
+                        <button
+                          key={i}
+                          className="cursor-pointer peer group/star"
+                          onClick={() => {
+                            setIsModalReviewOpened(true);
+                            setRating(index);
+                          }}
+                          onMouseEnter={() => setHovered(index)}
+                          onMouseLeave={() => setHovered(null)}
+                        >
+                          <StarIcon
+                            className={`size-9 transition-colors ${
+                              index <= (hovered || rating)
+                                ? "fill-amber-300"
+                                : "fill-gray-300"
+                            }`}
+                          />
+                        </button>
+                      );
+                    })}
+                  </div>
+
                   <span className="font-medium text-xl">
                     {rating > 0 && rating}
                   </span>
                 </div>
-
                 <form
                   action={sendReview}
                   className="flex flex-col gap-3 items-start"
@@ -176,7 +178,6 @@ function ReviewAndRating({ productName, productImage, currentUser }) {
                     readOnly
                     className="hidden"
                   />
-
                   <button
                     type="submit"
                     className="bg-lavenderhighlight rounded-sm border-2 border-darklavender font-semibold px-3 py-1 cursor-pointer text-base hover:text-lg  hover:font-bold text-warmwhite hover:text-white"
@@ -194,45 +195,3 @@ function ReviewAndRating({ productName, productImage, currentUser }) {
 }
 
 export default ReviewAndRating;
-/*<RatingStars
-          setIsModalReviewOpened={setIsModalReviewOpened}
-          isModalReviewOpened={isModalReviewOpened}
-          size={7}
-          productName={productName}
-          currentUser={currentUser}
-
-
-        />
-        
-        
-        <RatingStars
-          setIsModalReviewOpened={setIsModalReviewOpened}
-          isModalReviewOpened={isModalReviewOpened}
-          size={7}
-          productName={productName}
-          currentUser={currentUser}
-          hovered={hovered}
-          setHovered={setHovered}
-          rating={rating}
-          setRating={setRating}
-        />
-
-
-        <RatingProvider>
-      <div className="flex" style={{ direction: "ltr" }}>
-        <StaticRatingStars rating={rating} />
-        {isModalReviewOpened && (
-          <ModalForAddingReview
-            setIsModalReviewOpened={setIsModalReviewOpened}
-            productName={productName}
-            productImage={productImage}
-            currentUser={currentUser}
-            hovered={hovered}
-            setHovered={setHovered}
-            rating={rating}
-            setRating={setRating}
-          />
-        )}
-      </div>
-    </RatingProvider>
-*/

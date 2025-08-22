@@ -5,8 +5,8 @@ function OverlayOnHover({
   srcName = "newCollectionsHomepage",
   alt,
   category,
-  width = 300,
-  height = 300,
+  width = 270,
+  height = 270,
 }) {
   return (
     <div className="group relative">

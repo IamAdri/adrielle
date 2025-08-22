@@ -1,6 +1,6 @@
 export function getCategory(params) {
-  const category =
-    params.shoesCategory.charAt(0).toUpperCase() +
-    params.shoesCategory.slice(1);
+  const categoryName = Object.values(params)[0];
+  console.log(categoryName);
+  const category = categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
   return category;
 }

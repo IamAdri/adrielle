@@ -21,7 +21,7 @@ function ButtonForImages({ itemDetails, colorsAvailable }) {
   // console.log(colorSrc);
   return (
     <>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 2xl:w-[125px] xl:w-[100px] w-[75px]">
         {chooseGallery.map((image) => {
           return (
             <button
@@ -41,12 +41,14 @@ function ButtonForImages({ itemDetails, colorsAvailable }) {
           );
         })}
       </div>
-      <Image
-        src={clickedImage !== "" ? clickedImage : chooseMainImage}
-        alt="Main image of the pair of heels from catalog."
-        width={500}
-        height={500}
-      />
+      <div className="2xl:w-[500px] xl:w-[400px] w-[300px]">
+        <Image
+          src={clickedImage !== "" ? clickedImage : chooseMainImage}
+          alt="Main image of the pair of heels from catalog."
+          width={500}
+          height={500}
+        />
+      </div>
     </>
   );
 }

@@ -10,7 +10,7 @@ function ButtonForSize() {
     setIsNotSelected(false);
   };
   return (
-    <ul className="flex mt-2 gap-3 ">
+    <ul className="flex mt-2 lg:gap-3 gap-1.5">
       {sizes.map((size) => {
         return (
           <button

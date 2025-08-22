@@ -15,13 +15,6 @@ function Page() {
           srcName="heels"
           alt="A pair of heels shoes"
         />
-
-        <OverlayOnHover
-          category="shoes"
-          srcName="sneakers"
-          alt="A pair of sneakers"
-        />
-
         <OverlayOnHover
           category="shoes"
           srcName="sandals"
@@ -32,6 +25,11 @@ function Page() {
           category="shoes"
           srcName="flats"
           alt="A pair of flats"
+        />
+        <OverlayOnHover
+          category="newCollection"
+          srcName="newCollection"
+          alt="New collection shoes"
         />
       </div>
     </div>
