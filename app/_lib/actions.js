@@ -9,7 +9,6 @@ import {
   updateNotLogedInFavoriteItems,
   updateRatingAndReviewByProductName,
 } from "./data-service";
-import { revalidatePath } from "next/cache";
 
 export async function signInAction() {
   await signIn("google", { redirectTo: "/account" });
@@ -20,9 +19,9 @@ export async function signOutAction() {
 }
 
 export async function updateDeliveryDetails(formData) {
-  console.log(formData);
+  //console.log(formData);
   const session = await auth();
-  console.log(session);
+  //console.log(session);
   if (!session) throw new Error("You must be logged in");
   const streetName = formData?.get("street");
   const streetNumber = formData?.get("streetNumber");

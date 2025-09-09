@@ -1,34 +1,35 @@
-import AddToFavorites from "@/app/_components/AddToFavorites";
-import ButtonForChangingColor from "@/app/_components/ButtonForChangingColor";
-import ButtonForImages from "@/app/_components/ButtonForImages";
-import ButtonForSize from "@/app/_components/ButtonForSize";
-import Drawer from "@/app/_components/Drawer";
-import { getItemById } from "@/app/_lib/data-service";
-import { getCategory } from "@/app/_lib/helper";
-import {
-  ChevronRightIcon,
-  HeartIcon as SolidHeart,
-} from "@heroicons/react/24/solid";
-
-import Link from "next/link";
-import MainHeading from "@/app/_components/MainHeading";
-
-import AddToCartFromItemPage from "@/app/_components/AddToCartFromItemPage";
+import { getItemById, getItemByName } from "@/app/_lib/data-service";
+import { getCategoryName } from "@/app/_lib/helper";
 import { auth } from "@/app/_lib/auth";
-import RatingAndReviewsFromAllUsers from "@/app/_components/RatingAndReviewsFromAllUsers";
-import ReviewAndRating from "@/app/_components/ReviewAndRating";
+import NavigationLinksFromProductPage from "@/app/_components/NavigationLinksFromProductPage";
+import ItemPageDetails from "@/app/_components/ItemPageDetails";
 
 async function Page({ params }) {
   const itemParams = await params;
   const itemName = itemParams.itemID.replaceAll("_", " ");
-  const item = await getItemById(itemName);
-  const colorsAvailable = Object.keys(item.variants);
-  const heading = getCategory(itemParams);
+  const item = await getItemByName(itemName);
+  //const colorsAvailable = Object.keys(item.variants);
+  //const heading = getCategoryNameForHeading(itemParams);
   const session = await auth();
   //  console.log(session);
-  const currentUser = session?.user.email || "not loged in";
+  //const currentUser = session?.user.email || "not loged in";
+  //Added now!
+  const categoryName = getCategoryName(itemParams);
+  //  console.log(categoryName);
   return (
     <div className="flex flex-col items-start gap-25 xl:ml-45 lg:ml-25 ml-20">
+      <NavigationLinksFromProductPage itemName={itemName} />
+      <ItemPageDetails
+        item={item}
+        itemName={itemName}
+        categoryName={categoryName}
+      />
+    </div>
+  );
+}
+
+export default Page;
+/*<div className="flex flex-col items-start gap-25 xl:ml-45 lg:ml-25 ml-20">
       <div>
         <div className="flex justify-start ml-10 gap-1 items-center">
           <Link href="/shoes" className="font-medium hover:underline ">
@@ -111,8 +112,4 @@ async function Page({ params }) {
           </div>
         )}
       </div>
-    </div>
-  );
-}
-
-export default Page;
+    </div>*/

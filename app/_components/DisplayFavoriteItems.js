@@ -1,13 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getShoesDetailsByFavoriteTable } from "../_lib/data-service";
+import { getItemsDetailsByFavoriteTable } from "../_lib/data-service";
 import FavoriteItem from "./FavoriteItem";
 
 function DisplayFavoriteItems({ currentUser }) {
   const [favoriteItems, setFavoriteItems] = useState([]);
   useEffect(() => {
     (async function loadFavoriteItemsDetails() {
-      const favoriteItemsDetails = await getShoesDetailsByFavoriteTable(
+      const favoriteItemsDetails = await getItemsDetailsByFavoriteTable(
         currentUser,
         localStorage.getItem("guestID")
       );
@@ -21,7 +21,7 @@ function DisplayFavoriteItems({ currentUser }) {
           //console.log(favoriteItem);
           return (
             <FavoriteItem
-              key={`${favoriteItem.shoes.name},${favoriteItem.selectedColor}`}
+              key={`${favoriteItem.items.name},${favoriteItem.selectedColor}`}
               favoriteItem={favoriteItem}
               currentUser={currentUser}
             />

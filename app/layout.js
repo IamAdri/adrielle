@@ -5,7 +5,7 @@ import Footer from "./_components/Footer";
 import { FavoriteItemsProvider } from "./_contextAPI/FavoriteItemsContextApi";
 import { ChooseSizeProvider } from "./_contextAPI/ChooseSizeContextApi";
 import { CartItemsProvider } from "./_contextAPI/CartItemsContextApi";
-import { ShoesParamsProvider } from "./_contextAPI/ShoesParamsContextApi";
+import { CategoryParamsProvider } from "./_contextAPI/CategoryParamsProvider";
 import { ChangingColorProvider } from "./_contextAPI/ChangingColorContextApi";
 import AuthUserAvatar from "./_components/AuthUserAvatar";
 import { CurrentUserEmailProvider } from "./_contextAPI/CurrentUserEmailContextApi";
@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
         <CurrentUserEmailProvider>
           <FavoriteItemsProvider>
             <CartItemsProvider>
-              <ShoesParamsProvider>
+              <CategoryParamsProvider>
                 <Navigation>
                   <AuthUserAvatar width={35} height={35} />
                 </Navigation>
@@ -44,7 +44,7 @@ export default function RootLayout({ children }) {
                     </UserDetailsProvider>
                   </ChangingColorProvider>
                 </ChooseSizeProvider>
-              </ShoesParamsProvider>
+              </CategoryParamsProvider>
             </CartItemsProvider>
           </FavoriteItemsProvider>
         </CurrentUserEmailProvider>

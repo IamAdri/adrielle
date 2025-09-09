@@ -8,14 +8,17 @@ import { redirect } from "next/navigation";
 import MakeOrderBox from "./MakeOrderBox";
 import { PricePerQuantityProvider } from "../_contextAPI/PricePerQuantityContextApi";
 import { useEffect, useState } from "react";
-import { getShoesDetailsByCartTable } from "../_lib/data-service";
+import {
+  getItemsDetailsByCartTable,
+  getShoesDetailsByCartTable,
+} from "../_lib/data-service";
 
 function DisplayCartItems({ currentUser }) {
   const { setColorSrc } = useChangingColor();
   const [cartItems, setCartItems] = useState([]);
   useEffect(() => {
     (async function loadCartItemsDetails() {
-      const cartItemsDetails = await getShoesDetailsByCartTable(
+      const cartItemsDetails = await getItemsDetailsByCartTable(
         currentUser,
         localStorage.getItem("guestID")
       );
@@ -45,7 +48,7 @@ function DisplayCartItems({ currentUser }) {
                 return (
                   <ul
                     className="flex flex-col gap-15 mt-15"
-                    key={`${cartItem.shoes.id}, ${cartItem.size}, ${cartItem.id}`}
+                    key={`${cartItem.items.id}, ${cartItem.size}, ${cartItem.id}`}
                   >
                     <li className="flex gap-15">
                       <button
@@ -66,10 +69,12 @@ function DisplayCartItems({ currentUser }) {
                             onClick={() => handleDisplayImage(cartItem)}
                             className="cursor-pointer"
                           >
-                            {cartItem.shoes.name}
+                            {cartItem.items.name}
                           </button>
 
-                          <span>{`size: ${cartItem.size}`}</span>
+                          <span>{`size: ${
+                            cartItem.size !== "" ? cartItem.size : "one size"
+                          }`}</span>
                           <span>{cartItem.selectedColor}</span>
                           <span className="text-coolgrey text-sm mt-1">
                             Selled by Adrielle

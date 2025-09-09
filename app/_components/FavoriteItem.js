@@ -11,9 +11,9 @@ function FavoriteItem({ favoriteItem, currentUser }) {
   const handleDisplayImage = (item) => {
     setColorSrc(item.selectedColorSrc);
     redirect(
-      `/shoes/${
-        favoriteItem.shoes.category
-      }/${favoriteItem.shoes.name.replaceAll(" ", "_")}`
+      `/${favoriteItem.items.itemType}/${
+        favoriteItem.items.category
+      }/${favoriteItem.items.name.replaceAll(" ", "_")}`
     );
   };
   return (
@@ -21,8 +21,8 @@ function FavoriteItem({ favoriteItem, currentUser }) {
       <li className="relative">
         <div className="absolute right-0 flex gap-1.5">
           <AddToCartIcon
-            name={favoriteItem.shoes.name}
-            item={favoriteItem.shoes}
+            name={favoriteItem.items.name}
+            item={favoriteItem.items}
             selectedSrc={favoriteItem.selectedColorSrc}
           />
           <ButtonForDeletingFavoriteItem
@@ -45,12 +45,12 @@ function FavoriteItem({ favoriteItem, currentUser }) {
       <div className="justify-center w-50 h-15 py-1.5 text-xl text-warmwhite">
         <li>
           <h2 className="font-bold text-lg text-deepgrey">
-            {favoriteItem.shoes.name}
+            {favoriteItem.items.name}
           </h2>
         </li>
         <li>
           <h3 className="font-medium text-base text-deepgrey">
-            {`${favoriteItem.shoes.price} ${favoriteItem.shoes.currency}`}
+            {`${favoriteItem.items.price} EUR`}
           </h3>
         </li>
       </div>

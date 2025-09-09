@@ -2,7 +2,10 @@
 import { useEffect, useState } from "react";
 import { StarIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { sendReview } from "../_lib/actions";
-import { getReviewsAndRatingsByUserAndProductName } from "../_lib/data-service";
+import {
+  deleteReviewsAndRatingsByUser,
+  getReviewsAndRatingsByUserAndProductName,
+} from "../_lib/data-service";
 import { usePathname } from "next/navigation";
 
 function ReviewAndRating({ productName, productImage, currentUser }) {

@@ -4,11 +4,10 @@ import DeliveryDetailsDiv from "./DeliveryDetailsDiv";
 import MainHeading from "./MainHeading";
 import Link from "next/link";
 import {
-  getShoesDetailsByCartTable,
+  getItemsDetailsByCartTable,
   insertOrderDetails,
   removeCartItemsAfterSentOrder,
 } from "../_lib/data-service";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 import { useCartItems } from "../_contextAPI/CartItemsContextApi";
 import OrderedProductsDetails from "./OrderedProductsDetails";
@@ -16,11 +15,10 @@ import OrderedProductsDetails from "./OrderedProductsDetails";
 function OrderDetails({ sessionUser }) {
   const [paymentMethod, setPaymentMethod] = useState("cashPayment");
   const [cartItems, setCartItems] = useState("");
-  const { setIsCart, totalProductsPrice, setTotalProductsPrice } =
-    useCartItems();
+  const { setIsCart, totalProductsPrice } = useCartItems();
   useEffect(() => {
     (async function loadCartItemsDetails() {
-      const cartItemsDetails = await getShoesDetailsByCartTable(
+      const cartItemsDetails = await getItemsDetailsByCartTable(
         sessionUser,
         localStorage.getItem("guestID")
       );
@@ -33,12 +31,12 @@ function OrderDetails({ sessionUser }) {
   const orderDate = new Date(date);
   orderDate.setDate(orderDate.getDate() + 3);
   const deliveryDate = orderDate.toLocaleDateString("en-CA");
-  console.log(cartItems);
+  //console.log(cartItems);
 
   const handleSendOrder = async () => {
     const products = cartItems.map((cartItem) => {
       return {
-        name: cartItem.shoes.name,
+        name: cartItem.items.name,
         size: cartItem.size,
         color: cartItem.selectedColor,
         image: cartItem.selectedColorSrc,

@@ -1,7 +1,7 @@
 import { supabase } from "./supabase";
 
-export async function getShoes() {
-  const { data, error } = await supabase.from("shoes").select("*").order("id");
+export async function getItems() {
+  const { data, error } = await supabase.from("items").select("*").order("id");
 
   if (error) {
     console.log(error);
@@ -10,9 +10,22 @@ export async function getShoes() {
   return data;
 }
 
-export async function getItemById(name) {
+export async function getAccessories() {
+  let { data, error } = await supabase
+    .from("accessories")
+    .select("*")
+    .order("id");
+
+  if (error) {
+    console.log(error);
+    throw new Error("Could not load accessories.");
+  }
+  return data;
+}
+
+export async function getItemByName(name) {
   const { data, error } = await supabase
-    .from("shoes")
+    .from("items")
     .select("*")
     .eq("name", name)
     .single();
@@ -23,7 +36,7 @@ export async function getItemById(name) {
   }
   return data;
 }
-
+/*
 export async function getImageByShoesName(name) {
   let { data, error } = await supabase
     .from("shoes")
@@ -36,7 +49,7 @@ export async function getImageByShoesName(name) {
   }
   return data;
 }
-
+*/
 export async function getFavoriteItems(logedInUser, guestID) {
   const { data, error } = await supabase
     .from("favorites")
@@ -240,6 +253,10 @@ export async function removeFavoriteItem(
     .eq("selectedColor", selectedColor)
     .eq("logedInUser", currentUser)
     .eq("guestID", guestID || "empty");
+  if (error) {
+    console.log(error);
+    throw new Error("Could not remove from favorites!");
+  }
 }
 
 export async function removeCartItem(
@@ -270,7 +287,7 @@ export async function removeCartItemsAfterSentOrder(email) {
     throw new Error("Could not remove items from carte after sending order");
   }
 }
-
+/*
 export async function getShoesById(favoriteID) {
   const { data, error } = await supabase
     .from("shoes")
@@ -282,8 +299,8 @@ export async function getShoesById(favoriteID) {
   }
   return data;
 }
-
-export async function getShoesDetailsByFavoriteTable(
+*/
+export async function getItemsDetailsByFavoriteTable(
   currentUserEmail,
   guestID
 ) {
@@ -292,7 +309,7 @@ export async function getShoesDetailsByFavoriteTable(
     .select()
     .eq("logedInUser", currentUserEmail)
     .eq("guestID", guestID || "empty")
-    .select(`"*","shoes"("*")`);
+    .select(`"*","items"("*")`);
 
   if (error) {
     console.log(error);
@@ -301,16 +318,16 @@ export async function getShoesDetailsByFavoriteTable(
   return data;
 }
 
-export async function getShoesDetailsByCartTable(currentUserEmail, guestID) {
+export async function getItemsDetailsByCartTable(currentUserEmail, guestID) {
   let { data, error } = await supabase
     .from("cart")
     .select()
     .eq("logedInUser", currentUserEmail)
     .eq("guestID", guestID || "empty")
-    .select(`"*","shoes"("*")`);
+    .select(`"*","items"("*")`);
   if (error) {
     console.log(error);
-    throw new Error("Could not load");
+    throw new Error("Could not load item details from cart table!");
   }
   return data;
 }

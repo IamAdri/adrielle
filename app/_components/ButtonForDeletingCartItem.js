@@ -13,7 +13,7 @@ function ButtonForDeletingCartItem({ item }) {
     console.log(targetedItem);
     (async function remove() {
       await removeCartItem(
-        item.shoes.name,
+        item.items.name,
         item.size,
         item.selectedColor,
         isCurrentUser,

@@ -1,13 +1,17 @@
-import HeelsCatalog from "@/app/_components/HeelsCatalog";
+import Catalog from "@/app/_components/Catalog";
 import MainHeading from "@/app/_components/MainHeading";
-import { getCategory } from "@/app/_lib/helper";
+import { getItems } from "@/app/_lib/data-service";
+import { getCategoryNameForHeading } from "@/app/_lib/helper";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
 async function Page({ params }) {
   const category = await params;
+  //const accessories = await getAccessories();
+  //console.log(accessories);
+  const shoes = await getItems();
   //console.log(Object.keys(category)[0]);
-  const heading = getCategory(category);
+  const heading = getCategoryNameForHeading(category);
   return (
     <div>
       <div className="flex justify-start ml-10 gap-1 items-center">
@@ -23,6 +27,7 @@ async function Page({ params }) {
         </Link>
       </div>
       <MainHeading>{heading}</MainHeading>
+      <Catalog category={category} productsData={shoes} />
     </div>
   );
 }

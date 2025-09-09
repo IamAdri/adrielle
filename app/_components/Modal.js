@@ -4,18 +4,17 @@ import ButtonForSize from "./ButtonForSize";
 import AddToCart from "./AddToCart";
 import Link from "next/link";
 import { useChooseSize } from "../_contextAPI/ChooseSizeContextApi";
-import { useShoesParams } from "../_contextAPI/ShoesParamsContextApi";
 import ModalAddCartSuccessfully from "./ModalAddCartSuccessfully";
+import { usePathname } from "next/navigation";
 
 function Modal({ setOpenModal, name, item, selectedColorSrc }) {
-  const { itemCategory } = useShoesParams();
   const {
     setClickedSize,
     setSameCartItem,
     addedToCartSuccessfully,
     setAddedToCartSuccessfully,
   } = useChooseSize();
-
+  const path = usePathname();
   const colorsAvailable = Object.keys(item.variants);
   const mainColorImage =
     selectedColorSrc === ""
@@ -45,11 +44,9 @@ function Modal({ setOpenModal, name, item, selectedColorSrc }) {
               x
             </button>
             {!addedToCartSuccessfully ? (
-              <div className="flex gap-2 items-center px-3">
+              <div className="flex gap-7 items-center px-3">
                 <div>
-                  <Link
-                    href={`/shoes/${itemCategory}/${name.replaceAll(" ", "_")}`}
-                  >
+                  <Link href={`${path}/${name.replaceAll(" ", "_")}`}>
                     <Image
                       src={mainColorImage}
                       sizes="100vw"
@@ -62,8 +59,6 @@ function Modal({ setOpenModal, name, item, selectedColorSrc }) {
 
                 <div className="flex flex-col items-center">
                   <h2 className="font-bold text-xl">{name}</h2>
-                  <h3 className="mt-5 mb-1 font-medium">Choose size</h3>
-                  <ButtonForSize />
                   <AddToCart item={item} selectedColorSrc={selectedColorSrc} />
                 </div>
               </div>

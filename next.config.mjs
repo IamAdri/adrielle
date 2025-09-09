@@ -22,6 +22,18 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "ydghorluedeqhuwnokqn.supabase.co",
+        port: "",
+        pathname: "/storage/v1/object/sign/bags/**",
+      },
+      {
+        protocol: "https",
+        hostname: "ydghorluedeqhuwnokqn.supabase.co",
+        port: "",
+        pathname: "/storage/v1/object/sign/belts/**",
+      },
+      {
+        protocol: "https",
         hostname: "lh3.googleusercontent.com",
         port: "",
         pathname: "**",

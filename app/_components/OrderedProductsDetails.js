@@ -7,7 +7,7 @@ function OrderedProductsDetails({ cartItems }) {
         cartItems.map((cartItem) => {
           //console.log(cartItem);
           return (
-            <ul key={`${cartItem.shoes.id}, ${cartItem.size}, ${cartItem.id}`}>
+            <ul key={`${cartItem.items.id}, ${cartItem.size}, ${cartItem.id}`}>
               <li className="flex gap-5">
                 <div className="w-[150px] h-[150px]">
                   <Image
@@ -20,7 +20,7 @@ function OrderedProductsDetails({ cartItems }) {
 
                 <div className="flex flex-wrap gap-5  lg:gap-25 w-full">
                   <div className="flex flex-col items-start">
-                    <h3>{cartItem.shoes.name}</h3>
+                    <h3>{cartItem.items.name}</h3>
                     <span>{`size: ${cartItem.size}`}</span>
                     <span>{cartItem.selectedColor}</span>
                     <span>{`quantity: ${cartItem.quantity}`}</span>
@@ -29,7 +29,7 @@ function OrderedProductsDetails({ cartItems }) {
                     </span>
                   </div>
 
-                  <span className="font-medium text-base text-deepgrey text-end mr-15">{`${cartItem.pricePerQuantity} ${cartItem.shoes.currency}`}</span>
+                  <span className="font-medium text-base text-deepgrey text-end mr-15">{`${cartItem.pricePerQuantity} EUR`}</span>
                 </div>
               </li>
             </ul>

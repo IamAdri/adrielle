@@ -6,14 +6,17 @@ import {
   updateCartPricePerQuantityColumn,
   updateCartQuantityColumn,
 } from "../_lib/data-service";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCartItems } from "../_contextAPI/CartItemsContextApi";
 import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
 import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
+import ButtonForSize from "./ButtonForSize";
+import Drawer from "./Drawer";
 
 function AddToCart({ item, selectedColorSrc }) {
   const {
     clickedSize,
+    setClickedSize,
     isNotSelected,
     setIsNotSelected,
     sameCartItem,
@@ -27,7 +30,7 @@ function AddToCart({ item, selectedColorSrc }) {
   const { colorSrc, setIsClickedImage } = useChangingColor();
   const colorsAvailable = Object.keys(item.variants);
   const mainColorImage = item.variants[colorsAvailable[0]].images[0];
-  console.log(selectedColorSrc);
+  //console.log(selectedColorSrc);
   //const displayedImageInCart = colorSrc !== "" ? colorSrc : mainColorImage;
   const displayedImageInCart =
     colorSrc === ""
@@ -43,7 +46,8 @@ function AddToCart({ item, selectedColorSrc }) {
   useEffect(() => {
     setIsClickedImage("");
   }, []);
-
+  const buttonSizeRef = useRef(null);
+  const buttonAddToCartRef = useRef(null);
   useEffect(() => {
     (async function insert() {
       if (!sameCartItem && sameCartItem !== "") {
@@ -92,6 +96,24 @@ function AddToCart({ item, selectedColorSrc }) {
   }, [sameCartItem, clickedSize, quantity, pricePerQuantity]);
 
   useEffect(() => {
+    function handleClick(e) {
+      if (buttonSizeRef.current === null) return;
+      if (
+        !Array.from(buttonSizeRef.current.parentNode.children).includes(
+          e.target
+        ) &&
+        e.target !== buttonAddToCartRef.current
+      ) {
+        return setClickedSize("");
+      }
+    }
+    window.addEventListener("click", handleClick);
+    return () => {
+      window.removeEventListener("click", handleClick);
+    };
+  });
+
+  useEffect(() => {
     async function loadCartItems() {
       const cartItems = await getCartItems(
         isCurrentUser,
@@ -107,8 +129,8 @@ function AddToCart({ item, selectedColorSrc }) {
       isCurrentUser,
       localStorage.getItem("guestID")
     );
-    if (!clickedSize) setIsNotSelected(true);
-    if (clickedSize) {
+    if (!clickedSize && item.itemType !== "accessories") setIsNotSelected(true);
+    if (clickedSize || item.itemType === "accessories") {
       const isItemInCart = cartItems.filter((itemFiltered) => {
         return (
           item.id === itemFiltered.cart_id &&
@@ -123,12 +145,21 @@ function AddToCart({ item, selectedColorSrc }) {
         setSameCartItem(false);
       }
     }
-    console.log(colorSrc, item);
   };
 
   return (
     <div className="flex flex-col items-start gap-1">
+      {item.itemType === "accessories" ? null : (
+        <div className="w-fit">
+          <div className="flex mt-10 justify-between">
+            <p className="text-left">Choose your size</p>
+            <Drawer />
+          </div>
+          <ButtonForSize buttonSizeRef={buttonSizeRef} />
+        </div>
+      )}
       <button
+        ref={buttonAddToCartRef}
         className="bg-deepgrey mt-10 justify-center w-45 h-15 py-1.5 cursor-pointer font-bold text-lg text-warmwhite hover:text-xl hover:w-50"
         onClick={handleAddToCart}
       >
@@ -144,3 +175,18 @@ function AddToCart({ item, selectedColorSrc }) {
 }
 
 export default AddToCart;
+/*<div className="flex flex-col items-start gap-1">
+      <button
+        className="bg-deepgrey mt-10 justify-center w-45 h-15 py-1.5 cursor-pointer font-bold text-lg text-warmwhite hover:text-xl hover:w-50"
+        onClick={handleAddToCart}
+      >
+        Add to cart
+      </button>
+      {isNotSelected && (
+        <p>
+          Please choose required size!<span className="text-red">*</span>
+        </p>
+      )}
+    </div>*/
+
+/**/

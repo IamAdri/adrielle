@@ -3,14 +3,23 @@ import Image from "next/image";
 import { useRadioValue } from "../_contextAPI/RadioValueContextApi";
 import AddToFavorites from "./AddToFavorites";
 import AddToCartIcon from "./AddToCartIcon";
-import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
-import { redirect, usePathname } from "next/navigation";
+import { useCategoryParams } from "../_contextAPI/CategoryParamsProvider";
 import { useEffect } from "react";
+import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
+import { redirect } from "next/navigation";
 
-function GridSection({ selectItemsOfSameCategory, currentUser }) {
+function GridSectionOriginal({
+  selectItemsOfSameCategory,
+  category,
+  currentUser,
+}) {
   const { radioValue } = useRadioValue();
+  const { setItemCategory } = useCategoryParams();
   const { setColorSrc, setIsClickedImage } = useChangingColor();
-  const path = usePathname();
+  useEffect(() => {
+    setItemCategory(category.shoesCategory);
+  }, []);
+
   const ascendingOrder = selectItemsOfSameCategory
     .slice()
     .sort(function (a, b) {
@@ -30,49 +39,50 @@ function GridSection({ selectItemsOfSameCategory, currentUser }) {
       ? descendingOrder
       : selectItemsOfSameCategory;
 
-  useEffect(() => {
-    setColorSrc("");
-  }, []);
-
   const handleClickOnMainImage = (item) => {
     setColorSrc("");
     setIsClickedImage("");
-    redirect(`${path}/${item.name.replaceAll(" ", "_")}`);
+    redirect(
+      `/shoes/${category.shoesCategory}/${item.name.replaceAll(" ", "_")}`
+    );
   };
 
   const handleClickOnImagesForColors = (e, item) => {
     setColorSrc(e.target.src);
     setIsClickedImage("");
-    redirect(`${path}/${item.name.replaceAll(" ", "_")}`);
+    redirect(
+      `/shoes/${category.shoesCategory}/${item.name.replaceAll(" ", "_")}`
+    );
   };
+
   return (
     <div className="grid grid-flow-row grid-cols-4 gap-x-0.5 justify-items-center mt-5">
-      {chooseOrder.map((item) => {
-        const colorsAvailable = Object.keys(item.variants);
-        const mainColorImage = item.variants[colorsAvailable[0]].images;
+      {chooseOrder.map((heel) => {
+        const colorsAvailable = Object.keys(heel.variants);
+        const mainColorImage = heel.variants[colorsAvailable[0]].images;
         return (
           <div
-            key={`${item.id}, ${item.mainColorImage}`}
+            key={`${heel.id}, ${heel.mainColorImage}`}
             className="flex flex-col items-center group relative"
           >
             <div className="relative">
               <div className="absolute right-0 flex gap-1.5 ">
                 <AddToFavorites
                   size="7"
-                  itemID={item.id}
-                  name={item.name}
-                  item={item}
+                  itemID={heel.id}
+                  name={heel.name}
+                  item={heel}
                   currentUser={currentUser}
                 />
-                <AddToCartIcon itemID={item.id} name={item.name} item={item} />
+                <AddToCartIcon itemID={heel.id} name={heel.name} item={heel} />
               </div>
               <button
                 className="cursor-pointer"
-                onClick={() => handleClickOnMainImage(item)}
+                onClick={() => handleClickOnMainImage(heel)}
               >
                 <Image
                   src={mainColorImage[0]}
-                  alt="Main image of the pair of items from catalog."
+                  alt="Main image of the pair of heels from catalog."
                   width={350}
                   height={350}
                 />
@@ -100,7 +110,7 @@ function GridSection({ selectItemsOfSameCategory, currentUser }) {
                 };
                 return (
                   <div
-                    key={`${item.id}, ${color}`}
+                    key={`${heel.id}, ${color}`}
                     className={`rounded-full ${colorMap[color]} w-5 h-5 border border-deepgrey group-hover:opacity-0 group-hover:h-0 my-3 group-hover:my-0`}
                   ></div>
                 );
@@ -112,23 +122,23 @@ function GridSection({ selectItemsOfSameCategory, currentUser }) {
                   <button
                     className="cursor-pointer"
                     key={color}
-                    onClick={(e) => handleClickOnImagesForColors(e, item)}
+                    onClick={(e) => handleClickOnImagesForColors(e, heel)}
                   >
                     <div className="w-[75px] h-[75px]">
                       <Image
-                        src={item.variants[color].images[0]}
-                        overrideSrc={item.variants[color].images[0]}
+                        src={heel.variants[color].images[0]}
+                        overrideSrc={heel.variants[color].images[0]}
                         width={75}
                         height={75}
-                        alt="Colors available for the pair of items from catalog."
+                        alt="Colors available for the pair of heels from catalog."
                       />
                     </div>
                   </button>
                 );
               })}
             </div>
-            <h3 className="font-semibold">{item.name}</h3>
-            <h4 className="font-medium mb-15 group-hover:mb-0">{`${item.price} EUR`}</h4>
+            <h3 className="font-semibold">{heel.name}</h3>
+            <h4 className="font-medium mb-15 group-hover:mb-0">{`${heel.price} ${heel.currency}`}</h4>
           </div>
         );
       })}
@@ -136,4 +146,4 @@ function GridSection({ selectItemsOfSameCategory, currentUser }) {
   );
 }
 
-export default GridSection;
+export default GridSectionOriginal;

@@ -26,7 +26,7 @@ function ButtonForAddingQuantity({ cartItem }) {
       setIsMaxDisabled(false);
     }
     (async function updateQuantity() {
-      setPrice(cartItem.shoes.price * quantity);
+      setPrice(cartItem.items.price * quantity);
       await updateCartQuantityColumn(
         cartItem.name,
         cartItem.size,
@@ -84,7 +84,7 @@ function ButtonForAddingQuantity({ cartItem }) {
           +
         </button>
       </div>
-      <span className="font-medium text-base text-deepgrey text-end mr-15">{`${price} ${cartItem.shoes.currency}`}</span>
+      <span className="font-medium text-base text-deepgrey text-end mr-15">{`${price} EUR`}</span>
     </div>
   );
 }

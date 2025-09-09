@@ -10,7 +10,6 @@ function Page() {
       <h1 className="text-3xl font-bold">Accessories</h1>
       <div className="grid grid-flow-col justify-center gap-10 mt-15">
         <OverlayOnHover category="accessories" srcName="bags" alt="A bag" />
-
         <OverlayOnHover category="accessories" srcName="belts" alt="A belt" />
         <OverlayOnHover
           category="newCollection"

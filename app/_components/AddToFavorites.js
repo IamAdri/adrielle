@@ -20,7 +20,7 @@ function AddToFavorites({
 }) {
   const { isFavorite, setIsFavorite } = useFavoriteItems();
   const [isClicked, setIsClicked] = useState(false);
-  const { colorSrc } = useChangingColor();
+  const { colorSrc, setColorSrc, clickedImage } = useChangingColor();
   const colorsAvailable = Object.keys(item.variants);
   const mainColorImage = item.variants[colorsAvailable[0]].images[0];
   const displayedImageInFavorite = colorSrc !== "" ? colorSrc : mainColorImage;
@@ -46,6 +46,7 @@ function AddToFavorites({
     loadFavoriteItems();
   }, [isFavorite, isClicked, colorSrc]);
   async function handleFavoriteItems(e) {
+    console.log(colorSrc, clickedImage);
     setIsClicked(!isClicked);
     if (!isClicked) {
       // console.log(currentUser);
@@ -57,6 +58,7 @@ function AddToFavorites({
         currentUser,
         localStorage.getItem("guestID")
       );
+
       const updatedArray = await getFavoriteItems(
         currentUser,
         localStorage.getItem("guestID")
