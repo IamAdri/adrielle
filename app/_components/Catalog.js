@@ -8,10 +8,12 @@ async function Catalog({ category, productsData }) {
   const session = await auth();
   const currentUser = session?.user.email || "not loged in";
   const categoryName = getCategoryName(category);
-  //  console.log(categoryName);
+  console.log(Object.keys(category)[0]);
   //console.log(productsData);
   const selectItemsOfSameCategory = productsData.filter((item) =>
-    item.category.includes(categoryName)
+    Object.keys(category)[0] === "shoesCategory"
+      ? item.category.includes(categoryName) && item.itemType === "shoes"
+      : item.category.includes(categoryName) && item.itemType === "accessories"
   );
 
   return (

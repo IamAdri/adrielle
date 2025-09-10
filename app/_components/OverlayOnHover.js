@@ -24,7 +24,11 @@ function OverlayOnHover({
           href={
             category === "newCollection"
               ? `/${category}`
-              : `/${category}/${srcName}`
+              : `/${category}/${
+                  srcName === "shoes" || srcName === "accessories"
+                    ? "newCollection"
+                    : srcName
+                }`
           }
           className={`bg-deepgrey text-warmwhite px-15 py-5 hover:bg-gray-950 hover:text-xl`}
         >
@@ -38,3 +42,8 @@ function OverlayOnHover({
 }
 
 export default OverlayOnHover;
+
+/* {category === "newCollection"
+            ? "New collection"
+            : srcName.charAt(0).toUpperCase() + srcName.slice(1)}
+*/

@@ -8,6 +8,7 @@ import Link from "next/link";
 async function Page({ params }) {
   const category = await params;
   const heading = getCategoryNameForHeading(category);
+
   //Added now!
   const shoes = await getItems();
   return (
