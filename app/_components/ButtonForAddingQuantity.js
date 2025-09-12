@@ -26,7 +26,7 @@ function ButtonForAddingQuantity({ cartItem }) {
       setIsMaxDisabled(false);
     }
     (async function updateQuantity() {
-      setPrice(cartItem.items.price * quantity);
+      setPrice(cartItem.initialPrice * quantity);
       await updateCartQuantityColumn(
         cartItem.name,
         cartItem.size,
@@ -60,7 +60,7 @@ function ButtonForAddingQuantity({ cartItem }) {
     setQuantity(quantity + 1);
     setIsQuantityChanged(isQuantityChanged + 1);
   };
-  //console.log(isQuantityChanged);
+
   return (
     <div className="flex items-end justify-between w-full">
       <div className="border border-coolgrey flex gap-3 px-3 items-center mt-3">
@@ -84,7 +84,16 @@ function ButtonForAddingQuantity({ cartItem }) {
           +
         </button>
       </div>
-      <span className="font-medium text-base text-deepgrey text-end mr-15">{`${price} EUR`}</span>
+      {cartItem.items.discount !== null ? (
+        <div className="font-medium text-base flex gap-1.5 justify-center">
+          <h4>{`${price} EUR`}</h4>
+          <h4 className="text-coolgrey line-through">{`${
+            cartItem.items.price * quantity
+          } EUR`}</h4>
+        </div>
+      ) : (
+        <h4 className="font-medium text-base">{`${price} EUR`}</h4>
+      )}
     </div>
   );
 }

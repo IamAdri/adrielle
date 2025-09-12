@@ -7,10 +7,7 @@ import Link from "next/link";
 
 async function Page({ params }) {
   const category = await params;
-  //const accessories = await getAccessories();
-  //console.log(accessories);
   const shoes = await getItems();
-  //console.log(Object.keys(category)[0]);
   const heading = getCategoryNameForHeading(category);
   return (
     <div>
@@ -33,11 +30,3 @@ async function Page({ params }) {
 }
 
 export default Page;
-/*<Link
-          href={`/shoes/${category.shoesCategory}`}
-          className="font-medium hover:underline "
-        >
-          {heading}
-        </Link>
-         <MainHeading>{heading}</MainHeading>
-      <HeelsCatalog category={category} />*/

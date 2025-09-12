@@ -7,28 +7,40 @@ import { redirect } from "next/navigation";
 
 function FavoriteItem({ favoriteItem, currentUser }) {
   const { setColorSrc } = useChangingColor();
-  //console.log(favoriteItem);
   const handleDisplayImage = (item) => {
     setColorSrc(item.selectedColorSrc);
     redirect(
       `/${favoriteItem.items.itemType}/${
-        favoriteItem.items.category
+        favoriteItem.items.category[0]
       }/${favoriteItem.items.name.replaceAll(" ", "_")}`
     );
   };
+  const discount =
+    favoriteItem.items.discount !== null
+      ? (favoriteItem.items.price * favoriteItem.items.discount) / 100
+      : null;
+  const priceAfterDiscount = favoriteItem.items.price - discount;
+
   return (
     <ul className="flex flex-col items-center gap-5 ">
       <li className="relative">
-        <div className="absolute right-0 flex gap-1.5">
-          <AddToCartIcon
-            name={favoriteItem.items.name}
-            item={favoriteItem.items}
-            selectedSrc={favoriteItem.selectedColorSrc}
-          />
-          <ButtonForDeletingFavoriteItem
-            item={favoriteItem}
-            currentUser={currentUser}
-          />
+        <div className="absolute right-0 flex-col gap-1.5">
+          <div className="flex">
+            <AddToCartIcon
+              name={favoriteItem.items.name}
+              item={favoriteItem.items}
+              selectedSrc={favoriteItem.selectedColorSrc}
+            />
+            <ButtonForDeletingFavoriteItem
+              item={favoriteItem}
+              currentUser={currentUser}
+            />
+          </div>
+          {favoriteItem.items.discount !== null && (
+            <div className="bg-lavender font-bold text-warmwhite text-xl">
+              -{favoriteItem.items.discount}%
+            </div>
+          )}
         </div>
         <button
           className="peer cursor-pointer"
@@ -42,16 +54,19 @@ function FavoriteItem({ favoriteItem, currentUser }) {
           />
         </button>
       </li>
-      <div className="justify-center w-50 h-15 py-1.5 text-xl text-warmwhite">
+      <div className="justify-center w-50 h-15 py-1.5 text-xl">
         <li>
-          <h2 className="font-bold text-lg text-deepgrey">
-            {favoriteItem.items.name}
-          </h2>
+          <h2 className="font-bold text-lg">{favoriteItem.items.name}</h2>
         </li>
         <li>
-          <h3 className="font-medium text-base text-deepgrey">
-            {`${favoriteItem.items.price} EUR`}
-          </h3>
+          {favoriteItem.items.discount !== null ? (
+            <div className="font-medium text-base flex gap-1.5 justify-center">
+              <h4>{`${priceAfterDiscount} EUR`}</h4>
+              <h4 className="text-coolgrey line-through">{`${favoriteItem.items.price} EUR`}</h4>
+            </div>
+          ) : (
+            <h4 className="font-medium text-base">{`${favoriteItem.items.price} EUR`}</h4>
+          )}
         </li>
       </div>
     </ul>
@@ -59,16 +74,3 @@ function FavoriteItem({ favoriteItem, currentUser }) {
 }
 
 export default FavoriteItem;
-/* <Link
-          href={`/shoes/${
-            favoriteItem.shoes.category
-          }/${favoriteItem.shoes.name.replaceAll(" ", "_")}`}
-          className="peer"
-        >
-          <Image
-            src={favoriteItem.selectedColorSrc}
-            width={250}
-            height={250}
-            alt="Main image for favorite item."
-          />
-        </Link>*/

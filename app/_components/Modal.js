@@ -1,13 +1,12 @@
 "use client";
 import Image from "next/image";
-import ButtonForSize from "./ButtonForSize";
 import AddToCart from "./AddToCart";
 import Link from "next/link";
 import { useChooseSize } from "../_contextAPI/ChooseSizeContextApi";
 import ModalAddCartSuccessfully from "./ModalAddCartSuccessfully";
 import { usePathname } from "next/navigation";
 
-function Modal({ setOpenModal, name, item, selectedColorSrc }) {
+function Modal({ setOpenModal, item, selectedColorSrc, priceAfterDiscount }) {
   const {
     setClickedSize,
     setSameCartItem,
@@ -27,7 +26,7 @@ function Modal({ setOpenModal, name, item, selectedColorSrc }) {
     setClickedSize("");
     setAddedToCartSuccessfully(false);
   };
-  console.log(item);
+  // console.log(item);
   return (
     <div className="fixed inset-0 z-10 overflow-y-auto">
       <div
@@ -46,7 +45,7 @@ function Modal({ setOpenModal, name, item, selectedColorSrc }) {
             {!addedToCartSuccessfully ? (
               <div className="flex gap-7 items-center px-3">
                 <div>
-                  <Link href={`${path}/${name.replaceAll(" ", "_")}`}>
+                  <Link href={`${path}/${item.name.replaceAll(" ", "_")}`}>
                     <Image
                       src={mainColorImage}
                       sizes="100vw"
@@ -58,8 +57,12 @@ function Modal({ setOpenModal, name, item, selectedColorSrc }) {
                 </div>
 
                 <div className="flex flex-col items-center">
-                  <h2 className="font-bold text-xl">{name}</h2>
-                  <AddToCart item={item} selectedColorSrc={selectedColorSrc} />
+                  <h2 className="font-bold text-xl">{item.name}</h2>
+                  <AddToCart
+                    item={item}
+                    selectedColorSrc={selectedColorSrc}
+                    priceAfterDiscount={priceAfterDiscount}
+                  />
                 </div>
               </div>
             ) : (

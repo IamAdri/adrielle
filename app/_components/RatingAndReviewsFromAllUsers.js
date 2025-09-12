@@ -41,7 +41,9 @@ async function RatingAndReviewsFromAllUsers({ itemName }) {
                   <span>{review.userName}</span>
                   <div className="flex flex-col items-start gap-3">
                     <StaticRatingStars rating={review.rating} />
-                    <p className="text-left w-95 italic">"{review.review}"</p>
+                    <p className="text-left w-95 italic">
+                      {review.review === "" ? null : `"${review.review}"`}
+                    </p>
                   </div>
                 </div>
               );

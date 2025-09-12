@@ -8,10 +8,7 @@ import { redirect } from "next/navigation";
 import MakeOrderBox from "./MakeOrderBox";
 import { PricePerQuantityProvider } from "../_contextAPI/PricePerQuantityContextApi";
 import { useEffect, useState } from "react";
-import {
-  getItemsDetailsByCartTable,
-  getShoesDetailsByCartTable,
-} from "../_lib/data-service";
+import { getItemsDetailsByCartTable } from "../_lib/data-service";
 
 function DisplayCartItems({ currentUser }) {
   const { setColorSrc } = useChangingColor();
@@ -28,7 +25,10 @@ function DisplayCartItems({ currentUser }) {
   const handleDisplayImage = (item) => {
     setColorSrc(item.selectedColorSrc);
     redirect(
-      `/shoes/${item.shoes.category[0]}/${item.name.replaceAll(" ", "_")}`
+      `/${item.items.itemType}/${item.items.category[0]}/${item.name.replaceAll(
+        " ",
+        "_"
+      )}`
     );
   };
   return (
@@ -45,23 +45,33 @@ function DisplayCartItems({ currentUser }) {
             {cartItems.length > 0 &&
               cartItems.map((cartItem) => {
                 //console.log(cartItem);
+
                 return (
                   <ul
                     className="flex flex-col gap-15 mt-15"
                     key={`${cartItem.items.id}, ${cartItem.size}, ${cartItem.id}`}
                   >
                     <li className="flex gap-15">
-                      <button
-                        onClick={() => handleDisplayImage(cartItem)}
-                        className="cursor-pointer"
-                      >
-                        <Image
-                          src={cartItem.selectedColorSrc}
-                          width={250}
-                          height={250}
-                          alt="Main image for favorite item."
-                        />
-                      </button>
+                      <div className="relative">
+                        <div className="absolute right-0 flex gap-1.5 ">
+                          {cartItem.items.discount !== null && (
+                            <div className="bg-lavender font-bold text-warmwhite text-xl">
+                              -{cartItem.items.discount}%
+                            </div>
+                          )}
+                        </div>
+                        <button
+                          onClick={() => handleDisplayImage(cartItem)}
+                          className="cursor-pointer"
+                        >
+                          <Image
+                            src={cartItem.selectedColorSrc}
+                            width={250}
+                            height={250}
+                            alt="Main image for favorite item."
+                          />
+                        </button>
+                      </div>
 
                       <div className="flex flex-col gap-10 w-full">
                         <div className="flex flex-col items-start">

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
 import { useRadioValue } from "../_contextAPI/RadioValueContextApi";
 import { ArrowDownIcon } from "@heroicons/react/24/solid";
+import { currentPageAtom, sliceStartAtom } from "../storage/atoms";
+import { useAtom } from "jotai";
 
 function SortingItems() {
   const { radioValue, setRadioValue } = useRadioValue();

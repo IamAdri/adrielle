@@ -3,17 +3,20 @@ import AddToCartFromItemPage from "./AddToCartFromItemPage";
 import AddToFavorites from "./AddToFavorites";
 import ButtonForChangingColor from "./ButtonForChangingColor";
 import ButtonForImages from "./ButtonForImages";
-import ButtonForSize from "./ButtonForSize";
-import Drawer from "./Drawer";
 import MainHeading from "./MainHeading";
 import RatingAndReviewsFromAllUsers from "./RatingAndReviewsFromAllUsers";
 import ReviewAndRating from "./ReviewAndRating";
+import Link from "next/link";
 
 async function ItemPageDetails({ item, itemName }) {
   const session = await auth();
-  //console.log(item);
+  console.log(item);
   const currentUser = session?.user.email || "not loged in";
   const colorsAvailable = Object.keys(item.variants);
+  const discount =
+    item.discount !== null ? (item.price * item.discount) / 100 : null;
+  const priceAfterDiscount = item.price - discount;
+  console.log(item.discount);
   return (
     <>
       <div>
@@ -36,8 +39,20 @@ async function ItemPageDetails({ item, itemName }) {
                 currentUser={currentUser}
               />
             </div>
+            {item.discount !== null ? (
+              <div className="flex flex-col">
+                <p className="flex font-bold mt-1 text-left gap-3 items-end">
+                  <span className="text-lavender text-xl">
+                    -{item.discount}%
+                  </span>
+                  <span className="text-coolgrey line-through">{`${item.price} EUR`}</span>
+                </p>
+                <span className="font-bold text-2xl mt-1 text-left">{`${priceAfterDiscount} EUR`}</span>
+              </div>
+            ) : (
+              <span className="font-bold text-2xl mt-1 text-left">{`${priceAfterDiscount} EUR`}</span>
+            )}
 
-            <h4 className="font-bold text-2xl mt-1 text-left">{`${item.price} EUR`}</h4>
             <p className="mt-10 text-left lg:w-125 w-100">{item.description}</p>
             <p className="mt-10 text-left">Colors available</p>
             <div className="flex mt-2">
@@ -53,7 +68,10 @@ async function ItemPageDetails({ item, itemName }) {
             </div>
 
             <div className="w-fit">
-              <AddToCartFromItemPage item={item} />
+              <AddToCartFromItemPage
+                item={item}
+                priceAfterDiscount={priceAfterDiscount}
+              />
             </div>
           </div>
         </div>
@@ -63,7 +81,7 @@ async function ItemPageDetails({ item, itemName }) {
           itemName={itemName}
           currentUser={currentUser}
         />
-        {currentUser !== "not loged in" && (
+        {currentUser !== "not loged in" ? (
           <div className="flex flex-col items-center gap-7">
             <MainHeading>My review</MainHeading>
             <ReviewAndRating
@@ -71,6 +89,16 @@ async function ItemPageDetails({ item, itemName }) {
               productImage={item.variants[colorsAvailable[0]].images[0]}
               currentUser={currentUser}
             />
+          </div>
+        ) : (
+          <div className="flex flex-col items-center gap-7">
+            <MainHeading>Want to write a review?</MainHeading>
+            <Link
+              className="bg-lavenderhighlight rounded-sm border-2 border-darklavender font-semibold px-3 py-1 cursor-pointer text-base text-warmwhite hover:text-white"
+              href="/login"
+            >
+              Log in to continue!
+            </Link>
           </div>
         )}
       </div>

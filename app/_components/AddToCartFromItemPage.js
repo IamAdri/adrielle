@@ -3,7 +3,11 @@ import { useChooseSize } from "../_contextAPI/ChooseSizeContextApi";
 import AddToCart from "./AddToCart";
 import ModalAddCartSuccessfully from "./ModalAddCartSuccessfully";
 
-function AddToCartFromItemPage({ item, selectedColorSrc = "" }) {
+function AddToCartFromItemPage({
+  item,
+  selectedColorSrc = "",
+  priceAfterDiscount,
+}) {
   const {
     addedToCartSuccessfully,
     setSameCartItem,
@@ -19,7 +23,11 @@ function AddToCartFromItemPage({ item, selectedColorSrc = "" }) {
 
   return (
     <div>
-      <AddToCart item={item} selectedColorSrc={selectedColorSrc} />
+      <AddToCart
+        item={item}
+        selectedColorSrc={selectedColorSrc}
+        priceAfterDiscount={priceAfterDiscount}
+      />
       {addedToCartSuccessfully && (
         <ModalAddCartSuccessfully closeCartModal={closeSmallCartModal} />
       )}

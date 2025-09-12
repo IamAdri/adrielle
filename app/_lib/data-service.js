@@ -225,6 +225,7 @@ export async function insertCartItem(
         size: size,
         quantity: 1,
         pricePerQuantity: price,
+        initialPrice: price,
         selectedColorSrc: selectedColorSrc,
         selectedColor: selectedColor,
         logedInUser: currentUser,
@@ -471,7 +472,8 @@ export async function getOrdersDetails(sessionUser) {
   const { data, error } = await supabase
     .from("orders")
     .select("*")
-    .eq("email", sessionUser);
+    .eq("email", sessionUser)
+    .order("created_at");
 
   if (error) {
     console.log(error);

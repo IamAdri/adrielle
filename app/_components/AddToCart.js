@@ -13,7 +13,7 @@ import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
 import ButtonForSize from "./ButtonForSize";
 import Drawer from "./Drawer";
 
-function AddToCart({ item, selectedColorSrc }) {
+function AddToCart({ item, selectedColorSrc, priceAfterDiscount }) {
   const {
     clickedSize,
     setClickedSize,
@@ -30,8 +30,6 @@ function AddToCart({ item, selectedColorSrc }) {
   const { colorSrc, setIsClickedImage } = useChangingColor();
   const colorsAvailable = Object.keys(item.variants);
   const mainColorImage = item.variants[colorsAvailable[0]].images[0];
-  //console.log(selectedColorSrc);
-  //const displayedImageInCart = colorSrc !== "" ? colorSrc : mainColorImage;
   const displayedImageInCart =
     colorSrc === ""
       ? selectedColorSrc === ""
@@ -55,7 +53,7 @@ function AddToCart({ item, selectedColorSrc }) {
           item.name,
           item.id,
           clickedSize,
-          item.price,
+          priceAfterDiscount,
           displayedImageInCart,
           chooseColor,
           isCurrentUser,
@@ -69,7 +67,7 @@ function AddToCart({ item, selectedColorSrc }) {
         setAddedToCartSuccessfully(true);
       }
       if (sameCartItem) {
-        setPricePerQuantity(item.price * quantity);
+        setPricePerQuantity(priceAfterDiscount * quantity);
         await updateCartQuantityColumn(
           item.name,
           clickedSize,
@@ -146,7 +144,7 @@ function AddToCart({ item, selectedColorSrc }) {
       }
     }
   };
-
+  console.log(priceAfterDiscount);
   return (
     <div className="flex flex-col items-start gap-1">
       {item.itemType === "accessories" ? null : (
@@ -175,18 +173,3 @@ function AddToCart({ item, selectedColorSrc }) {
 }
 
 export default AddToCart;
-/*<div className="flex flex-col items-start gap-1">
-      <button
-        className="bg-deepgrey mt-10 justify-center w-45 h-15 py-1.5 cursor-pointer font-bold text-lg text-warmwhite hover:text-xl hover:w-50"
-        onClick={handleAddToCart}
-      >
-        Add to cart
-      </button>
-      {isNotSelected && (
-        <p>
-          Please choose required size!<span className="text-red">*</span>
-        </p>
-      )}
-    </div>*/
-
-/**/

@@ -3,6 +3,7 @@ import { RadioValueProvider } from "../_contextAPI/RadioValueContextApi";
 import { auth } from "../_lib/auth";
 import { getCategoryName } from "../_lib/helper";
 import GridSection from "./GridSection";
+import Pagination from "./Pagination";
 
 async function Catalog({ category, productsData }) {
   const session = await auth();

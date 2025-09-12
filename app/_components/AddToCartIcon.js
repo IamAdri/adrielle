@@ -1,11 +1,11 @@
 "use client";
-import { ShoppingBagIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import Modal from "./Modal";
 import { useChooseSize } from "../_contextAPI/ChooseSizeContextApi";
 import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
 
-function AddToCartIcon({ name, item, selectedSrc = "" }) {
+function AddToCartIcon({ item, selectedSrc = "", priceAfterDiscount }) {
   const [isModalOpened, setIsModalOpened] = useState(false);
   const { setSameCartItem, setClickedSize, setAddedToCartSuccessfully } =
     useChooseSize();
@@ -27,9 +27,9 @@ function AddToCartIcon({ name, item, selectedSrc = "" }) {
       {isModalOpened && (
         <Modal
           setOpenModal={setIsModalOpened}
-          name={name}
           item={item}
           selectedColorSrc={selectedSrc}
+          priceAfterDiscount={priceAfterDiscount}
         />
       )}
     </div>

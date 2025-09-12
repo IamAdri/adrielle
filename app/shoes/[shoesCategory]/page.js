@@ -1,6 +1,6 @@
 import Catalog from "@/app/_components/Catalog";
 import MainHeading from "@/app/_components/MainHeading";
-import { getItems } from "@/app/_lib/data-service";
+import { getItemByName, getItems } from "@/app/_lib/data-service";
 import { getCategoryNameForHeading } from "@/app/_lib/helper";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
@@ -8,8 +8,6 @@ import Link from "next/link";
 async function Page({ params }) {
   const category = await params;
   const heading = getCategoryNameForHeading(category);
-
-  //Added now!
   const shoes = await getItems();
   return (
     <div>

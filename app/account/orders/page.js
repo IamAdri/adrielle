@@ -18,18 +18,19 @@ async function Orders() {
             <div key={order.id} className="bg-lightnude p-5 w-200">
               <div className="flex justify-between">
                 <h2 className="font-semibold">Order No. {order.id} </h2>
-                <ul className="flex gap-3">
-                  <li className="text-coolgrey">Sent: {order.created_at}</li>
-                  <li className="text-coolgrey">
+                <ul className="flex gap-3 text-coolgrey">
+                  <li>Sent: {order.created_at}</li>
+                  <li>
                     {order.status === "processing"
                       ? order.status
                       : `Delivered: ${order.deliveryDate}`}
                   </li>
-                  <li className="text-coolgrey">
+                  <li>
                     {order.paymentMethod === "cashPayment"
                       ? "Cash at delivery"
                       : "Card at delivery"}
                   </li>
+                  <li>{`${order.totalPrice} EUR`}</li>
                 </ul>
               </div>
               {order.products.map((product) => {
@@ -62,8 +63,10 @@ async function Orders() {
                         <span className="font-medium">{product.quantity}</span>
                       </li>
                       <li>
-                        total price:{" "}
-                        <span className="font-medium">{order.totalPrice}</span>{" "}
+                        price:{" "}
+                        <span className="font-medium">
+                          {product.pricePerQuantity}
+                        </span>{" "}
                         EUR
                       </li>
                     </ul>

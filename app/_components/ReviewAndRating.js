@@ -7,6 +7,7 @@ import {
   getReviewsAndRatingsByUserAndProductName,
 } from "../_lib/data-service";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 function ReviewAndRating({ productName, productImage, currentUser }) {
   const [isModalReviewOpened, setIsModalReviewOpened] = useState(false);
@@ -15,6 +16,7 @@ function ReviewAndRating({ productName, productImage, currentUser }) {
   const [reviewText, setReviewText] = useState("");
   const [pathName, setPathName] = useState("");
   const pathname = usePathname();
+  const router = useRouter();
   useEffect(() => {
     async function loadReviews() {
       const data = await getReviewsAndRatingsByUserAndProductName(
@@ -40,6 +42,7 @@ function ReviewAndRating({ productName, productImage, currentUser }) {
     await deleteReviewsAndRatingsByUser(currentUser, productName);
     setRating(0);
     setReviewText("");
+    router.refresh();
   };
 
   return (
@@ -83,7 +86,7 @@ function ReviewAndRating({ productName, productImage, currentUser }) {
         <div>
           {reviewText && isModalReviewOpened === false && (
             <p className="w-95 h-fit text-left text-wrap italic">
-              "{reviewText}"
+              {reviewText}
             </p>
           )}
         </div>
