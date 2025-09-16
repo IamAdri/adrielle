@@ -9,6 +9,7 @@ async function Page({ params }) {
   const category = await params;
   const shoes = await getItems();
   const heading = getCategoryNameForHeading(category);
+  console.log(Object.values(category)[0]);
   return (
     <div>
       <div className="flex justify-start ml-10 gap-1 items-center">
@@ -17,7 +18,7 @@ async function Page({ params }) {
         </Link>
         <ChevronRightIcon className="size-4 pt-[3px]" />
         <Link
-          href={`/accessories/${Object.keys(category)[0]}`}
+          href={`/accessories/${Object.values(category)[0]}`}
           className="font-medium hover:underline "
         >
           {heading}

@@ -26,7 +26,7 @@ function ButtonForAddingQuantity({ cartItem }) {
       setIsMaxDisabled(false);
     }
     (async function updateQuantity() {
-      setPrice(cartItem.initialPrice * quantity);
+      setPrice((cartItem.initialPrice * quantity).toFixed(2));
       await updateCartQuantityColumn(
         cartItem.name,
         cartItem.size,

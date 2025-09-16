@@ -8,6 +8,7 @@
   --color-lavender: #d6b4e7;
   --color-warmwhite: #faf9f6;
   --color-nude: #eaddc8;
+  --color-nudeforterms: #a68873;
   --color-lightnude: #f6eee3;
   --color-darknude: #d4c1a7;
   --color-coolgrey: #a9a9a9;
@@ -15,7 +16,7 @@
   --color-dustedrose: #d8a7b1;
   --color-deepgrey: #333333;
   --color-softlavender: #b9aedc;
-  --color-lightlavender: #eee3f3;
+  --color-lightlavender: #eaddc8;
   --color-lavenderhighlight: #a48db7;
   --color-darklavender: #837192;
   --color-gold: #d4af37;
@@ -31,6 +32,27 @@
   --color-silver: #778899;
   --color-orange: #ffa500;
   --color-claret: #800020;
+  --color-darkgrey: #121212;
+  --color-darkheart: #6f5a84;
+}
+
+html.dark {
+  --background: #2f2f2f; /* un negru soft, nu prea dur */
+  --foreground: #f5f5f5;
+}
+html.dark {
+  /* 🌑 Dark mode pastel */
+  --color-lavender: #bba1d4; /* lavender mai închis, păstrează vibe pastel */
+  --color-lightlavender: #5a4b6a;
+  --color-softlavender: #7b6fa5;
+  --color-warmwhite: #5a5a50;
+  --color-nude: #756073; /* nude cald, mai "cafea cu lapte" */
+  --color-darknude: #8e7f8c;
+  --color-coolgrey: #b0b0b0; /* gri mai moale, să nu taie prea mult */
+  --color-deepgrey: #e0e0e0; /* pentru contrast pe fundal închis */
+  --color-lavenderhighlight: #8c6ca8; /* lavender mai adânc */
+  /* accent elegant, muted */
+  --color-darkgrey: #e8e8e8; /* invers față de light, devine aproape alb */
 }
 
 @theme inline {

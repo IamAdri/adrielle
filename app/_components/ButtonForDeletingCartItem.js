@@ -12,7 +12,6 @@ function ButtonForDeletingCartItem({ item }) {
   const handleDeleteCartItem = (e) => {
     const targetedItem =
       e.currentTarget.parentNode.parentNode.parentNode.parentNode;
-    console.log(targetedItem);
     (async function remove() {
       await removeCartItem(
         item.items.name,
@@ -28,7 +27,7 @@ function ButtonForDeletingCartItem({ item }) {
       setIsCart(updatedArray.length);
     })();
     targetedItem.style.display = "none";
-    location.reload();
+    //location.reload();
   };
   return (
     <button onClick={handleDeleteCartItem}>

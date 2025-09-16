@@ -10,6 +10,7 @@ import {
 import Spinner from "./Spinner";
 import { useUserDetails } from "../_contextAPI/userDetailsContextApi";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
+import Button from "./Button";
 
 function DeliveryDetailsDiv({ sessionUser }) {
   const [user, setUser] = useState("");
@@ -81,15 +82,12 @@ function DeliveryDetailsDiv({ sessionUser }) {
             <span>{userDetails.phone}</span>
           </p>
           <div className="flex gap-3">
-            <button
-              className="flex gap-1 items-center bg-lightlavender px-3 py-1 rounded-md cursor-pointer hover:bg-lavenderhighlight hover:text-warmwhite"
-              onClick={() => redirect("/account/delivery-details")}
-            >
+            <Button handleClick={() => redirect("/account/delivery-details")}>
               <PencilSquareIcon className="size-5" />
               <span>Edit</span>
-            </button>
+            </Button>
             <button
-              className="flex gap-1 items-center bg-coolgrey px-3 py-1 rounded-md cursor-pointer hover:bg-gray-600 hover:text-warmwhite"
+              className="flex gap-1 items-center bg-coolgrey px-3 py-1 rounded-md cursor-pointer hover:bg-gray-600 hover:text-white"
               onClick={handleDeleteUserDetails}
             >
               <TrashIcon className="size-5" />

@@ -6,6 +6,7 @@ import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
 import { supabase } from "../_lib/supabase";
 import { useCartItems } from "../_contextAPI/CartItemsContextApi";
 import { redirect, usePathname } from "next/navigation";
+import Button from "./Button";
 
 function MakeOrderBox({ currentUser }) {
   const pathname = usePathname();
@@ -94,12 +95,9 @@ function MakeOrderBox({ currentUser }) {
           </span>
         </div>
         <div className="flex justify-center">
-          <button
-            className="bg-lavenderhighlight rounded-sm border-2 border-darklavender font-semibold px-3 py-1 cursor-pointer text-base hover:text-lg  hover:font-bold text-warmwhite hover:text-white"
-            onClick={handleGoToDelivery}
-          >
+          <Button handleClick={handleGoToDelivery}>
             {pathname === "/bag" ? "Continue" : "Back to cart"}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

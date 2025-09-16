@@ -12,6 +12,7 @@ import { redirect } from "next/navigation";
 import { useCartItems } from "../_contextAPI/CartItemsContextApi";
 import OrderedProductsDetails from "./OrderedProductsDetails";
 import Spinner from "./Spinner";
+import Button from "./Button";
 
 function OrderDetails({ sessionUser }) {
   const [paymentMethod, setPaymentMethod] = useState("cashPayment");
@@ -107,7 +108,7 @@ function OrderDetails({ sessionUser }) {
         </>
       )}
 
-      <p className="mt-7 text-sm text-coolgrey">
+      <p className="my-7 text-sm text-coolgrey">
         By placing your order, you agree to the{" "}
         <Link href="/terms" className="underline text-deepgrey">
           Terms and Conditions{" "}
@@ -119,12 +120,7 @@ function OrderDetails({ sessionUser }) {
         </Link>
         .
       </p>
-      <button
-        onClick={handleSendOrder}
-        className=" mt-7 bg-lavenderhighlight rounded-sm border-2 border-darklavender font-semibold px-3 py-1 cursor-pointer text-base hover:text-lg  hover:font-bold text-warmwhite hover:text-white"
-      >
-        Send order
-      </button>
+      <Button handleClick={handleSendOrder}>Send order</Button>
     </div>
   );
 }

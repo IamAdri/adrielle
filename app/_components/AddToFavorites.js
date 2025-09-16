@@ -95,9 +95,9 @@ function AddToFavorites({
       className={`${positionOptions[position]} cursor-pointer right-0`}
     >
       {isClicked ? (
-        <SolidHeart className={`${sizeOptions[size]}`} />
+        <SolidHeart className={`${sizeOptions[size]} text-darkheart`} />
       ) : (
-        <OutlinedHeart className={`${sizeOptions[size]}`} />
+        <OutlinedHeart className={`${sizeOptions[size]} text-darkheart`} />
       )}
     </button>
   );

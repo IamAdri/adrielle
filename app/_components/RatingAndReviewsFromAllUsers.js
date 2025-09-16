@@ -19,7 +19,7 @@ async function RatingAndReviewsFromAllUsers({ itemName }) {
     <div className="flex flex-col gap-3 items-start">
       <MainHeading>
         Reviews
-        <span className="text-coolgrey text-lg">
+        <span className="text-lg text-coolgrey">
           {" "}
           ({ratingsValues.length} reviews)
         </span>

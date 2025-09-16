@@ -15,7 +15,7 @@ async function Orders() {
       <div className="flex flex-col items-start gap-15 mt-15">
         {ordersDetails.map((order) => {
           return (
-            <div key={order.id} className="bg-lightnude p-5 w-200">
+            <div key={order.id} className="bg-nude p-5 w-200">
               <div className="flex justify-between">
                 <h2 className="font-semibold">Order No. {order.id} </h2>
                 <ul className="flex gap-3 text-coolgrey">

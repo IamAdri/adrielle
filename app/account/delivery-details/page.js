@@ -1,11 +1,12 @@
 "use client";
 
+import Button from "@/app/_components/Button";
 import Spinner from "@/app/_components/Spinner";
 import { useUserDetails } from "@/app/_contextAPI/userDetailsContextApi";
 import { updateDeliveryDetails } from "@/app/_lib/actions";
 import { useEffect, useState } from "react";
 
-function page() {
+function DeliveryDetails() {
   const [isMounted, setIsMounted] = useState(false);
   const [streetName, setStreetName] = useState("");
   const [streetNumber, setStreetNumber] = useState("");
@@ -120,14 +121,9 @@ function page() {
           }`}
         />
       </div>
-      <button
-        type="submit"
-        className="bg-lightlavender font-semibold px-3 py-1 rounded-md cursor-pointer hover:bg-lavenderhighlight hover:text-warmwhite"
-      >
-        Save changes
-      </button>
+      <Button type="submit">Save changes</Button>
     </form>
   );
 }
 
-export default page;
+export default DeliveryDetails;

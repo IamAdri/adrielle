@@ -82,8 +82,11 @@ async function ItemPageDetails({ item, itemName }) {
           currentUser={currentUser}
         />
         {currentUser !== "not loged in" ? (
-          <div className="flex flex-col items-center gap-7">
-            <MainHeading>My review</MainHeading>
+          <div className="flex flex-col items-start gap-7 ">
+            <div className="ml-5">
+              <MainHeading>My review</MainHeading>
+            </div>
+
             <ReviewAndRating
               productName={itemName}
               productImage={item.variants[colorsAvailable[0]].images[0]}

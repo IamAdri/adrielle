@@ -16,7 +16,7 @@ async function MyReviews() {
       <div className="flex flex-col items-start gap-15 mt-15">
         {reviewsDetails.map((review) => {
           return (
-            <div key={review.id} className="bg-lightnude p-5 w-200 flex gap-15">
+            <div key={review.id} className="bg-nude p-5 w-200 flex gap-15">
               <div className="flex flex-col items-start gap-3">
                 <span className="font-medium">{review.productName}</span>
                 <div className="w-[100px] h-[100px]">

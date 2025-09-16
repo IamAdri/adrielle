@@ -19,7 +19,7 @@ function OverlayOnHover({
         alt={alt}
         className="rounded-xl shadow-xl"
       />
-      <div className="absolute top-0 left-0 w-full h-0 flex flex-col justify-center items-center bg-neutral-100 opacity-0 group-hover:h-full group-hover:opacity-75 duration-500">
+      <div className="absolute top-0 left-0 w-full h-0 flex flex-col justify-center items-center bg-warmwhite opacity-0 group-hover:h-full group-hover:opacity-75 duration-500">
         <Link
           href={
             category === "newCollection"
@@ -30,7 +30,7 @@ function OverlayOnHover({
                     : srcName
                 }`
           }
-          className={`bg-deepgrey text-warmwhite px-15 py-5 hover:bg-gray-950 hover:text-xl`}
+          className={`bg-deepgrey text-warmwhite font-semibold px-15 py-5 hover:bg-darkgrey hover:text-xl hover:font-bold`}
         >
           {category === "newCollection"
             ? "New collection"

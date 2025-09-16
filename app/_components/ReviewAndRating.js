@@ -8,6 +8,7 @@ import {
 } from "../_lib/data-service";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+import Button from "./Button";
 
 function ReviewAndRating({ productName, productImage, currentUser }) {
   const [isModalReviewOpened, setIsModalReviewOpened] = useState(false);
@@ -184,12 +185,7 @@ function ReviewAndRating({ productName, productImage, currentUser }) {
                     readOnly
                     className="hidden"
                   />
-                  <button
-                    type="submit"
-                    className="bg-lavenderhighlight rounded-sm border-2 border-darklavender font-semibold px-3 py-1 cursor-pointer text-base hover:text-lg  hover:font-bold text-warmwhite hover:text-white"
-                  >
-                    Submit
-                  </button>
+                  <Button type="submit">Submit</Button>
                 </form>
               </div>
             </div>

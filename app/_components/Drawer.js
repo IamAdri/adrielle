@@ -17,7 +17,7 @@ function Drawer() {
       </button>
 
       <div
-        className={`flex flex-col items-end fixed top-70 right-0 w-fit h-fit p-1 bg-white opacity-95 shadow-lg
+        className={`flex flex-col items-end fixed top-70 right-0 w-fit h-fit p-1 bg-warmwhite opacity-95 shadow-lg
                 transition-transform transform ${
                   isOpen ? "-translate-x-30" : "translate-x-full"
                 }`}

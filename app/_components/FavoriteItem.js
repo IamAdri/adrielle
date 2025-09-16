@@ -27,9 +27,9 @@ function FavoriteItem({ favoriteItem, currentUser }) {
         <div className="absolute right-0 flex-col gap-1.5">
           <div className="flex">
             <AddToCartIcon
-              name={favoriteItem.items.name}
               item={favoriteItem.items}
               selectedSrc={favoriteItem.selectedColorSrc}
+              priceAfterDiscount={priceAfterDiscount}
             />
             <ButtonForDeletingFavoriteItem
               item={favoriteItem}

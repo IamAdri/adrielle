@@ -4,7 +4,7 @@ import Link from "next/link";
 function DropdownItems({ mainRoot, categories }) {
   return (
     <div className="hidden peer-hover:flex hover:flex w-fit flex-col  ">
-      <ul className="flex flex-col absolute bg-lavender p-2 text-center rounded-sm">
+      <ul className="flex flex-col absolute bg-darknude p-2 text-center rounded-sm">
         {categories.map((category) => {
           return (
             <Link
@@ -14,7 +14,7 @@ function DropdownItems({ mainRoot, categories }) {
                   ? "/newCollection"
                   : `/${mainRoot}/${category}`
               }
-              className="hover:bg-lightlavender hover:w-full hover:rounded-sm hover:text-purple-800 hover:p-1"
+              className="hover:bg-lightlavender hover:w-full hover:rounded-sm  hover:p-1"
             >
               {category === "newCollection"
                 ? "New Collection"

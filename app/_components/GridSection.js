@@ -13,6 +13,7 @@ import {
   sliceStartAtom,
 } from "../storage/atoms";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import Button from "./Button";
 
 function GridSection({ selectItemsOfSameCategory, currentUser }) {
   const { radioValue } = useRadioValue();
@@ -55,6 +56,9 @@ function GridSection({ selectItemsOfSameCategory, currentUser }) {
 
   useEffect(() => {
     setColorSrc("");
+    setCurrentSliceStart(0);
+    setCurrentSliceEnd(8);
+    setCurrentPage(1);
   }, []);
   console.log(selectItemsOfSameCategory.slice());
   const handleClickOnMainImage = (item) => {
@@ -202,22 +206,16 @@ function GridSection({ selectItemsOfSameCategory, currentUser }) {
           </div>
           <div className="flex gap-5 text-warmwhite justify-end">
             {currentSliceStart >= 4 && (
-              <button
-                className="flex items-center bg-darklavender p-1.5 rounded-sm cursor-pointer hover:bg-lavenderhighlight"
-                onClick={previousPage}
-              >
+              <Button handleClick={previousPage}>
                 <ChevronLeftIcon className="size-5" />
                 <span>Previous page</span>
-              </button>
+              </Button>
             )}
             {currentSliceEnd < chooseOrder.length && (
-              <button
-                className="flex items-center bg-darklavender p-1.5 rounded-sm cursor-pointer hover:bg-lavenderhighlight"
-                onClick={nextPage}
-              >
+              <Button handleClick={nextPage}>
                 <span>Next page</span>
                 <ChevronRightIcon className="size-5" />
-              </button>
+              </Button>
             )}
           </div>
         </div>

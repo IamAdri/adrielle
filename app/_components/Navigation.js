@@ -8,6 +8,7 @@ import DropdownMenu from "./DropdownMenu";
 import DisplayedNumberOfFavoriteItems from "./DisplayedNumberOfFavoriteItems";
 import { auth } from "../_lib/auth";
 import DisplayNumberOfCartItems from "./DisplayNumberOfCartItems";
+import DarkModeButton from "./DarkModeButton";
 
 async function Navigation({ children }) {
   const session = await auth();
@@ -18,7 +19,7 @@ async function Navigation({ children }) {
        `}
     >
       <DropdownMenu />
-      <div className="flex gap-8">
+      <div className="flex gap-8 items-center">
         <Link href="/">
           <HomeIcon className="size-7 text-deepgrey" />
         </Link>
@@ -34,6 +35,7 @@ async function Navigation({ children }) {
           </Link>
           <DisplayNumberOfCartItems currentUser={currentUser} />
         </div>
+        <DarkModeButton />
         {children}
       </div>
     </div>

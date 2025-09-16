@@ -22,7 +22,7 @@ function AddToCartIcon({ item, selectedSrc = "", priceAfterDiscount }) {
   return (
     <div>
       <button onClick={handleOpenModal}>
-        <ShoppingBagIcon className="size-7 cursor-pointer" />
+        <ShoppingBagIcon className="size-7 cursor-pointer text-darkheart" />
       </button>
       {isModalOpened && (
         <Modal
