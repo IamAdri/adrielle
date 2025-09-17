@@ -50,7 +50,7 @@ function DeliveryDetailsDiv({ sessionUser }) {
   return (
     <>
       {userDetails === "" && <Spinner />}
-      {userDetails.streetName === null && (
+      {userDetails?.streetName === null && (
         <div className="flex flex-col items-start gap-5 mx-15  my-10 p-5 border-nude border-2">
           <p>
             Please add delivery details required for processing your orders!
