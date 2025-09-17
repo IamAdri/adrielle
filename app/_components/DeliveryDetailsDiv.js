@@ -19,7 +19,7 @@ function DeliveryDetailsDiv({ sessionUser }) {
   useEffect(() => {
     const isEmailInDatabase = async () => {
       const userDetailsFromDatabase = await getUserDetails(sessionUser);
-      // console.log(userDetailsFromDatabase);
+      console.log(userDetailsFromDatabase);
       setUserDetails(userDetailsFromDatabase[0]);
       const getEmailFromDatabase = await getUserEmail();
       const isUserEmail = getEmailFromDatabase
@@ -46,7 +46,7 @@ function DeliveryDetailsDiv({ sessionUser }) {
     setUserDetails(userDetailsFromDatabase[0]);
     // redirect("/account");
   };
-  
+
   return (
     <>
       {userDetails === "" && <Spinner />}
