@@ -15,7 +15,7 @@ function DisplayFavoriteItems({ currentUser }) {
     })();
   }, []);
   return (
-    <div className="flex sm:flex-wrap gap-5 py-15 px-75 md:px-25 sm:px-10 justify-center">
+    <div className="flex flex-wrap gap-5 py-15 lg:px-35 md:px-25 px-10 justify-center">
       {favoriteItems.length > 0 &&
         favoriteItems.map((favoriteItem) => {
           //console.log(favoriteItem);

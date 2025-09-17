@@ -18,7 +18,7 @@ async function Catalog({ category, productsData }) {
   );
 
   return (
-    <div className="mx-55 xl:mx-55 lg:mx-45 my-25 md:mx-25 sm:15">
+    <div className="xl:mx-55 lg:mx-35 mx-25">
       <RadioValueProvider>
         <SortingItems />
         <GridSection
@@ -31,3 +31,5 @@ async function Catalog({ category, productsData }) {
 }
 
 export default Catalog;
+//mx-55 xl:mx-55 lg:mx-45 my-25 md:mx-25 sm:15
+//

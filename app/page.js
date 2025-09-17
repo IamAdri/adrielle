@@ -14,14 +14,14 @@ export default async function Page() {
   return (
     <div>
       <h1
-        className={`text-deepgrey ${playfairDisplay.className} font-bold text-2xl mb-5 `}
+        className={`text-deepgrey ${playfairDisplay.className} font-bold text-2xl mb-5 mt-5 `}
       >
         Step into <span className="text-lavenderhighlight">elegance</span>.
       </h1>
-      <h3 className="text-deepgrey">
+      <p className="text-deepgrey mx-15">
         Discover timeless designs, crafted for confident women. From heels to
         flats — style begins here.
-      </h3>
+      </p>
       <SessionLocalStorage currentUser={currentUser} />
       <HomepageImages />
     </div>

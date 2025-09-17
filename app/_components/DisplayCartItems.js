@@ -33,7 +33,7 @@ function DisplayCartItems({ currentUser }) {
   };
   return (
     <PricePerQuantityProvider>
-      <div className="flex flex-wrap justify-center gap-15">
+      <div className="flex flex-wrap justify-center gap-15 mx-15 mt-5">
         <div className="flex flex-col items-start border-2 border-lightlavender p-5 rounded-sm">
           {cartItems.length === 0 ? (
             <MainHeading>Your shopping cart is empty!</MainHeading>
@@ -41,7 +41,7 @@ function DisplayCartItems({ currentUser }) {
             <MainHeading>My shopping cart</MainHeading>
           )}
 
-          <div className="relative w-200">
+          <div className="relative w-100 md:w-150 lg:w-200">
             {cartItems.length > 0 &&
               cartItems.map((cartItem) => {
                 //console.log(cartItem);

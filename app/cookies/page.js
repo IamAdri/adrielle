@@ -2,7 +2,7 @@ import MainHeading from "../_components/MainHeading";
 
 function Page() {
   return (
-    <div className="flex flex-col gap-15 mx-35 lg:mx-55 2xl:mx-95">
+    <div className="flex flex-col gap-15 mt-5 mx-35 lg:mx-55 2xl:mx-95">
       <MainHeading>Cookie Settings</MainHeading>
       <p>
         We use cookies to enhance your shopping experience at Adrielle. Some

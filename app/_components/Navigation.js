@@ -15,7 +15,7 @@ async function Navigation({ children }) {
   const currentUser = session?.user.email || "not loged in";
   return (
     <div
-      className={`fixed bg-nude top-0 right-0 left-0 z-100 flex  px-4  items-center justify-between flex-wrap  text-deepgrey 
+      className={`fixed bg-nude top-0 right-0 left-0 z-100 flex  px-4 py-1.5  items-center justify-between flex-wrap  text-deepgrey 
        `}
     >
       <DropdownMenu />

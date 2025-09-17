@@ -97,7 +97,7 @@ async function ItemPageDetails({ item, itemName }) {
           <div className="flex flex-col items-center gap-7">
             <MainHeading>Want to write a review?</MainHeading>
             <Link
-              className="bg-lavenderhighlight rounded-sm border-2 border-darklavender font-semibold px-3 py-1 cursor-pointer text-base text-warmwhite hover:text-white"
+              className="flex items-center bg-darklavender text-white py-1.5 px-3 rounded-sm cursor-pointer hover:bg-lavenderhighlight"
               href="/login"
             >
               Log in to continue!

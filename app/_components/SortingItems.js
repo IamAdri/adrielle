@@ -37,7 +37,7 @@ function SortingItems() {
   };
   if (!isMounted) return <Spinner />;
   return (
-    <div className="flex flex-col gap-1 items-end ">
+    <div className="flex flex-col gap-1 items-end mt-5">
       <div className="w-40 mr-2">
         <button
           onClick={showRadioOptions}

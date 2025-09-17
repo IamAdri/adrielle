@@ -43,7 +43,7 @@ function Modal({ setOpenModal, item, selectedColorSrc, priceAfterDiscount }) {
               x
             </button>
             {!addedToCartSuccessfully ? (
-              <div className="flex gap-7 items-center px-3">
+              <div className="flex flex-wrap gap-7 items-center px-3 ">
                 <div>
                   <Link href={`${path}/${item.name.replaceAll(" ", "_")}`}>
                     <Image

@@ -46,6 +46,7 @@ function DeliveryDetailsDiv({ sessionUser }) {
     setUserDetails(userDetailsFromDatabase[0]);
     // redirect("/account");
   };
+  
   return (
     <>
       {userDetails === "" && <Spinner />}

@@ -13,12 +13,15 @@ import { useCartItems } from "../_contextAPI/CartItemsContextApi";
 import OrderedProductsDetails from "./OrderedProductsDetails";
 import Spinner from "./Spinner";
 import Button from "./Button";
+import { useUserDetails } from "../_contextAPI/userDetailsContextApi";
 
 function OrderDetails({ sessionUser }) {
   const [paymentMethod, setPaymentMethod] = useState("cashPayment");
   const [cartItems, setCartItems] = useState("");
   const { setIsCart, totalProductsPrice } = useCartItems();
   const [isMounted, setIsMounted] = useState(false);
+  const { userDetails } = useUserDetails();
+  const [deliveryDetails, setDeliveryDetails] = useState("");
   useEffect(() => {
     // Așteaptă până la client render pentru a preveni hydration mismatch
     setIsMounted(true);
@@ -33,7 +36,11 @@ function OrderDetails({ sessionUser }) {
       setCartItems(cartItemsDetails);
     })();
   }, [sessionUser]);
-
+  console.log(userDetails);
+  useEffect(() => {
+    if (userDetails.streetName === null) setDeliveryDetails(false);
+    if (userDetails.streetName !== null) setDeliveryDetails(true);
+  }, [userDetails]);
   //if (!isMounted) return <Spinner />;
   const date = new Date().toLocaleDateString("en-CA");
   const orderDate = new Date(date);
@@ -41,34 +48,39 @@ function OrderDetails({ sessionUser }) {
   const deliveryDate = orderDate.toLocaleDateString("en-CA");
 
   const handleSendOrder = async () => {
-    const products = cartItems.map((cartItem) => {
-      return {
-        name: cartItem.items.name,
-        size: cartItem.size,
-        color: cartItem.selectedColor,
-        image: cartItem.selectedColorSrc,
-        quantity: cartItem.quantity,
-        pricePerQuantity: cartItem.pricePerQuantity,
-      };
-    });
+    if (userDetails.streetName === null) {
+      setDeliveryDetails(false);
+    } else {
+      setDeliveryDetails(true);
+      const products = cartItems.map((cartItem) => {
+        return {
+          name: cartItem.items.name,
+          size: cartItem.size,
+          color: cartItem.selectedColor,
+          image: cartItem.selectedColorSrc,
+          quantity: cartItem.quantity,
+          pricePerQuantity: cartItem.pricePerQuantity,
+        };
+      });
 
-    await insertOrderDetails(
-      date,
-      sessionUser,
-      "processing",
-      deliveryDate,
-      products,
-      paymentMethod,
-      totalProductsPrice
-    );
+      await insertOrderDetails(
+        date,
+        sessionUser,
+        "processing",
+        deliveryDate,
+        products,
+        paymentMethod,
+        totalProductsPrice
+      );
 
-    await removeCartItemsAfterSentOrder(sessionUser);
-    setIsCart(0);
-    redirect("/congratulations");
+      await removeCartItemsAfterSentOrder(sessionUser);
+      setIsCart(0);
+      redirect("/congratulations");
+    }
   };
 
   return (
-    <div className="flex flex-col flex-wrap items-start border-2 border-lightlavender p-5 rounded-sm w-3/5">
+    <div className="flex flex-col flex-wrap items-start border-2 border-lightlavender p-5 rounded-sm w-4/5 md:w-3/5">
       <MainHeading>Delivery details</MainHeading>
       {!isMounted ? (
         <Spinner />
@@ -121,6 +133,12 @@ function OrderDetails({ sessionUser }) {
         .
       </p>
       <Button handleClick={handleSendOrder}>Send order</Button>
+      {!deliveryDetails && (
+        <p className="mt-3">
+          Please add required delivery details in order to send the order!
+          <span className="text-red">*</span>
+        </p>
+      )}
     </div>
   );
 }

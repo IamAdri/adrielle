@@ -3,7 +3,7 @@ import MainHeading from "../_components/MainHeading";
 
 function Page() {
   return (
-    <div className="flex flex-col gap-5 mx-35 lg:mx-55 2xl:mx-95">
+    <div className="flex flex-col gap-5 mx-25 lg:mx-55 2xl:mx-95 mt-5">
       <MainHeading>Terms & Conditions</MainHeading>
       <span className="italic text-coolgrey">
         Last updated: August 15, 2025

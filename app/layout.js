@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
             <CartItemsProvider>
               <CategoryParamsProvider>
                 <Navigation>
-                  <AuthUserAvatar width={35} height={35} />
+                  <AuthUserAvatar width={28} height={28} />
                 </Navigation>
                 <ChooseSizeProvider>
                   <ChangingColorProvider>

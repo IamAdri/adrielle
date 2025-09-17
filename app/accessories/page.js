@@ -6,9 +6,9 @@ export const metadata = {
 
 function Page() {
   return (
-    <div>
+    <div className="mt-5">
       <h1 className="text-3xl font-bold">Accessories</h1>
-      <div className="grid grid-flow-col justify-center gap-10 mt-15">
+      <div className="flex flex-wrap justify-center gap-10 mt-15">
         <OverlayOnHover category="accessories" srcName="bags" alt="A bag" />
         <OverlayOnHover category="accessories" srcName="belts" alt="A belt" />
         <OverlayOnHover

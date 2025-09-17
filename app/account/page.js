@@ -11,7 +11,7 @@ async function Account() {
   if (!session?.user) return;
   await getFavoriteItems(session.user.email);
   return (
-    <div className="w-125">
+    <div className="w-100 md:w-125">
       <div className="flex flex-col  items-start gap-5 my-10 p-5 border-nude border-2">
         <UpdateLogedInItems currentUser={session.user.email} />
         <h2 className="font-semibold">Account data</h2>

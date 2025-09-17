@@ -86,7 +86,7 @@ function GridSection({ selectItemsOfSameCategory, currentUser }) {
   console.log(currentPage);
   return (
     <div>
-      <div className="grid grid-flow-row grid-cols-4 gap-x-0.5 justify-items-center mt-5">
+      <div className="grid grid-flow-row grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-0.5 justify-items-center mt-5">
         {chooseOrder.slice(currentSliceStart, currentSliceEnd).map((item) => {
           const colorsAvailable = Object.keys(item.variants);
           const mainColorImage = item.variants[colorsAvailable[0]].images;
@@ -194,7 +194,7 @@ function GridSection({ selectItemsOfSameCategory, currentUser }) {
         })}
       </div>
       {chooseOrder.length > 8 && (
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center">
           <div>
             <span>
               {currentSliceStart + 1}-

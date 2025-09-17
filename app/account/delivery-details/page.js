@@ -34,7 +34,7 @@ function DeliveryDetails() {
   return (
     <form
       action={updateDeliveryDetails}
-      className="flex flex-wrap flex-col gap-3 items-start border border-coolgrey rounded-sm p-3 mt-20 lg:mt-10"
+      className="flex flex-wrap flex-col gap-3 items-start border border-coolgrey rounded-sm p-3 "
     >
       <div className="flex gap-2">
         <h3 className="font-semibold">Street address (line 1): </h3>

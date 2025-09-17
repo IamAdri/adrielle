@@ -62,7 +62,7 @@ function ButtonForAddingQuantity({ cartItem }) {
   };
 
   return (
-    <div className="flex items-end justify-between w-full">
+    <div className="flex items-end justify-between w-full gap-9">
       <div className="border border-coolgrey flex gap-3 px-3 items-center mt-3">
         <button
           disabled={isMinDisabled}

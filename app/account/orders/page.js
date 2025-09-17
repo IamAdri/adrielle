@@ -12,13 +12,13 @@ async function Orders() {
   return (
     <div>
       <MainHeading>My orders</MainHeading>
-      <div className="flex flex-col items-start gap-15 mt-15">
+      <div className="flex flex-col items-start gap-15 mt-5 md:w-125 lg:w-full">
         {ordersDetails.map((order) => {
           return (
-            <div key={order.id} className="bg-nude p-5 w-200">
-              <div className="flex justify-between">
+            <div key={order.id} className="bg-nude p-5 w-full">
+              <div className="flex flex-col md:flex-row justify-between">
                 <h2 className="font-semibold">Order No. {order.id} </h2>
-                <ul className="flex gap-3 text-coolgrey">
+                <ul className="flex flex-col md:flex-row gap-3 text-coolgrey">
                   <li>Sent: {order.created_at}</li>
                   <li>
                     {order.status === "processing"
@@ -37,39 +37,44 @@ async function Orders() {
                 return (
                   <div
                     key={`${product.name},${product.size}, ${product.color}`}
-                    className="flex gap-10 mt-5 items-center"
+                    className="flex flex-wrap gap-10 mt-5 items-center"
                   >
-                    <div className="w-[100px] h-[100px]">
-                      <Image
-                        src={product.image}
-                        width={100}
-                        height={100}
-                        alt="Image of ordered product"
-                      />
+                    <div className="flex gap-5 items-center">
+                      <div className="w-[100px] h-[100px]">
+                        <Image
+                          src={product.image}
+                          width={100}
+                          height={100}
+                          alt="Image of ordered product"
+                        />
+                      </div>
+
+                      <ul className="flex flex-col items-start">
+                        <li className="font-medium">{product.name}</li>
+                        <li>
+                          size:{" "}
+                          <span className="font-medium">{product.size}</span>
+                        </li>
+                        <li>
+                          color:{" "}
+                          <span className="font-medium">{product.color}</span>
+                        </li>
+                        <li>
+                          quantity:{" "}
+                          <span className="font-medium">
+                            {product.quantity}
+                          </span>
+                        </li>
+                        <li>
+                          price:{" "}
+                          <span className="font-medium">
+                            {product.pricePerQuantity}
+                          </span>{" "}
+                          EUR
+                        </li>
+                      </ul>
                     </div>
 
-                    <ul className="flex flex-col items-start">
-                      <li className="font-medium">{product.name}</li>
-                      <li>
-                        size:{" "}
-                        <span className="font-medium">{product.size}</span>
-                      </li>
-                      <li>
-                        color:{" "}
-                        <span className="font-medium">{product.color}</span>
-                      </li>
-                      <li>
-                        quantity:{" "}
-                        <span className="font-medium">{product.quantity}</span>
-                      </li>
-                      <li>
-                        price:{" "}
-                        <span className="font-medium">
-                          {product.pricePerQuantity}
-                        </span>{" "}
-                        EUR
-                      </li>
-                    </ul>
                     <ReviewAndRating
                       productName={product.name}
                       productImage={product.image}

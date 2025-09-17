@@ -12,7 +12,7 @@ async function Page({ params }) {
   console.log(Object.values(category)[0]);
   return (
     <div>
-      <div className="flex justify-start ml-10 gap-1 items-center">
+      <div className="flex justify-start ml-10 gap-1 items-center mt-5">
         <Link href="/accessories" className="font-medium hover:underline ">
           Accessories
         </Link>
