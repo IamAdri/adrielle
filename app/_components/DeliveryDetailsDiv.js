@@ -18,9 +18,6 @@ function DeliveryDetailsDiv({ sessionUser }) {
 
   useEffect(() => {
     const isEmailInDatabase = async () => {
-      const userDetailsFromDatabase = await getUserDetails(sessionUser);
-      console.log(userDetailsFromDatabase);
-      setUserDetails(userDetailsFromDatabase[0]);
       const getEmailFromDatabase = await getUserEmail();
       const isUserEmail = getEmailFromDatabase
         .map((userEmail) => {
@@ -29,15 +26,24 @@ function DeliveryDetailsDiv({ sessionUser }) {
         .includes(sessionUser);
       //console.log(isUserEmail);
       if (!isUserEmail) setUser(sessionUser);
+      const userDetailsFromDatabase = await getUserDetails(sessionUser);
+      console.log(userDetailsFromDatabase);
+      setUserDetails(userDetailsFromDatabase[0]);
+      // if (!isUserEmail) await insertUserEmail(sessionUser);
+      //
     };
     isEmailInDatabase();
-  }, [sessionUser]);
+  }, [sessionUser, setUserDetails]);
 
   useEffect(() => {
     (async function insertEmail() {
       if (user) await insertUserEmail(user);
+      const userDetailsFromDatabase = await getUserDetails(sessionUser);
+      console.log(userDetailsFromDatabase);
+      setUserDetails(userDetailsFromDatabase[0]);
     })();
   }, [user]);
+
   //console.log(logedInUser);
   const handleDeleteUserDetails = async () => {
     removeUserDetails(sessionUser);
@@ -46,11 +52,11 @@ function DeliveryDetailsDiv({ sessionUser }) {
     setUserDetails(userDetailsFromDatabase[0]);
     // redirect("/account");
   };
-
+  console.log(user, userDetails);
   return (
     <>
-      {userDetails === "" && <Spinner />}
-      {userDetails?.streetName === null && (
+      {userDetails === undefined && <Spinner />}
+      {userDetails && userDetails.streetName === null && (
         <div className="flex flex-col items-start gap-5 mx-15  my-10 p-5 border-nude border-2">
           <p>
             Please add delivery details required for processing your orders!
@@ -102,3 +108,27 @@ function DeliveryDetailsDiv({ sessionUser }) {
 }
 
 export default DeliveryDetailsDiv;
+/*useEffect(() => {
+    const isEmailInDatabase = async () => {
+      const userDetailsFromDatabase = await getUserDetails(sessionUser);
+      console.log(userDetailsFromDatabase);
+
+      const getEmailFromDatabase = await getUserEmail();
+      const isUserEmail = getEmailFromDatabase
+        .map((userEmail) => {
+          return userEmail.email;
+        })
+        .includes(sessionUser);
+      //console.log(isUserEmail);
+      if (!isUserEmail) setUser(sessionUser);
+      // if (!isUserEmail) await insertUserEmail(sessionUser);
+      //setUserDetails(userDetailsFromDatabase[0]);
+    };
+    isEmailInDatabase();
+  }, [sessionUser, setUserDetails]);
+
+  useEffect(() => {
+    (async function insertEmail() {
+      if (user) await insertUserEmail(user);
+    })();
+  }, [user]);*/

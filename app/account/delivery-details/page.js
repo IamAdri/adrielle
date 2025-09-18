@@ -27,7 +27,7 @@ function DeliveryDetails() {
       setPostalCode(userDetails.postalCode);
       setPhone(userDetails.phone);
     }
-  }, []);
+  }, [userDetails]);
 
   if (!isMounted) return <Spinner />;
   console.log(userDetails);
