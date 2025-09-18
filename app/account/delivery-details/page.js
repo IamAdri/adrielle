@@ -20,7 +20,7 @@ function DeliveryDetails() {
   }, []);
 
   useEffect(() => {
-    if (userDetails.streetName !== null) {
+    if (userDetails?.streetName !== null) {
       setStreetName(userDetails.streetName);
       setStreetNumber(userDetails.streetNumber);
       setHouseNumber(userDetails.house);
