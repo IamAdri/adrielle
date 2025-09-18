@@ -1,5 +1,4 @@
 "use client";
-
 import { useCartItems } from "../_contextAPI/CartItemsContextApi";
 import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
 import { useFavoriteItems } from "../_contextAPI/FavoriteItemsContextApi";

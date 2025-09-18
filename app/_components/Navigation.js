@@ -9,6 +9,8 @@ import DisplayedNumberOfFavoriteItems from "./DisplayedNumberOfFavoriteItems";
 import { auth } from "../_lib/auth";
 import DisplayNumberOfCartItems from "./DisplayNumberOfCartItems";
 import DarkModeButton from "./DarkModeButton";
+import LogOutButton from "./LogOutButton";
+import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 
 async function Navigation({ children }) {
   const session = await auth();

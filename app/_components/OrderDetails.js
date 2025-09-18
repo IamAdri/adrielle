@@ -78,7 +78,7 @@ function OrderDetails({ sessionUser }) {
       redirect("/congratulations");
     }
   };
-
+  console.log(deliveryDetails);
   return (
     <div className="flex flex-col flex-wrap items-start border-2 border-lightlavender p-5 rounded-sm w-4/5 md:w-3/5">
       <MainHeading>Delivery details</MainHeading>
@@ -132,7 +132,9 @@ function OrderDetails({ sessionUser }) {
         </Link>
         .
       </p>
-      <Button handleClick={handleSendOrder}>Send order</Button>
+      <Button disabled={!deliveryDetails} handleClick={handleSendOrder}>
+        Send order
+      </Button>
       {!deliveryDetails && (
         <p className="mt-3">
           Please add required delivery details in order to send the order!

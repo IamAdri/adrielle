@@ -108,27 +108,3 @@ function DeliveryDetailsDiv({ sessionUser }) {
 }
 
 export default DeliveryDetailsDiv;
-/*useEffect(() => {
-    const isEmailInDatabase = async () => {
-      const userDetailsFromDatabase = await getUserDetails(sessionUser);
-      console.log(userDetailsFromDatabase);
-
-      const getEmailFromDatabase = await getUserEmail();
-      const isUserEmail = getEmailFromDatabase
-        .map((userEmail) => {
-          return userEmail.email;
-        })
-        .includes(sessionUser);
-      //console.log(isUserEmail);
-      if (!isUserEmail) setUser(sessionUser);
-      // if (!isUserEmail) await insertUserEmail(sessionUser);
-      //setUserDetails(userDetailsFromDatabase[0]);
-    };
-    isEmailInDatabase();
-  }, [sessionUser, setUserDetails]);
-
-  useEffect(() => {
-    (async function insertEmail() {
-      if (user) await insertUserEmail(user);
-    })();
-  }, [user]);*/

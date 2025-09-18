@@ -1,7 +1,11 @@
-function Button({ children, handleClick = null }) {
+function Button({ children, handleClick = null, disabled = false }) {
+  console.log(disabled);
   return (
     <button
-      className="flex items-center bg-darklavender text-white py-1.5 px-3 rounded-sm cursor-pointer hover:bg-lavenderhighlight"
+      disabled={disabled}
+      className={`flex items-center bg-darklavender text-white py-1.5 px-3 rounded-sm  hover:bg-lavenderhighlight ${
+        disabled ? "cursor-not-allowed" : "cursor-pointer"
+      }`}
       onClick={handleClick}
     >
       {children}
