@@ -21,7 +21,7 @@ function DisplayCartItems({ currentUser }) {
       );
       setCartItems(cartItemsDetails);
     })();
-  }, [currentUser]);
+  }, [currentUser, cartItems]);
   const handleDisplayImage = (item) => {
     setColorSrc(item.selectedColorSrc);
     redirect(

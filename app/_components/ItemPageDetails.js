@@ -10,7 +10,6 @@ import Link from "next/link";
 
 async function ItemPageDetails({ item, itemName }) {
   const session = await auth();
-  console.log(item);
   const currentUser = session?.user.email || "not loged in";
   const colorsAvailable = Object.keys(item.variants);
   const discount =
@@ -20,7 +19,7 @@ async function ItemPageDetails({ item, itemName }) {
   return (
     <>
       <div>
-        <div className="flex flex-wrap  lg:flex-nowrap gap-10 2xl:gap-35 xl:gap-25 md:gap-10 mt-25">
+        <div className="flex flex-wrap  lg:flex-nowrap gap-10 2xl:gap-35 xl:gap-25 md:gap-10 ">
           <div className="flex gap-2 items-center">
             <ButtonForImages
               itemDetails={item}

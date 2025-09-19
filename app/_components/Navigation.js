@@ -9,8 +9,6 @@ import DisplayedNumberOfFavoriteItems from "./DisplayedNumberOfFavoriteItems";
 import { auth } from "../_lib/auth";
 import DisplayNumberOfCartItems from "./DisplayNumberOfCartItems";
 import DarkModeButton from "./DarkModeButton";
-import LogOutButton from "./LogOutButton";
-import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 
 async function Navigation({ children }) {
   const session = await auth();
@@ -21,6 +19,7 @@ async function Navigation({ children }) {
        `}
     >
       <DropdownMenu />
+
       <div className="flex gap-8 items-center">
         <Link href="/">
           <HomeIcon className="size-7 text-deepgrey" />
@@ -45,31 +44,3 @@ async function Navigation({ children }) {
 }
 
 export default Navigation;
-
-/*
- const [scrollY, setScrollY] = useState(0);
-  const { isCart, setIsCart } = useCartItems();
-  const onScroll = useCallback((event) => {
-    const { pageYOffset, scrollY } = window;
-    setScrollY(window.pageYOffset);
-  }, []);
-
-  useEffect(() => {
-    async function loadCartItems() {
-      const cartItems = await getCartItems();
-      setIsCart(cartItems.length);
-    }
-    loadCartItems();
-  }, []);
-
-  useEffect(() => {
-    //add eventlistener to window
-    window.addEventListener("scroll", onScroll, { passive: true });
-    // remove event on unmount to prevent a memory leak with the cleanup
-    return () => {
-      window.removeEventListener("scroll", onScroll, { passive: true });
-    };
-  }, []);
-*/
-//${
-//       scrollY > 0 ? "bg-nude border-none" : ""}

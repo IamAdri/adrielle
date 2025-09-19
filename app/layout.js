@@ -10,6 +10,7 @@ import { ChangingColorProvider } from "./_contextAPI/ChangingColorContextApi";
 import AuthUserAvatar from "./_components/AuthUserAvatar";
 import { CurrentUserEmailProvider } from "./_contextAPI/CurrentUserEmailContextApi";
 import { UserDetailsProvider } from "./_contextAPI/userDetailsContextApi";
+import { ThemeProvider } from "next-themes";
 
 const notoSans = Noto_Sans({
   subsets: ["latin"],
@@ -26,29 +27,36 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${notoSans.className} flex flex-col w-screen h-screen`}>
-        <CurrentUserEmailProvider>
-          <FavoriteItemsProvider>
-            <CartItemsProvider>
-              <CategoryParamsProvider>
-                <Navigation>
-                  <AuthUserAvatar width={28} height={28} />
-                </Navigation>
-                <ChooseSizeProvider>
-                  <ChangingColorProvider>
-                    <UserDetailsProvider>
-                      <main className="text-center basis-8/10 py-7  text-deepgrey mb-35 mt-20 ">
-                        {children}
-                      </main>
-                    </UserDetailsProvider>
-                  </ChangingColorProvider>
-                </ChooseSizeProvider>
-              </CategoryParamsProvider>
-            </CartItemsProvider>
-          </FavoriteItemsProvider>
-        </CurrentUserEmailProvider>
-        <Footer />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem={true}
+          disableTransitionOnChange
+        >
+          <CurrentUserEmailProvider>
+            <FavoriteItemsProvider>
+              <CartItemsProvider>
+                <CategoryParamsProvider>
+                  <Navigation>
+                    <AuthUserAvatar width={28} height={28} />
+                  </Navigation>
+                  <ChooseSizeProvider>
+                    <ChangingColorProvider>
+                      <UserDetailsProvider>
+                        <main className="text-center basis-8/10 py-7  text-deepgrey mb-35 mt-20 ">
+                          {children}
+                        </main>
+                      </UserDetailsProvider>
+                    </ChangingColorProvider>
+                  </ChooseSizeProvider>
+                </CategoryParamsProvider>
+              </CartItemsProvider>
+            </FavoriteItemsProvider>
+          </CurrentUserEmailProvider>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

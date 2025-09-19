@@ -16,7 +16,7 @@ function NavigationLinksFromProductPage({ itemName }) {
   // console.log(pathNamesSplited);
   console.log(itemName);
   return (
-    <div className="flex justify-start ml-10 gap-1 items-center">
+    <div className="flex justify-start ml-10 gap-1 items-center mt-3">
       <Link
         href={`/${pathNamesSplited[0]}`}
         className="font-medium hover:underline "

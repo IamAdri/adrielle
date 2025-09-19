@@ -14,7 +14,7 @@ export default async function Page() {
   return (
     <div>
       <h1
-        className={`text-deepgrey ${playfairDisplay.className} font-bold text-2xl mb-5 mt-5 `}
+        className={`text-deepgrey ${playfairDisplay.className} font-bold text-2xl md:text-4xl mb-5 mt-5 `}
       >
         Step into <span className="text-lavenderhighlight">elegance</span>.
       </h1>

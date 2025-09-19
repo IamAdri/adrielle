@@ -1,30 +1,25 @@
 import Link from "next/link";
-import { RiInstagramFill } from "react-icons/ri";
-import { FaFacebook, FaTwitter } from "react-icons/fa";
 
 function Footer() {
   return (
     <footer className="basis-1/10 border-t-3 border-lightlavender text-deepgrey pb-10">
-      <div className="flex justify-between">
-        <ul className="flex gap-5 pt-3 pl-5">
-          <Link href="/cookies">Cookie Settings</Link>
-          <Link href="/privacy">Privacy Policy</Link>
-          <Link href="/terms">Terms and Conditions</Link>
-        </ul>
-        <ul className="flex gap-5 pt-3 pr-5">
-          <Link href="#">
-            <RiInstagramFill className="size-6" />
+      <div className="flex flex-wrap justify-between items-center gap-5 pt-3 px-3">
+        <ul className="flex gap-5">
+          <Link href="/cookies" className="hover:underline">
+            Cookie Settings
           </Link>
-          <Link href="#">
-            <FaFacebook className="size-6" />
+          <Link href="/privacy" className="hover:underline">
+            Privacy Policy
           </Link>
-          <Link href="#">
-            <FaTwitter className="size-6" />
+          <Link href="/terms" className="hover:underline">
+            Terms and Conditions
+          </Link>
+          <Link href="/contact" className="hover:underline">
+            Contact us
           </Link>
         </ul>
+        <p className="text-center ">2025 Adrielle, Inc. All rights reserved</p>
       </div>
-
-      <p className="text-center ">2025 Adrielle, Inc. All rights reserved</p>
     </footer>
   );
 }

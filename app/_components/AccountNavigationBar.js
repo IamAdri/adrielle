@@ -4,7 +4,7 @@ import LogOutButton from "./LogOutButton";
 
 function AccountNavigationBar() {
   return (
-    <div className="flex flex-col items-start gap-3">
+    <div className="flex flex-col items-start w-50  gap-3 p-3 border-2 border-nude">
       <Link href="/account">My account</Link>
       <Link href="/account/delivery-details">Delivery details</Link>
       <Link href="/account/orders">My orders</Link>
