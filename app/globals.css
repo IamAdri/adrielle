@@ -38,14 +38,14 @@
 
 html.dark {
   --background: #2f2f2f; /* un negru soft, nu prea dur */
-  --foreground: #f5f5f5;
+  --foreground: #faf9f6;
 }
 html.dark {
   /* 🌑 Dark mode pastel */
   --color-lavender: #bba1d4; /* lavender mai închis, păstrează vibe pastel */
   --color-lightlavender: #5a4b6a;
   --color-softlavender: #7b6fa5;
-  --color-warmwhite: #5a5a50;
+  --color-warmwhite: #2f2f2f;
   --color-nude: #756073; /* nude cald, mai "cafea cu lapte" */
   --color-darknude: #8e7f8c;
   --color-coolgrey: #b0b0b0; /* gri mai moale, să nu taie prea mult */

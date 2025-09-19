@@ -45,7 +45,7 @@ export default function RootLayout({ children }) {
                   <ChooseSizeProvider>
                     <ChangingColorProvider>
                       <UserDetailsProvider>
-                        <main className="text-center basis-8/10 py-7  text-deepgrey mb-35 mt-20 ">
+                        <main className="text-center basis-9/10 py-7 text-deepgrey pb-35 mt-20 bg-warmwhite">
                           {children}
                         </main>
                       </UserDetailsProvider>
