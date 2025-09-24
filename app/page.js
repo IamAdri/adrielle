@@ -9,7 +9,6 @@ const playfairDisplay = Playfair_Display({
 
 export default async function Page() {
   const session = await auth();
-  console.log(session);
   const currentUser = session?.user.email || "not loged in";
   return (
     <div>
