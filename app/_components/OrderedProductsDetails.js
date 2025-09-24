@@ -5,7 +5,6 @@ function OrderedProductsDetails({ cartItems }) {
     <div className="flex flex-col whitespace-nowrap gap-15 mt-15">
       {cartItems.length > 0 &&
         cartItems.map((cartItem) => {
-          //console.log(cartItem);
           return (
             <ul key={`${cartItem.items.id}, ${cartItem.size}, ${cartItem.id}`}>
               <li className="flex gap-5">
@@ -17,7 +16,6 @@ function OrderedProductsDetails({ cartItems }) {
                     alt="Main image for favorite item."
                   />
                 </div>
-
                 <div className="flex flex-wrap gap-5  lg:gap-25 w-full">
                   <div className="flex flex-col items-start">
                     <h3>{cartItem.items.name}</h3>
@@ -28,7 +26,6 @@ function OrderedProductsDetails({ cartItems }) {
                       Selled by Adrielle
                     </span>
                   </div>
-
                   <span className="font-medium text-base text-deepgrey text-end mr-15">{`${cartItem.pricePerQuantity} EUR`}</span>
                 </div>
               </li>

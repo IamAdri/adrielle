@@ -8,7 +8,7 @@ import {
   removeUserDetails,
 } from "../_lib/data-service";
 import Spinner from "./Spinner";
-import { useUserDetails } from "../_contextAPI/userDetailsContextApi";
+import { useUserDetails } from "../_contextAPI/UserDetailsContextApi";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
 import Button from "./Button";
 
@@ -24,13 +24,10 @@ function DeliveryDetailsDiv({ sessionUser }) {
           return userEmail.email;
         })
         .includes(sessionUser);
-      //console.log(isUserEmail);
       if (!isUserEmail) setUser(sessionUser);
       const userDetailsFromDatabase = await getUserDetails(sessionUser);
       console.log(userDetailsFromDatabase);
       setUserDetails(userDetailsFromDatabase[0]);
-      // if (!isUserEmail) await insertUserEmail(sessionUser);
-      //
     };
     isEmailInDatabase();
   }, [sessionUser, setUserDetails]);
@@ -44,13 +41,10 @@ function DeliveryDetailsDiv({ sessionUser }) {
     })();
   }, [user]);
 
-  //console.log(logedInUser);
   const handleDeleteUserDetails = async () => {
     removeUserDetails(sessionUser);
     const userDetailsFromDatabase = await getUserDetails(sessionUser);
-    // console.log(userDetailsFromDatabase);
     setUserDetails(userDetailsFromDatabase[0]);
-    // redirect("/account");
   };
   console.log(user, userDetails);
   return (

@@ -4,6 +4,7 @@ import ButtonForDeletingFavoriteItem from "./ButtonForDeletingFavoriteItem";
 import AddToCartIcon from "./AddToCartIcon";
 import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
 import { redirect } from "next/navigation";
+import { priceWithDiscount } from "../_lib/helper";
 
 function FavoriteItem({ favoriteItem, currentUser }) {
   const { setColorSrc } = useChangingColor();
@@ -15,12 +16,11 @@ function FavoriteItem({ favoriteItem, currentUser }) {
       }/${favoriteItem.items.name.replaceAll(" ", "_")}`
     );
   };
-  const discount =
-    favoriteItem.items.discount !== null
-      ? (favoriteItem.items.price * favoriteItem.items.discount) / 100
-      : null;
-  const priceAfterDiscount = favoriteItem.items.price - discount;
 
+  const priceAfterDiscount = priceWithDiscount(
+    favoriteItem.items.discount,
+    favoriteItem.items.price
+  );
   return (
     <ul className="flex flex-col items-center gap-5 ">
       <li className="relative">

@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 function ModalAddCartSuccessfully({ closeCartModal }) {
   const { setClickedSize, setSameCartItem, setAddedToCartSuccessfully } =
     useChooseSize();
-
   const handleGoToCart = () => {
     setSameCartItem("");
     setClickedSize("");

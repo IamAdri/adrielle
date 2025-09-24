@@ -1,11 +1,8 @@
 import Link from "next/link";
 
-function DropdownButton({ showDropdownMenu, mainRoot }) {
+function DropdownButton({ mainRoot }) {
   return (
-    <button
-      onMouseOver={showDropdownMenu}
-      className="peer hover:bg-lightlavender px-4 py-2 rounded-xl cursor-pointer"
-    >
+    <button className="peer hover:bg-lightlavender px-4 py-2 rounded-xl cursor-pointer">
       <Link href={`/${mainRoot}`}>
         {mainRoot.charAt(0).toUpperCase() + mainRoot.slice(1)}
       </Link>

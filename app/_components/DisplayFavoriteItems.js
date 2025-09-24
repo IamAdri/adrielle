@@ -18,7 +18,6 @@ function DisplayFavoriteItems({ currentUser }) {
     <div className="flex flex-wrap gap-5 py-15 lg:px-35 md:px-25 px-10 justify-center">
       {favoriteItems.length > 0 &&
         favoriteItems.map((favoriteItem) => {
-          //console.log(favoriteItem);
           return (
             <FavoriteItem
               key={`${favoriteItem.items.name},${favoriteItem.selectedColor}`}

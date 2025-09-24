@@ -1,4 +1,5 @@
 import { auth } from "../_lib/auth";
+import { colorsAvailableFunction, priceWithDiscount } from "../_lib/helper";
 import AddToCartFromItemPage from "./AddToCartFromItemPage";
 import AddToFavorites from "./AddToFavorites";
 import ButtonForChangingColor from "./ButtonForChangingColor";
@@ -11,20 +12,14 @@ import Link from "next/link";
 async function ItemPageDetails({ item, itemName }) {
   const session = await auth();
   const currentUser = session?.user.email || "not loged in";
-  const colorsAvailable = Object.keys(item.variants);
-  const discount =
-    item.discount !== null ? (item.price * item.discount) / 100 : null;
-  const priceAfterDiscount = item.price - discount;
-  console.log(item.discount);
+  const { colorsAvailable, mainColorImage } = colorsAvailableFunction(item);
+  const priceAfterDiscount = priceWithDiscount(item.discount, item.price);
   return (
     <>
       <div>
         <div className="flex flex-wrap  lg:flex-nowrap gap-10 2xl:gap-35 xl:gap-25 md:gap-10 ">
           <div className="flex gap-2 items-center">
-            <ButtonForImages
-              itemDetails={item}
-              colorsAvailable={colorsAvailable}
-            />
+            <ButtonForImages itemDetails={item} />
           </div>
           <div className="flex flex-col flex-wrap lg:w-150 mr-5">
             <div className="flex justify-between lg:w-115 md:55">
@@ -33,7 +28,6 @@ async function ItemPageDetails({ item, itemName }) {
               </MainHeading>
               <AddToFavorites
                 name={itemName}
-                itemID={item.id}
                 item={item}
                 currentUser={currentUser}
               />
@@ -65,7 +59,6 @@ async function ItemPageDetails({ item, itemName }) {
                 );
               })}
             </div>
-
             <div className="w-fit">
               <AddToCartFromItemPage
                 item={item}
@@ -76,19 +69,15 @@ async function ItemPageDetails({ item, itemName }) {
         </div>
       </div>
       <div className="flex flex-wrap xl:flex-nowrap 2xl:gap-35 gap-15 items-start">
-        <RatingAndReviewsFromAllUsers
-          itemName={itemName}
-          currentUser={currentUser}
-        />
+        <RatingAndReviewsFromAllUsers itemName={itemName} />
         {currentUser !== "not loged in" ? (
           <div className="flex flex-col items-start gap-7 ">
             <div className="ml-5">
               <MainHeading>My review</MainHeading>
             </div>
-
             <ReviewAndRating
               productName={itemName}
-              productImage={item.variants[colorsAvailable[0]].images[0]}
+              productImage={mainColorImage}
               currentUser={currentUser}
             />
           </div>

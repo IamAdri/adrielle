@@ -13,7 +13,7 @@ import { useCartItems } from "../_contextAPI/CartItemsContextApi";
 import OrderedProductsDetails from "./OrderedProductsDetails";
 import Spinner from "./Spinner";
 import Button from "./Button";
-import { useUserDetails } from "../_contextAPI/userDetailsContextApi";
+import { useUserDetails } from "../_contextAPI/UserDetailsContextApi";
 
 function OrderDetails({ sessionUser }) {
   const [paymentMethod, setPaymentMethod] = useState("cashPayment");
@@ -36,12 +36,12 @@ function OrderDetails({ sessionUser }) {
       setCartItems(cartItemsDetails);
     })();
   }, [sessionUser]);
-  console.log(userDetails);
+
   useEffect(() => {
     if (userDetails.streetName === null) setDeliveryDetails(false);
     if (userDetails.streetName !== null) setDeliveryDetails(true);
   }, [userDetails]);
-  //if (!isMounted) return <Spinner />;
+
   const date = new Date().toLocaleDateString("en-CA");
   const orderDate = new Date(date);
   orderDate.setDate(orderDate.getDate() + 3);
@@ -78,7 +78,6 @@ function OrderDetails({ sessionUser }) {
       redirect("/congratulations");
     }
   };
-  console.log(deliveryDetails);
   return (
     <div className="flex flex-col flex-wrap items-start border-2 border-lightlavender p-5 rounded-sm w-4/5 md:w-3/5">
       <MainHeading>Delivery details</MainHeading>
@@ -119,7 +118,6 @@ function OrderDetails({ sessionUser }) {
           </form>
         </>
       )}
-
       <p className="my-7 text-sm text-coolgrey">
         By placing your order, you agree to the{" "}
         <Link href="/terms" className="underline text-deepgrey">

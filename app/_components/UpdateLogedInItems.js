@@ -8,9 +8,7 @@ import {
 import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
 
 function UpdateLogedInItems({ currentUser }) {
-  console.log(currentUser);
   const { setGuestIDIsRemoved } = useCurrentUserEmail();
-
   useEffect(() => {
     async function updateItems() {
       await updateNotLogedInFavoriteItems(

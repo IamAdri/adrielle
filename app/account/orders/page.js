@@ -48,7 +48,6 @@ async function Orders() {
                           alt="Image of ordered product"
                         />
                       </div>
-
                       <ul className="flex flex-col items-start">
                         <li className="font-medium">{product.name}</li>
                         <li>
@@ -74,7 +73,6 @@ async function Orders() {
                         </li>
                       </ul>
                     </div>
-
                     <ReviewAndRating
                       productName={product.name}
                       productImage={product.image}

@@ -42,8 +42,3 @@ function OverlayOnHover({
 }
 
 export default OverlayOnHover;
-
-/* {category === "newCollection"
-            ? "New collection"
-            : srcName.charAt(0).toUpperCase() + srcName.slice(1)}
-*/

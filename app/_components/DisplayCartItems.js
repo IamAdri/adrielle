@@ -40,12 +40,9 @@ function DisplayCartItems({ currentUser }) {
           ) : (
             <MainHeading>My shopping cart</MainHeading>
           )}
-
           <div className="relative w-100 md:w-150 lg:w-200">
             {cartItems.length > 0 &&
               cartItems.map((cartItem) => {
-                //console.log(cartItem);
-
                 return (
                   <ul
                     className="flex flex-col gap-15 mt-15"

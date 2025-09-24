@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { StarIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { sendReview } from "../_lib/actions";
 import {
@@ -45,7 +45,6 @@ function ReviewAndRating({ productName, productImage, currentUser }) {
     setReviewText("");
     router.refresh();
   };
-
   return (
     <div className="ml-5 mr-5">
       <div className="flex flex-col gap-3 items-start ">
@@ -75,7 +74,6 @@ function ReviewAndRating({ productName, productImage, currentUser }) {
               );
             })}
           </div>
-
           <div>
             {rating > 0 && isModalReviewOpened === false && (
               <button className="cursor-pointer" onClick={handleDeleteRating}>
@@ -135,7 +133,6 @@ function ReviewAndRating({ productName, productImage, currentUser }) {
                       );
                     })}
                   </div>
-
                   <span className="font-medium text-xl">
                     {rating > 0 && rating}
                   </span>

@@ -13,8 +13,6 @@ function NavigationLinksFromProductPage({ itemName }) {
   );
   const firstPathNameWithUpperCase =
     pathNamesSplited[0].charAt(0).toUpperCase() + pathNamesSplited[0].slice(1);
-  // console.log(pathNamesSplited);
-  console.log(itemName);
   return (
     <div className="flex justify-start ml-10 gap-1 items-center mt-3">
       <Link

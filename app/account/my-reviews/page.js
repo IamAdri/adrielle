@@ -2,14 +2,12 @@ import MainHeading from "@/app/_components/MainHeading";
 import ReviewAndRating from "@/app/_components/ReviewAndRating";
 import { auth } from "@/app/_lib/auth";
 import { getReviewsAndRatingsByUser } from "@/app/_lib/data-service";
-import { image } from "@heroui/theme";
 import Image from "next/image";
 
 async function MyReviews() {
   const session = await auth();
   const currentUser = session?.user.email || "not loged in";
   const reviewsDetails = await getReviewsAndRatingsByUser(currentUser);
-
   return (
     <div>
       <MainHeading>My reviews</MainHeading>
@@ -31,7 +29,6 @@ async function MyReviews() {
                   />
                 </div>
               </div>
-
               <ReviewAndRating
                 productName={review.productName}
                 currentUser={currentUser}
@@ -45,12 +42,3 @@ async function MyReviews() {
 }
 
 export default MyReviews;
-/*
-                    <div className="w-[100px] h-[100px]">
-                      <Image
-                        src={product.image}
-                        width={100}
-                        height={100}
-                        alt="Image of ordered product"
-                      />
-                    </div>*/

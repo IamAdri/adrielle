@@ -52,7 +52,7 @@ function ButtonForAddingQuantity({ cartItem }) {
   }, [price]);
   const handleDecreaseQuantity = () => {
     setQuantity(quantity - 1);
-    setPrice(price);
+    // setPrice(price);
     setIsQuantityChanged(isQuantityChanged - 1);
   };
 

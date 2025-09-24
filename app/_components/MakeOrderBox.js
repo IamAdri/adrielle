@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { getCartItems } from "../_lib/data-service";
 import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
@@ -23,7 +22,6 @@ function MakeOrderBox({ currentUser }) {
         isCurrentUser,
         localStorage.getItem("guestID")
       );
-      // console.log(items);
       setItemsFromCart(items);
     })();
   }, [isCurrentUser, isCart]);
@@ -51,7 +49,6 @@ function MakeOrderBox({ currentUser }) {
       supabase.removeChannel(channel);
     };
   }, [itemsFromCart]);
-  //console.log(itemsFromCart);
 
   useEffect(() => {
     let itemPrices = [];
@@ -60,12 +57,10 @@ function MakeOrderBox({ currentUser }) {
     });
     setPricesOfItems(itemPrices);
   }, [itemsFromCart]);
-  //console.log(pricesOfItems);
 
   useEffect(() => {
     setTotalProductsPrice(pricesOfItems.reduce((acc, curr) => acc + curr, 0));
   }, [pricesOfItems]);
-  //console.log(totalProductsPrice);
 
   useEffect(() => {
     if (totalProductsPrice >= 200) {

@@ -3,12 +3,10 @@ import { TrashIcon } from "@heroicons/react/24/outline";
 import { getCartItems, removeCartItem } from "../_lib/data-service";
 import { useCartItems } from "../_contextAPI/CartItemsContextApi";
 import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
-import { useRouter } from "next/navigation";
 
 function ButtonForDeletingCartItem({ item }) {
   const { setIsCart } = useCartItems();
   const { isCurrentUser } = useCurrentUserEmail();
-  const router = useRouter();
   const handleDeleteCartItem = (e) => {
     const targetedItem =
       e.currentTarget.parentNode.parentNode.parentNode.parentNode;
@@ -27,7 +25,6 @@ function ButtonForDeletingCartItem({ item }) {
       setIsCart(updatedArray.length);
     })();
     targetedItem.style.display = "none";
-    //location.reload();
   };
   return (
     <button onClick={handleDeleteCartItem}>

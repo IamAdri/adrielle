@@ -1,13 +1,17 @@
 "use client";
 import Image from "next/image";
 import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
+import { colorsAvailableFunction } from "../_lib/helper";
 
-function ButtonForImages({ itemDetails, colorsAvailable }) {
+function ButtonForImages({ itemDetails }) {
   const { colorSrc, clickedImage, setIsClickedImage } = useChangingColor();
-  const mainColorImage = itemDetails.variants[colorsAvailable[0]].images[0];
-  const secondColorImage = itemDetails.variants[colorsAvailable[1]].images[0];
-  const mainColorGallery = itemDetails.variants[colorsAvailable[0]].images;
-  const secondColorGallery = itemDetails.variants[colorsAvailable[1]].images;
+  const {
+    mainColorImage,
+    secondColorImage,
+    mainColorGallery,
+    secondColorGallery,
+  } = colorsAvailableFunction(itemDetails);
+
   const chooseGallery = secondColorGallery.includes(colorSrc)
     ? secondColorGallery
     : mainColorGallery;
@@ -18,7 +22,7 @@ function ButtonForImages({ itemDetails, colorsAvailable }) {
   const changeMainImage = (e) => {
     setIsClickedImage(e.target.src);
   };
-  // console.log(colorSrc);
+
   return (
     <>
       <div className="flex flex-col gap-1 2xl:w-[125px] xl:w-[100px] w-[75px]">

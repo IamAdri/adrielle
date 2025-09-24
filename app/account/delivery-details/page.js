@@ -1,8 +1,7 @@
 "use client";
-
 import Button from "@/app/_components/Button";
 import Spinner from "@/app/_components/Spinner";
-import { useUserDetails } from "@/app/_contextAPI/userDetailsContextApi";
+import { useUserDetails } from "@/app/_contextAPI/UserDetailsContextApi";
 import { updateDeliveryDetails } from "@/app/_lib/actions";
 import { useEffect, useState } from "react";
 
@@ -30,7 +29,7 @@ function DeliveryDetails() {
   }, [userDetails]);
 
   if (!isMounted) return <Spinner />;
-  console.log(userDetails);
+
   return (
     <form
       action={updateDeliveryDetails}

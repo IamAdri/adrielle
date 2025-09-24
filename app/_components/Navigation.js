@@ -19,7 +19,6 @@ async function Navigation({ children }) {
        `}
     >
       <DropdownMenu />
-
       <div className="flex gap-8 items-center">
         <Link href="/">
           <HomeIcon className="size-7 text-deepgrey" />

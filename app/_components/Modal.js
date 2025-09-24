@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useChooseSize } from "../_contextAPI/ChooseSizeContextApi";
 import ModalAddCartSuccessfully from "./ModalAddCartSuccessfully";
 import { usePathname } from "next/navigation";
+import { colorsAvailableFunction } from "../_lib/helper";
 
 function Modal({ setOpenModal, item, selectedColorSrc, priceAfterDiscount }) {
   const {
@@ -14,19 +15,15 @@ function Modal({ setOpenModal, item, selectedColorSrc, priceAfterDiscount }) {
     setAddedToCartSuccessfully,
   } = useChooseSize();
   const path = usePathname();
-  const colorsAvailable = Object.keys(item.variants);
-  const mainColorImage =
-    selectedColorSrc === ""
-      ? item.variants[colorsAvailable[0]].images[0]
-      : selectedColorSrc;
-  //console.log(mainColorImage);
+  const { mainColorImage } = colorsAvailableFunction(item);
+  const mainColorImageFromModal =
+    selectedColorSrc === "" ? mainColorImage : selectedColorSrc;
   const closeCartModal = () => {
     setOpenModal(false);
     setSameCartItem("");
     setClickedSize("");
     setAddedToCartSuccessfully(false);
   };
-  // console.log(item);
   return (
     <div className="fixed inset-0 z-10 overflow-y-auto">
       <div
@@ -47,7 +44,7 @@ function Modal({ setOpenModal, item, selectedColorSrc, priceAfterDiscount }) {
                 <div>
                   <Link href={`${path}/${item.name.replaceAll(" ", "_")}`}>
                     <Image
-                      src={mainColorImage}
+                      src={mainColorImageFromModal}
                       sizes="100vw"
                       width={175}
                       height={175}

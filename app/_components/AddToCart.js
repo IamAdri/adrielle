@@ -12,6 +12,7 @@ import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
 import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
 import ButtonForSize from "./ButtonForSize";
 import Drawer from "./Drawer";
+import { colorsAvailableFunction } from "../_lib/helper";
 
 function AddToCart({ item, selectedColorSrc, priceAfterDiscount }) {
   const {
@@ -28,15 +29,14 @@ function AddToCart({ item, selectedColorSrc, priceAfterDiscount }) {
   const [pricePerQuantity, setPricePerQuantity] = useState(0);
   const { isCart, setIsCart } = useCartItems();
   const { colorSrc, setIsClickedImage } = useChangingColor();
-  const colorsAvailable = Object.keys(item.variants);
-  const mainColorImage = item.variants[colorsAvailable[0]].images[0];
+  const { colorsAvailable, mainColorImage, secondColorGallery } =
+    colorsAvailableFunction(item);
   const displayedImageInCart =
     colorSrc === ""
       ? selectedColorSrc === ""
         ? mainColorImage
         : selectedColorSrc
       : colorSrc;
-  const secondColorGallery = item.variants[colorsAvailable[1]].images;
   const chooseColor = secondColorGallery.includes(displayedImageInCart)
     ? colorsAvailable[1]
     : colorsAvailable[0];
@@ -144,7 +144,6 @@ function AddToCart({ item, selectedColorSrc, priceAfterDiscount }) {
       }
     }
   };
-  console.log(priceAfterDiscount);
   return (
     <div className="flex flex-col items-start gap-1">
       {item.itemType === "accessories" ? null : (

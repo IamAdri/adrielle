@@ -32,7 +32,6 @@ async function RatingAndReviewsFromAllUsers({ itemName }) {
           </div>
           <div className="mt-15">
             {getReviewsAndRatingsOfProduct.map((review) => {
-              console.log(review);
               return (
                 <div
                   key={review.id}

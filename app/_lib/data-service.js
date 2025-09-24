@@ -5,20 +5,7 @@ export async function getItems() {
 
   if (error) {
     console.log(error);
-    throw new Error("Could not load");
-  }
-  return data;
-}
-
-export async function getAccessories() {
-  let { data, error } = await supabase
-    .from("accessories")
-    .select("*")
-    .order("id");
-
-  if (error) {
-    console.log(error);
-    throw new Error("Could not load accessories.");
+    throw new Error("Could not load items.");
   }
   return data;
 }
@@ -32,24 +19,11 @@ export async function getItemByName(name) {
 
   if (error) {
     console.log(error);
-    throw new Error("Could not load");
+    throw new Error("Could not load item.");
   }
   return data;
 }
-/*
-export async function getImageByShoesName(name) {
-  let { data, error } = await supabase
-    .from("shoes")
-    .select("variants")
-    .eq("name", name);
 
-  if (error) {
-    console.log(error);
-    throw new Error("Could not load images.");
-  }
-  return data;
-}
-*/
 export async function getFavoriteItems(logedInUser, guestID) {
   const { data, error } = await supabase
     .from("favorites")
@@ -58,7 +32,7 @@ export async function getFavoriteItems(logedInUser, guestID) {
     .eq("guestID", guestID || "empty");
   if (error) {
     console.log(error);
-    throw new Error("Could not load");
+    throw new Error("Could not load favorite items.");
   }
   return data;
 }
@@ -72,7 +46,7 @@ export async function getCartItems(currentUserEmail, guestID) {
 
   if (error) {
     console.log(error);
-    throw new Error("Could not load");
+    throw new Error("Could not load cart items.");
   }
   return data;
 }
@@ -100,7 +74,7 @@ export async function insertFavoriteItem(
     .select();
   if (error) {
     console.log(error);
-    throw new Error("Could not insert");
+    throw new Error("Could not insert favorite item.");
   }
 
   return data;
@@ -115,7 +89,7 @@ export async function removeAllSameFavoriteItems(sameFavoriteItems, guestID) {
 
   if (error) {
     console.log(error);
-    throw new Error("Could not insert");
+    throw new Error("Could not remove all same favorite items.");
   }
 }
 
@@ -130,7 +104,6 @@ export async function updateNotLogedInFavoriteItems(logedInUser, guestID) {
     "not loged in",
     guestID
   );
-  // console.log(favoriteItemsOfNotLogedIn);
   favoriteItemsOfCurrentUser.map((favoriteItemOfUser) => {
     favoriteItemsOfNotLogedIn.map((favoriteItemOfNotLogedIn) => {
       if (
@@ -142,7 +115,6 @@ export async function updateNotLogedInFavoriteItems(logedInUser, guestID) {
       }
     });
   });
-  // console.log(sameFavoriteItems);
   await removeAllSameFavoriteItems(sameFavoriteItems, guestID);
 
   const { data, error } = await supabase
@@ -153,7 +125,7 @@ export async function updateNotLogedInFavoriteItems(logedInUser, guestID) {
     .select();
   if (error) {
     console.log(error);
-    throw new Error("Could not insert");
+    throw new Error("Could not update not loged in favorite items.");
   }
 
   return data;
@@ -169,14 +141,13 @@ export async function removeAllSameCartItems(sameCartItems, guestID) {
 
   if (error) {
     console.log(error);
-    throw new Error("Could not insert");
+    throw new Error("Could not remove all same cart items.");
   }
 }
 
 export async function updateNotLogedInCartItems(logedInUser, guestID) {
   let sameCartItems = [];
   const cartItemsOfCurrentUser = await getCartItems(logedInUser, "empty");
-  console.log(cartItemsOfCurrentUser);
   const cartItemsOfNotLogedIn = await getCartItems("not loged in", guestID);
   cartItemsOfCurrentUser.map((cartItemOfUser) => {
     cartItemsOfNotLogedIn.map((cartItemOfNotLogedIn) => {
@@ -189,7 +160,6 @@ export async function updateNotLogedInCartItems(logedInUser, guestID) {
       }
     });
   });
-  console.log(sameCartItems);
   await removeAllSameCartItems(sameCartItems, guestID);
 
   const { data, error } = await supabase
@@ -200,7 +170,7 @@ export async function updateNotLogedInCartItems(logedInUser, guestID) {
     .select();
   if (error) {
     console.log(error);
-    throw new Error("Could not insert");
+    throw new Error("Could not update all not loged in cart items.");
   }
 
   return data;
@@ -235,7 +205,7 @@ export async function insertCartItem(
     .select();
   if (error) {
     console.log(error);
-    throw new Error("Could not insert");
+    throw new Error("Could not insert cart item.");
   }
 
   return data;
@@ -275,6 +245,11 @@ export async function removeCartItem(
     .eq("selectedColor", selectedColor)
     .eq("logedInUser", currentUser)
     .eq("guestID", guestID || "empty");
+
+  if (error) {
+    console.log(error);
+    throw new Error("Could not remove from cart!");
+  }
 }
 
 export async function removeCartItemsAfterSentOrder(email) {
@@ -285,22 +260,10 @@ export async function removeCartItemsAfterSentOrder(email) {
 
   if (error) {
     console.log(error);
-    throw new Error("Could not remove items from carte after sending order");
+    throw new Error("Could not remove items from cart after sending order");
   }
 }
-/*
-export async function getShoesById(favoriteID) {
-  const { data, error } = await supabase
-    .from("shoes")
-    .select("*")
-    .eq("id", favoriteID);
-  if (error) {
-    console.log(error);
-    throw new Error("Could not load");
-  }
-  return data;
-}
-*/
+
 export async function getItemsDetailsByFavoriteTable(
   currentUserEmail,
   guestID
@@ -314,7 +277,7 @@ export async function getItemsDetailsByFavoriteTable(
 
   if (error) {
     console.log(error);
-    throw new Error("Could not load");
+    throw new Error("Could not load item details from favorite table.");
   }
   return data;
 }
@@ -353,7 +316,7 @@ export async function updateCartQuantityColumn(
 
   if (error) {
     console.log(error);
-    throw new Error("Could not load");
+    throw new Error("Could not update cart quantity.");
   }
   return data;
 }
@@ -378,7 +341,7 @@ export async function updateCartPricePerQuantityColumn(
 
   if (error) {
     console.log(error);
-    throw new Error("Could not load");
+    throw new Error("Could not loupdate price per quantity in the cart.");
   }
   return data;
 }
@@ -387,7 +350,7 @@ export async function getUserEmail() {
   const { data, error } = await supabase.from("userDetails").select("email");
   if (error) {
     console.log(error);
-    throw new Error("Could not load");
+    throw new Error("Could not get user email.");
   }
   return data;
 }
@@ -400,7 +363,7 @@ export async function insertUserEmail(email) {
 
   if (error) {
     console.log(error);
-    throw new Error("Could not load");
+    throw new Error("Could not insert user email.");
   }
   return data;
 }
@@ -413,7 +376,7 @@ export async function getUserDetails(email) {
 
   if (error) {
     console.log(error);
-    throw new Error("Could not load");
+    throw new Error("Could not get user details.");
   }
   return data;
 }
@@ -432,7 +395,7 @@ export async function removeUserDetails(email) {
 
   if (error) {
     console.log(error);
-    throw new Error("Could not load");
+    throw new Error("Could not remove user details.");
   }
   return data;
 }
@@ -482,16 +445,6 @@ export async function getOrdersDetails(sessionUser) {
   return data;
 }
 
-export async function getOrderDeliveryDate() {
-  let { data, error } = await supabase.from("orders").select("deliveryDate");
-
-  if (error) {
-    console.log(error);
-    throw new Error("Could not load delivery date.");
-  }
-  return data;
-}
-
 export async function updateOrderStatus(todaysDate) {
   const { data, error } = await supabase
     .from("orders")
@@ -499,7 +452,6 @@ export async function updateOrderStatus(todaysDate) {
     .eq("status", "processing")
     .lte("deliveryDate", todaysDate)
     .select();
-  // 👈 without this, update() returns null
   if (error) {
     console.error(error);
     throw new Error("Could not update delivery status.");
@@ -536,9 +488,7 @@ export async function getReviewsAndRatingsByProductName(productName) {
 
   if (error) {
     console.error(error);
-    throw new Error(
-      "Could not get reviews and ratings by user and product name."
-    );
+    throw new Error("Could not get reviews and ratings by product name.");
   }
 
   return data;
@@ -566,21 +516,7 @@ export async function getAllRatingsByProductName(name) {
 
   if (error) {
     console.error(error);
-    throw new Error("Could not get reviews and ratings by user.");
-  }
-
-  return data;
-}
-
-export async function getAllReviewsByProductName(name) {
-  const { data, error } = await supabase
-    .from("reviews")
-    .select("review")
-    .eq("productName", name);
-
-  if (error) {
-    console.error(error);
-    throw new Error("Could not get reviews and ratings by user.");
+    throw new Error("Could not get all reviews and ratings by user.");
   }
 
   return data;
@@ -598,6 +534,11 @@ export async function updateRatingAndReviewByProductName(
     .eq("productName", productName)
     .eq("userEmail", userEmail)
     .select();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Could not update rating and review by product name.");
+  }
 }
 
 export async function deleteReviewsAndRatingsByUser(userEmail, productName) {
@@ -609,6 +550,6 @@ export async function deleteReviewsAndRatingsByUser(userEmail, productName) {
 
   if (error) {
     console.error(error);
-    throw new Error("Could not get reviews and ratings by user.");
+    throw new Error("Could not remove reviews and ratings by user.");
   }
 }

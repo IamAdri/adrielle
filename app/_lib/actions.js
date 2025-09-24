@@ -19,19 +19,15 @@ export async function signOutAction() {
 }
 
 export async function updateDeliveryDetails(formData) {
-  //console.log(formData);
   const session = await auth();
-  //console.log(session);
   if (!session) throw new Error("You must be logged in");
   const streetName = formData?.get("street");
   const streetNumber = formData?.get("streetNumber");
   const house = formData?.get("house");
   const postalCode = formData?.get("postalCode");
   const phone = formData?.get("phone");
-  //console.log(streetName, postalCode);
   const updateData = { streetName, streetNumber, house, postalCode, phone };
-
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("userDetails")
     .update(updateData)
     .eq("email", session.user.email);
@@ -49,12 +45,10 @@ export async function sendReview(formData) {
   const productName = formData.get("productName");
   const productImage = formData.get("productImage");
   const pathName = formData.get("pathName");
-  console.log(formData, session.user.email);
   const isProductRated = await getReviewsAndRatingsByUserAndProductName(
     userEmail,
     productName
   );
-  console.log(isProductRated);
   if (isProductRated.length > 0) {
     await updateRatingAndReviewByProductName(
       rating,
@@ -63,7 +57,7 @@ export async function sendReview(formData) {
       userEmail
     );
   } else {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("reviews")
       .insert([
         {
@@ -80,16 +74,4 @@ export async function sendReview(formData) {
   }
 
   redirect(pathName);
-}
-
-export async function removeStorage(currentUser) {
-  await updateNotLogedInFavoriteItems(
-    currentUser,
-    localStorage.getItem("guestID")
-  );
-  await updateNotLogedInCartItems(currentUser, localStorage.getItem("guestID"));
-  //
-  //setIsUpdated(true);
-
-  if (currentUser !== "not logged in") localStorage.removeItem("guestID");
 }

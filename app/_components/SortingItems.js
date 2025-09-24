@@ -46,7 +46,6 @@ function SortingItems() {
           <span>SORT BY</span>
           <ArrowDownIcon className="size-3" />
         </button>
-
         <div
           className={`${
             isSortingClicked

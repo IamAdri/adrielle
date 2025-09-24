@@ -1,11 +1,9 @@
 "use client";
-
 import { useState } from "react";
 import SizeGuideTable from "./SizeGuideTable";
 
 function Drawer() {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
   };
@@ -15,7 +13,6 @@ function Drawer() {
       <button className="hover:cursor-pointer" onClick={toggleDrawer}>
         Size Guide
       </button>
-
       <div
         className={`flex flex-col items-end fixed top-70 right-0 w-fit h-fit p-1 bg-warmwhite opacity-95 shadow-lg
                 transition-transform transform ${

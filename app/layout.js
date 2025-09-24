@@ -1,16 +1,15 @@
 import Navigation from "./_components/Navigation";
 import "./globals.css";
-import { Noto_Sans, Playfair_Display } from "next/font/google";
+import { Noto_Sans } from "next/font/google";
 import Footer from "./_components/Footer";
 import { FavoriteItemsProvider } from "./_contextAPI/FavoriteItemsContextApi";
 import { ChooseSizeProvider } from "./_contextAPI/ChooseSizeContextApi";
 import { CartItemsProvider } from "./_contextAPI/CartItemsContextApi";
-import { CategoryParamsProvider } from "./_contextAPI/CategoryParamsProvider";
 import { ChangingColorProvider } from "./_contextAPI/ChangingColorContextApi";
 import AuthUserAvatar from "./_components/AuthUserAvatar";
 import { CurrentUserEmailProvider } from "./_contextAPI/CurrentUserEmailContextApi";
-import { UserDetailsProvider } from "./_contextAPI/userDetailsContextApi";
 import { ThemeProvider } from "next-themes";
+import { UserDetailsProvider } from "./_contextAPI/UserDetailsContextApi";
 
 const notoSans = Noto_Sans({
   subsets: ["latin"],
@@ -38,20 +37,18 @@ export default function RootLayout({ children }) {
           <CurrentUserEmailProvider>
             <FavoriteItemsProvider>
               <CartItemsProvider>
-                <CategoryParamsProvider>
-                  <Navigation>
-                    <AuthUserAvatar width={28} height={28} />
-                  </Navigation>
-                  <ChooseSizeProvider>
-                    <ChangingColorProvider>
-                      <UserDetailsProvider>
-                        <main className="text-center basis-9/10 py-7 text-deepgrey pb-35 mt-20 bg-warmwhite">
-                          {children}
-                        </main>
-                      </UserDetailsProvider>
-                    </ChangingColorProvider>
-                  </ChooseSizeProvider>
-                </CategoryParamsProvider>
+                <Navigation>
+                  <AuthUserAvatar width={28} height={28} />
+                </Navigation>
+                <ChooseSizeProvider>
+                  <ChangingColorProvider>
+                    <UserDetailsProvider>
+                      <main className="text-center basis-9/10 py-7 text-deepgrey pb-35 mt-20 bg-warmwhite">
+                        {children}
+                      </main>
+                    </UserDetailsProvider>
+                  </ChangingColorProvider>
+                </ChooseSizeProvider>
               </CartItemsProvider>
             </FavoriteItemsProvider>
           </CurrentUserEmailProvider>

@@ -1,5 +1,4 @@
 function Button({ children, handleClick = null, disabled = false }) {
-  console.log(disabled);
   return (
     <button
       disabled={disabled}
