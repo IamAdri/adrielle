@@ -162,8 +162,8 @@ function GridSection({ selectItemsOfSameCategory, currentUser }) {
                     >
                       <div className="w-[75px] h-[75px]">
                         <Image
-                          src={item.variants[color].images[0]}
-                          overrideSrc={item.variants[color].images[0]}
+                          src={item.variants[color][0]}
+                          overrideSrc={item.variants[color][0]}
                           width={75}
                           height={75}
                           alt="Colors available for the pair of items from catalog."

@@ -15,10 +15,11 @@ export function priceWithDiscount(discount, price) {
 
 export function colorsAvailableFunction(item) {
   const colorsAvailable = Object.keys(item.variants);
-  const mainColorImage = item.variants[colorsAvailable[0]].images[0];
-  const secondColorImage = item.variants[colorsAvailable[1]].images[0];
-  const mainColorGallery = item.variants[colorsAvailable[0]].images;
-  const secondColorGallery = item.variants[colorsAvailable[1]].images;
+  const mainColorImage = item.variants[colorsAvailable[0]][0];
+  const secondColorImage = item.variants[colorsAvailable[1]][0];
+  const mainColorGallery = item.variants[colorsAvailable[0]];
+  const secondColorGallery = item.variants[colorsAvailable[1]];
+
   const imagesBasedOnColor = {
     colorsAvailable,
     mainColorImage,

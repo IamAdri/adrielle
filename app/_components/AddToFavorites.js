@@ -21,9 +21,9 @@ function AddToFavorites({
   const [isClicked, setIsClicked] = useState(false);
   const { colorSrc, clickedImage } = useChangingColor();
   const colorsAvailable = Object.keys(item.variants);
-  const mainColorImage = item.variants[colorsAvailable[0]].images[0];
+  const mainColorImage = item.variants[colorsAvailable[0]][0];
   const displayedImageInFavorite = colorSrc !== "" ? colorSrc : mainColorImage;
-  const secondColorGallery = item.variants[colorsAvailable[1]].images;
+  const secondColorGallery = item.variants[colorsAvailable[1]];
   const chooseColor = secondColorGallery.includes(displayedImageInFavorite)
     ? colorsAvailable[1]
     : colorsAvailable[0];

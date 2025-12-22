@@ -30,6 +30,18 @@ const nextConfig = {
         protocol: "https",
         hostname: "ydghorluedeqhuwnokqn.supabase.co",
         port: "",
+        pathname: "/storage/v1/object/public/bags/**",
+      },
+      {
+        protocol: "https",
+        hostname: "ydghorluedeqhuwnokqn.supabase.co",
+        port: "",
+        pathname: "/storage/v1/object/public/belts/**",
+      },
+      {
+        protocol: "https",
+        hostname: "ydghorluedeqhuwnokqn.supabase.co",
+        port: "",
         pathname: "/storage/v1/object/sign/belts/**",
       },
       {
