@@ -5,13 +5,13 @@ import { redirect } from "next/navigation";
 function ModalAddCartSuccessfully({ closeCartModal }) {
   const { setClickedSize, setSameCartItem, setAddedToCartSuccessfully } =
     useChooseSize();
+  //Redirect to cart page on click event
   const handleGoToCart = () => {
     setSameCartItem("");
     setClickedSize("");
     setAddedToCartSuccessfully(false);
     redirect("/bag");
   };
-
   return (
     <div className="fixed inset-0 z-10 overflow-y-auto">
       <div

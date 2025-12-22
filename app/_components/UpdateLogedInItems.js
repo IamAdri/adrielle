@@ -9,6 +9,7 @@ import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
 
 function UpdateLogedInItems({ currentUser }) {
   const { setGuestIDIsRemoved } = useCurrentUserEmail();
+  //Transfer all products from favorites and cart when user loges in
   useEffect(() => {
     async function updateItems() {
       await updateNotLogedInFavoriteItems(

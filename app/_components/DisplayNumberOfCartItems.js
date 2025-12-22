@@ -8,7 +8,7 @@ import { getCartItems } from "../_lib/data-service";
 function DisplayNumberOfCartItems({ currentUser }) {
   const { isCart, setIsCart } = useCartItems();
   const { setIsCurrentUser, guestIDIsRemoved } = useCurrentUserEmail();
-
+  //Get number of products from cart table of active user
   useEffect(() => {
     setIsCurrentUser(currentUser);
     async function loadCartItems() {

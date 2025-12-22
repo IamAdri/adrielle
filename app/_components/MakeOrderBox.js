@@ -15,7 +15,7 @@ function MakeOrderBox({ currentUser }) {
   const [pricesOfItems, setPricesOfItems] = useState([]);
   const { totalProductsPrice, setTotalProductsPrice } = useCartItems();
   const [deliveryCost, setDeliveryCost] = useState(0);
-
+  //Get cart items of active user
   useEffect(() => {
     (async function getItemsFromCart() {
       const items = await getCartItems(
@@ -25,7 +25,7 @@ function MakeOrderBox({ currentUser }) {
       setItemsFromCart(items);
     })();
   }, [isCurrentUser, isCart]);
-
+  //Update order box prices when making change in cart products and quantities
   useEffect(() => {
     const channel = supabase
       .channel("cart")
@@ -44,12 +44,11 @@ function MakeOrderBox({ currentUser }) {
         }
       )
       .subscribe();
-
     return () => {
       supabase.removeChannel(channel);
     };
   }, [itemsFromCart]);
-
+  //Create an array with prices per quantity of all products from cart
   useEffect(() => {
     let itemPrices = [];
     itemsFromCart.map((item) => {
@@ -57,11 +56,11 @@ function MakeOrderBox({ currentUser }) {
     });
     setPricesOfItems(itemPrices);
   }, [itemsFromCart]);
-
+  //Sum up all prices of products from cart
   useEffect(() => {
     setTotalProductsPrice(pricesOfItems.reduce((acc, curr) => acc + curr, 0));
   }, [pricesOfItems]);
-
+  //Set delivery cost based on total price of cart products
   useEffect(() => {
     if (totalProductsPrice >= 200) {
       setDeliveryCost(0);
@@ -69,7 +68,7 @@ function MakeOrderBox({ currentUser }) {
       setDeliveryCost(25);
     }
   }, [totalProductsPrice]);
-
+  //Redirect to delivery/login page if user is/not loged in
   const handleGoToDelivery = () => {
     currentUser === "not loged in"
       ? redirect("/login")
@@ -77,7 +76,6 @@ function MakeOrderBox({ currentUser }) {
       ? redirect("/delivery")
       : redirect("/bag");
   };
-
   return (
     <div className="border-2 border-lightlavender rounded-sm py-5 px-10 h-full">
       <div className="flex flex-col gap-5">

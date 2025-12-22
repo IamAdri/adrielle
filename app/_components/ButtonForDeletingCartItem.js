@@ -7,6 +7,7 @@ import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
 function ButtonForDeletingCartItem({ item }) {
   const { setIsCart } = useCartItems();
   const { isCurrentUser } = useCurrentUserEmail();
+  //Delete product from cart and update cart products array
   const handleDeleteCartItem = (e) => {
     const targetedItem =
       e.currentTarget.parentNode.parentNode.parentNode.parentNode;

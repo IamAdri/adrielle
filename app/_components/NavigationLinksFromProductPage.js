@@ -7,6 +7,7 @@ import { getCategoryNameForHeading } from "../_lib/helper";
 function NavigationLinksFromProductPage({ itemName }) {
   const params = useParams();
   const path = usePathname();
+  //Get type, category and name of product from params and show as navigation links
   const heading = getCategoryNameForHeading(params);
   const pathNamesSplited = Array.from(
     path.replace("/", "").replaceAll("/", ",").split(",")

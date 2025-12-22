@@ -20,6 +20,10 @@ function GridSection({ selectItemsOfSameCategory, currentUser }) {
   const { radioValue } = useRadioValue();
   const { setColorSrc, setIsClickedImage } = useChangingColor();
   const path = usePathname();
+  const [currentSliceStart, setCurrentSliceStart] = useAtom(sliceStartAtom);
+  const [currentSliceEnd, setCurrentSliceEnd] = useAtom(sliceEndAtom);
+  const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
+  //Order products ascending/descending price based on sorting option chosen
   const ascendingOrder = selectItemsOfSameCategory
     .slice()
     .sort(function (a, b) {
@@ -35,37 +39,32 @@ function GridSection({ selectItemsOfSameCategory, currentUser }) {
       const priceAfterDiscountB = priceWithDiscount(b.discount, b.price);
       return priceAfterDiscountB - priceAfterDiscountA;
     });
-
   const chooseOrder =
     radioValue === "Price(Low-High)"
       ? ascendingOrder
       : radioValue === "Price(High-Low)"
       ? descendingOrder
       : selectItemsOfSameCategory;
-
-  const [currentSliceStart, setCurrentSliceStart] = useAtom(sliceStartAtom);
-  const [currentSliceEnd, setCurrentSliceEnd] = useAtom(sliceEndAtom);
-  const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
-
+  //Set color src from provider to "" and to first page always on first render
   useEffect(() => {
     setColorSrc("");
     setCurrentSliceStart(0);
     setCurrentSliceEnd(8);
     setCurrentPage(1);
   }, []);
-
+  //Redirect to product page when user clicks on main image of product
   const handleClickOnMainImage = (item) => {
     setColorSrc("");
     setIsClickedImage("");
     redirect(`${path}/${item.name.replaceAll(" ", "_")}`);
   };
-
+  //Redirect to product page when user clicks on images of product per color
   const handleClickOnImagesForColors = (e, item) => {
     setColorSrc(e.target.src);
     setIsClickedImage("");
     redirect(`${path}/${item.name.replaceAll(" ", "_")}`);
   };
-
+  //Change page when clicking on next/previous page
   const nextPage = () => {
     setCurrentSliceStart(currentSliceStart + 8);
     setCurrentSliceEnd(currentSliceEnd + 8);

@@ -13,6 +13,7 @@ import { getItemsDetailsByCartTable } from "../_lib/data-service";
 function DisplayCartItems({ currentUser }) {
   const { setColorSrc } = useChangingColor();
   const [cartItems, setCartItems] = useState([]);
+  //Load cart products of active user
   useEffect(() => {
     (async function loadCartItemsDetails() {
       const cartItemsDetails = await getItemsDetailsByCartTable(
@@ -22,6 +23,7 @@ function DisplayCartItems({ currentUser }) {
       setCartItems(cartItemsDetails);
     })();
   }, [currentUser, cartItems]);
+  //Redirect to product page when clicking on product image
   const handleDisplayImage = (item) => {
     setColorSrc(item.selectedColorSrc);
     redirect(
@@ -69,7 +71,6 @@ function DisplayCartItems({ currentUser }) {
                           />
                         </button>
                       </div>
-
                       <div className="flex flex-col gap-10 w-full">
                         <div className="flex flex-col items-start">
                           <button
@@ -78,7 +79,6 @@ function DisplayCartItems({ currentUser }) {
                           >
                             {cartItem.items.name}
                           </button>
-
                           <span>{`size: ${
                             cartItem.size !== "" ? cartItem.size : "one size"
                           }`}</span>

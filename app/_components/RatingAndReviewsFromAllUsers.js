@@ -6,12 +6,14 @@ import MainHeading from "./MainHeading";
 import StaticRatingStars from "./StaticRatingStars";
 
 async function RatingAndReviewsFromAllUsers({ itemName }) {
+  //Get all ratings of this product from all users and calculate the average rating star
   const getRatingsFromAllUsers = await getAllRatingsByProductName(itemName);
   const ratingsValues = getRatingsFromAllUsers.map((rating) => {
     return rating.rating;
   });
   const sumOfRatings = ratingsValues.reduce((acc, curr) => acc + curr, 0);
   const averageOfRatings = sumOfRatings / ratingsValues.length;
+  //Get all reviews and ratings of this product
   const getReviewsAndRatingsOfProduct = await getReviewsAndRatingsByProductName(
     itemName
   );

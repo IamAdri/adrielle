@@ -14,10 +14,10 @@ function DeliveryDetails() {
   const [phone, setPhone] = useState("");
   const { userDetails } = useUserDetails();
   useEffect(() => {
-    // Așteaptă până la client render pentru a preveni hydration mismatch
+    // Wait until client render is finished to avoid hydration mismatch
     setIsMounted(true);
   }, []);
-
+  //Get user details beside email if there are in table
   useEffect(() => {
     if (userDetails?.streetName !== null) {
       setStreetName(userDetails.streetName);
@@ -27,9 +27,8 @@ function DeliveryDetails() {
       setPhone(userDetails.phone);
     }
   }, [userDetails]);
-
+  //Show loading spinner until client render is finished
   if (!isMounted) return <Spinner />;
-
   return (
     <form
       action={updateDeliveryDetails}

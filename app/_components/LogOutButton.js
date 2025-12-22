@@ -7,6 +7,7 @@ function LogOutButton() {
   const { setIsFavorite } = useFavoriteItems();
   const { setIsCart } = useCartItems();
   const { setIsCurrentUser } = useCurrentUserEmail();
+  //Log out user
   const handelLogOut = () => {
     setIsFavorite(0);
     setIsCart(0);

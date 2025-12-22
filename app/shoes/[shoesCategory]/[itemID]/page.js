@@ -3,6 +3,7 @@ import NavigationLinksFromProductPage from "@/app/_components/NavigationLinksFro
 import ItemPageDetails from "@/app/_components/ItemPageDetails";
 
 async function Page({ params }) {
+  //Take product name from url and load product details from supabase
   const itemParams = await params;
   const itemName = itemParams.itemID.replaceAll("_", " ");
   const item = await getItemByName(itemName);

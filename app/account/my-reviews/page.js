@@ -5,8 +5,10 @@ import { getReviewsAndRatingsByUser } from "@/app/_lib/data-service";
 import Image from "next/image";
 
 async function MyReviews() {
+  //Check if user is loged in
   const session = await auth();
   const currentUser = session?.user.email || "not loged in";
+  //Get all ratings and rewiesc on products of active user
   const reviewsDetails = await getReviewsAndRatingsByUser(currentUser);
   return (
     <div>

@@ -7,9 +7,8 @@ import Link from "next/link";
 
 async function Page({ params }) {
   const category = await params;
-  const shoes = await getItems();
+  const items = await getItems();
   const heading = getCategoryNameForHeading(category);
-  console.log(Object.values(category)[0]);
   return (
     <div>
       <div className="flex justify-start ml-10 gap-1 items-center mt-5">
@@ -25,7 +24,7 @@ async function Page({ params }) {
         </Link>
       </div>
       <MainHeading>{heading}</MainHeading>
-      <Catalog category={category} productsData={shoes} />
+      <Catalog category={category} productsData={items} />
     </div>
   );
 }

@@ -5,8 +5,10 @@ import { getOrdersDetails, updateOrderStatus } from "@/app/_lib/data-service";
 import Image from "next/image";
 
 async function Orders() {
+  //Check if user is loged in
   const session = await auth();
   const currentUser = session?.user.email || "not loged in";
+  //Update order status to delivered if 3 or more days passed since order was placed
   const ordersDetails = await getOrdersDetails(currentUser);
   await updateOrderStatus(new Date().toLocaleDateString("en-CA"));
   return (

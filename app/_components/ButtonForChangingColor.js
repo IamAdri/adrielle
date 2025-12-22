@@ -4,12 +4,11 @@ import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
 
 function ButtonForChangingColor({ color, itemDetails }) {
   const { setColorSrc, setIsClickedImage } = useChangingColor();
-
+  //Change color on click event
   const handleChangeColor = (e) => {
     setColorSrc(() => e.target.src);
     setIsClickedImage("");
   };
-
   return (
     <button onClick={handleChangeColor} className="cursor-pointer">
       <Image

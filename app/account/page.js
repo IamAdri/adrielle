@@ -5,9 +5,11 @@ import { auth } from "../_lib/auth";
 import { getFavoriteItems } from "../_lib/data-service";
 
 async function Account() {
+  //Check if user is loged in
   const session = await auth();
   const currentUser = session?.user.email || "not loged in";
   if (!session?.user) return;
+  //Get products from favorites of active user
   await getFavoriteItems(session.user.email);
   return (
     <div className="w-100 md:w-125">

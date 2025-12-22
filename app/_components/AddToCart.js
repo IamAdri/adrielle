@@ -31,6 +31,7 @@ function AddToCart({ item, selectedColorSrc, priceAfterDiscount }) {
   const { colorSrc, setIsClickedImage } = useChangingColor();
   const { colorsAvailable, mainColorImage, secondColorGallery } =
     colorsAvailableFunction(item);
+  //Detect which color should product have on image from cart
   const displayedImageInCart =
     colorSrc === ""
       ? selectedColorSrc === ""
@@ -46,6 +47,7 @@ function AddToCart({ item, selectedColorSrc, priceAfterDiscount }) {
   }, []);
   const buttonSizeRef = useRef(null);
   const buttonAddToCartRef = useRef(null);
+  //Update cart related values from context api and add to cart table or update quantity of product from cart in case it is already in cart
   useEffect(() => {
     (async function insert() {
       if (!sameCartItem && sameCartItem !== "") {
@@ -76,7 +78,6 @@ function AddToCart({ item, selectedColorSrc, priceAfterDiscount }) {
           isCurrentUser,
           localStorage.getItem("guestID")
         );
-
         setAddedToCartSuccessfully(true);
       }
     })();
@@ -92,7 +93,7 @@ function AddToCart({ item, selectedColorSrc, priceAfterDiscount }) {
       }
     })();
   }, [sameCartItem, clickedSize, quantity, pricePerQuantity]);
-
+  //Reset to "" size for cart in case user clicked anywhere otside size button before adding to cart
   useEffect(() => {
     function handleClick(e) {
       if (buttonSizeRef.current === null) return;
@@ -110,7 +111,7 @@ function AddToCart({ item, selectedColorSrc, priceAfterDiscount }) {
       window.removeEventListener("click", handleClick);
     };
   });
-
+  //Load existing products from cart of active user
   useEffect(() => {
     async function loadCartItems() {
       const cartItems = await getCartItems(
@@ -121,7 +122,7 @@ function AddToCart({ item, selectedColorSrc, priceAfterDiscount }) {
     }
     loadCartItems();
   }, [isCart, setIsCart]);
-
+  //Add product to cart on click event/ update quantity if product with same criteria (size, color) already exists
   const handleAddToCart = async () => {
     const cartItems = await getCartItems(
       isCurrentUser,

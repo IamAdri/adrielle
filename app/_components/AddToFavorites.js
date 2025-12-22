@@ -20,6 +20,8 @@ function AddToFavorites({
   const { isFavorite, setIsFavorite } = useFavoriteItems();
   const [isClicked, setIsClicked] = useState(false);
   const { colorSrc, clickedImage } = useChangingColor();
+
+  //Detect which color of product was displayed when user added product to favorites
   const colorsAvailable = Object.keys(item.variants);
   const mainColorImage = item.variants[colorsAvailable[0]][0];
   const displayedImageInFavorite = colorSrc !== "" ? colorSrc : mainColorImage;
@@ -28,6 +30,7 @@ function AddToFavorites({
     ? colorsAvailable[1]
     : colorsAvailable[0];
 
+  //Load favorite items from supabase based on user who is using website
   useEffect(() => {
     async function loadFavoriteItems() {
       const favoriteItems = await getFavoriteItems(
@@ -44,8 +47,9 @@ function AddToFavorites({
     }
     loadFavoriteItems();
   }, [isFavorite, isClicked, colorSrc]);
+
+  //Add/remove product from favorites and update favorites table
   async function handleFavoriteItems(e) {
-    console.log(colorSrc, clickedImage);
     setIsClicked(!isClicked);
     if (!isClicked) {
       await insertFavoriteItem(
@@ -56,7 +60,6 @@ function AddToFavorites({
         currentUser,
         localStorage.getItem("guestID")
       );
-
       const updatedArray = await getFavoriteItems(
         currentUser,
         localStorage.getItem("guestID")
@@ -78,6 +81,7 @@ function AddToFavorites({
     }
   }
 
+  //Style position and size of heart icon based on page it is rendered
   const positionOptions = {
     relative: "relative",
     absolute: "absolute",

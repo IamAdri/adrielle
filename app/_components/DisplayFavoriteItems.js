@@ -5,6 +5,7 @@ import FavoriteItem from "./FavoriteItem";
 
 function DisplayFavoriteItems({ currentUser }) {
   const [favoriteItems, setFavoriteItems] = useState([]);
+  //Load favorite items of active user
   useEffect(() => {
     (async function loadFavoriteItemsDetails() {
       const favoriteItemsDetails = await getItemsDetailsByFavoriteTable(

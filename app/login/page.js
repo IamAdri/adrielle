@@ -9,6 +9,7 @@ export const metadata = {
 };
 
 async function Page() {
+  //Redirect to account page if user is loged in
   const session = await auth();
   if (session?.user) {
     redirect("/account");

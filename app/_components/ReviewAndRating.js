@@ -18,6 +18,7 @@ function ReviewAndRating({ productName, productImage, currentUser }) {
   const [pathName, setPathName] = useState("");
   const pathname = usePathname();
   const router = useRouter();
+  //Get review and rating of product from active user if exists
   useEffect(() => {
     async function loadReviews() {
       const data = await getReviewsAndRatingsByUserAndProductName(
@@ -31,6 +32,7 @@ function ReviewAndRating({ productName, productImage, currentUser }) {
     loadReviews();
     setPathName(pathname);
   }, []);
+  //Close modal for adding/changing a review of product by active user
   const closeModalReview = async () => {
     const data = await getReviewsAndRatingsByUserAndProductName(
       currentUser,
@@ -39,6 +41,7 @@ function ReviewAndRating({ productName, productImage, currentUser }) {
     setRating(data[0]?.rating);
     setIsModalReviewOpened(false);
   };
+  //Delete review and rating of product written by active user
   const handleDeleteRating = async () => {
     await deleteReviewsAndRatingsByUser(currentUser, productName);
     setRating(0);

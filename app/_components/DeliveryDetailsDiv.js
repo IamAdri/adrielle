@@ -15,7 +15,7 @@ import Button from "./Button";
 function DeliveryDetailsDiv({ sessionUser }) {
   const [user, setUser] = useState("");
   const { userDetails, setUserDetails } = useUserDetails();
-
+  //Check if active user is already in users table or not and get user details
   useEffect(() => {
     const isEmailInDatabase = async () => {
       const getEmailFromDatabase = await getUserEmail();
@@ -26,27 +26,23 @@ function DeliveryDetailsDiv({ sessionUser }) {
         .includes(sessionUser);
       if (!isUserEmail) setUser(sessionUser);
       const userDetailsFromDatabase = await getUserDetails(sessionUser);
-      console.log(userDetailsFromDatabase);
       setUserDetails(userDetailsFromDatabase[0]);
     };
     isEmailInDatabase();
   }, [sessionUser, setUserDetails]);
-
   useEffect(() => {
     (async function insertEmail() {
       if (user) await insertUserEmail(user);
       const userDetailsFromDatabase = await getUserDetails(sessionUser);
-      console.log(userDetailsFromDatabase);
       setUserDetails(userDetailsFromDatabase[0]);
     })();
   }, [user]);
-
+  //Delete user details regarding address and phone number
   const handleDeleteUserDetails = async () => {
-    removeUserDetails(sessionUser);
+    await removeUserDetails(sessionUser);
     const userDetailsFromDatabase = await getUserDetails(sessionUser);
     setUserDetails(userDetailsFromDatabase[0]);
   };
-  console.log(user, userDetails);
   return (
     <>
       {userDetails === undefined && <Spinner />}

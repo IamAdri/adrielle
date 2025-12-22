@@ -79,6 +79,7 @@ export async function insertFavoriteItem(
 
   return data;
 }
+
 export async function removeAllSameFavoriteItems(sameFavoriteItems, guestID) {
   const { error } = await supabase
     .from("favorites")
@@ -99,7 +100,6 @@ export async function updateNotLogedInFavoriteItems(logedInUser, guestID) {
     logedInUser,
     "empty"
   );
-  console.log(guestID);
   const favoriteItemsOfNotLogedIn = await getFavoriteItems(
     "not loged in",
     guestID
@@ -453,7 +453,6 @@ export async function updateOrderStatus(todaysDate) {
     .lte("deliveryDate", todaysDate)
     .select();
   if (error) {
-    console.error(error);
     throw new Error("Could not update delivery status.");
   }
 

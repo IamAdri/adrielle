@@ -11,6 +11,7 @@ import DisplayNumberOfCartItems from "./DisplayNumberOfCartItems";
 import DarkModeButton from "./DarkModeButton";
 
 async function Navigation({ children }) {
+  //Check if user is loged in
   const session = await auth();
   const currentUser = session?.user.email || "not loged in";
   return (

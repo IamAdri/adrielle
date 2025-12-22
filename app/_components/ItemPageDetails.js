@@ -13,6 +13,7 @@ async function ItemPageDetails({ item, itemName }) {
   const session = await auth();
   const currentUser = session?.user.email || "not loged in";
   const { colorsAvailable, mainColorImage } = colorsAvailableFunction(item);
+  //Calculate price with discount
   const priceAfterDiscount = priceWithDiscount(item.discount, item.price);
   return (
     <>

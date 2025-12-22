@@ -4,10 +4,10 @@ import SizeGuideTable from "./SizeGuideTable";
 
 function Drawer() {
   const [isOpen, setIsOpen] = useState(false);
+  //Show/hide drawer of size guide
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
   };
-
   return (
     <div className="justify-center w-fit">
       <button className="hover:cursor-pointer" onClick={toggleDrawer}>

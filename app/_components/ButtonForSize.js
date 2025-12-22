@@ -4,7 +4,7 @@ import { useChooseSize } from "../_contextAPI/ChooseSizeContextApi";
 function ButtonForSize({ buttonSizeRef }) {
   const { setClickedSize, setIsNotSelected } = useChooseSize();
   const sizes = [34, 35, 36, 37, 38, 39, 40, 41];
-
+  //Detect chosen size value on click event
   const handleChooseSize = (e) => {
     e.preventDefault();
     setClickedSize(e.target.innerHTML);

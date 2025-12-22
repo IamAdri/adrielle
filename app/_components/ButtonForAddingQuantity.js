@@ -15,7 +15,7 @@ function ButtonForAddingQuantity({ cartItem }) {
   const [isMinDisabled, setIsMinDisabled] = useState(true);
   const [isMaxDisabled, setIsMaxDisabled] = useState(false);
   const { isCurrentUser } = useCurrentUserEmail();
-
+  //Change disabled state of quantity buttons when quantity reached min/max value and update quantity on click event
   useEffect(() => {
     if (quantity === 1) {
       setIsMinDisabled(true);
@@ -37,7 +37,7 @@ function ButtonForAddingQuantity({ cartItem }) {
       );
     })();
   }, [quantity]);
-
+  //Update price per quantity
   useEffect(() => {
     (async function updatePrice() {
       await updateCartPricePerQuantityColumn(
@@ -50,17 +50,17 @@ function ButtonForAddingQuantity({ cartItem }) {
       );
     })();
   }, [price]);
+  //Decrease quantity on click event
   const handleDecreaseQuantity = () => {
     setQuantity(quantity - 1);
     // setPrice(price);
     setIsQuantityChanged(isQuantityChanged - 1);
   };
-
+  //Increase quantity on click event
   const handleAddQuantity = () => {
     setQuantity(quantity + 1);
     setIsQuantityChanged(isQuantityChanged + 1);
   };
-
   return (
     <div className="flex items-end justify-between w-full gap-9">
       <div className="border border-coolgrey flex gap-3 px-3 items-center mt-3">

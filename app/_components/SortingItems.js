@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
 import { useRadioValue } from "../_contextAPI/RadioValueContextApi";
@@ -19,10 +18,10 @@ function SortingItems() {
   const [currentSliceEnd, setCurrentSliceEnd] = useAtom(sliceEndAtom);
   const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
   useEffect(() => {
-    // Așteaptă până la client render pentru a preveni hydration mismatch
+    // Wait for client render to be finished to avoid hydration mismatch
     setIsMounted(true);
   }, []);
-
+  //Change sorting option on click and reset to first page always
   const handleRadioChange = (value) => {
     setRadioValue(value);
     setIsSortingClicked(false);
@@ -30,11 +29,12 @@ function SortingItems() {
     setCurrentSliceEnd(8);
     setCurrentPage(1);
   };
-
+  //Show/hide sorting options
   const showRadioOptions = (e) => {
     e.preventDefault();
     setIsSortingClicked(!isSortingClicked);
   };
+  //Show spinner until client render is not finished
   if (!isMounted) return <Spinner />;
   return (
     <div className="flex flex-col gap-1 items-end mt-5">

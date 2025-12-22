@@ -11,18 +11,16 @@ function ButtonForImages({ itemDetails }) {
     mainColorGallery,
     secondColorGallery,
   } = colorsAvailableFunction(itemDetails);
-
+  //Show product images based on selected color
   const chooseGallery = secondColorGallery.includes(colorSrc)
     ? secondColorGallery
     : mainColorGallery;
   const chooseMainImage = secondColorGallery.includes(colorSrc)
     ? secondColorImage
     : mainColorImage;
-
   const changeMainImage = (e) => {
     setIsClickedImage(e.target.src);
   };
-
   return (
     <>
       <div className="flex flex-col gap-1 2xl:w-[125px] xl:w-[100px] w-[75px]">

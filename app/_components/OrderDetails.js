@@ -23,10 +23,10 @@ function OrderDetails({ sessionUser }) {
   const { userDetails } = useUserDetails();
   const [deliveryDetails, setDeliveryDetails] = useState("");
   useEffect(() => {
-    // Așteaptă până la client render pentru a preveni hydration mismatch
+    // Wait until client render is finished to avoid hydration mismatch
     setIsMounted(true);
   }, []);
-
+  //Load products from cart of active user
   useEffect(() => {
     (async function loadCartItemsDetails() {
       const cartItemsDetails = await getItemsDetailsByCartTable(
@@ -36,17 +36,17 @@ function OrderDetails({ sessionUser }) {
       setCartItems(cartItemsDetails);
     })();
   }, [sessionUser]);
-
+  //Check if user has delivery details from account page or not
   useEffect(() => {
     if (userDetails.streetName === null) setDeliveryDetails(false);
     if (userDetails.streetName !== null) setDeliveryDetails(true);
   }, [userDetails]);
-
+  //Identify today`s date and set date for delivery
   const date = new Date().toLocaleDateString("en-CA");
   const orderDate = new Date(date);
   orderDate.setDate(orderDate.getDate() + 3);
   const deliveryDate = orderDate.toLocaleDateString("en-CA");
-
+  //Remove products from cart table and add order details in order table on submit order
   const handleSendOrder = async () => {
     if (userDetails.streetName === null) {
       setDeliveryDetails(false);
@@ -72,7 +72,6 @@ function OrderDetails({ sessionUser }) {
         paymentMethod,
         totalProductsPrice
       );
-
       await removeCartItemsAfterSentOrder(sessionUser);
       setIsCart(0);
       redirect("/congratulations");

@@ -8,6 +8,7 @@ import { priceWithDiscount } from "../_lib/helper";
 
 function FavoriteItem({ favoriteItem, currentUser }) {
   const { setColorSrc } = useChangingColor();
+  //Redirect to product page when clicking on image
   const handleDisplayImage = (item) => {
     setColorSrc(item.selectedColorSrc);
     redirect(
@@ -16,7 +17,7 @@ function FavoriteItem({ favoriteItem, currentUser }) {
       }/${favoriteItem.items.name.replaceAll(" ", "_")}`
     );
   };
-
+  //Calculate price with discount applied
   const priceAfterDiscount = priceWithDiscount(
     favoriteItem.items.discount,
     favoriteItem.items.price

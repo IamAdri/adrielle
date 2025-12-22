@@ -6,8 +6,11 @@ import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
 async function Page({ params }) {
+  //Get category from the link
   const category = await params;
+  //Get category name for heading of page and link for navigation
   const heading = getCategoryNameForHeading(category);
+  //Get all items from table
   const shoes = await getItems();
   return (
     <div>

@@ -11,6 +11,7 @@ function AddToCartIcon({ item, selectedSrc = "", priceAfterDiscount }) {
     useChooseSize();
   const { setColorSrc } = useChangingColor();
 
+  //Open add to cart modal when clicking on cart icon
   const handleOpenModal = () => {
     setIsModalOpened(true);
     setSameCartItem("");
@@ -18,7 +19,6 @@ function AddToCartIcon({ item, selectedSrc = "", priceAfterDiscount }) {
     setAddedToCartSuccessfully(false);
     setColorSrc("");
   };
-
   return (
     <div>
       <button onClick={handleOpenModal}>

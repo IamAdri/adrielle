@@ -15,9 +15,11 @@ function Modal({ setOpenModal, item, selectedColorSrc, priceAfterDiscount }) {
     setAddedToCartSuccessfully,
   } = useChooseSize();
   const path = usePathname();
+  //Detect which color product has when is added to cart
   const { mainColorImage } = colorsAvailableFunction(item);
   const mainColorImageFromModal =
     selectedColorSrc === "" ? mainColorImage : selectedColorSrc;
+  //Close add to cart modal if clicking on x or outside modal div
   const closeCartModal = () => {
     setOpenModal(false);
     setSameCartItem("");
@@ -52,7 +54,6 @@ function Modal({ setOpenModal, item, selectedColorSrc, priceAfterDiscount }) {
                     />
                   </Link>
                 </div>
-
                 <div className="flex flex-col items-center">
                   <h2 className="font-bold text-xl">{item.name}</h2>
                   <AddToCart

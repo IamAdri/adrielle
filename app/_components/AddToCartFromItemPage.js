@@ -14,13 +14,12 @@ function AddToCartFromItemPage({
     setClickedSize,
     setAddedToCartSuccessfully,
   } = useChooseSize();
-
+  //Close add to cart modal
   const closeSmallCartModal = () => {
     setSameCartItem("");
     setClickedSize("");
     setAddedToCartSuccessfully(false);
   };
-
   return (
     <div>
       <AddToCart

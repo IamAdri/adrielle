@@ -5,6 +5,7 @@ import { useFavoriteItems } from "../_contextAPI/FavoriteItemsContextApi";
 
 function ButtonForDeletingFavoriteItem({ item, currentUser }) {
   const { setIsFavorite } = useFavoriteItems();
+  //Delete favorite item from favorites and update data
   const handleDeleteFavoriteItem = (e) => {
     const targetedItem =
       e.currentTarget.parentNode.parentNode.parentNode.parentNode;
@@ -23,7 +24,6 @@ function ButtonForDeletingFavoriteItem({ item, currentUser }) {
     })();
     targetedItem.style.display = "none";
   };
-
   return (
     <button onClick={handleDeleteFavoriteItem}>
       <TrashIcon className="size-7 cursor-pointer text-darkheart" />
