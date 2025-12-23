@@ -62,7 +62,6 @@ function OrderDetails({ sessionUser }) {
           pricePerQuantity: cartItem.pricePerQuantity,
         };
       });
-
       await insertOrderDetails(
         date,
         sessionUser,

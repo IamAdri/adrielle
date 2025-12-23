@@ -11,6 +11,7 @@ async function Page() {
   //Check if user is loged in
   const session = await auth();
   const currentUser = session?.user.email || "not loged in";
+
   return <DisplayCartItems currentUser={currentUser} />;
 }
 

@@ -12,13 +12,31 @@ const nextConfig = {
         protocol: "https",
         hostname: "ydghorluedeqhuwnokqn.supabase.co",
         port: "",
+        pathname: "/storage/v1/object/public/heels/**",
+      },
+      {
+        protocol: "https",
+        hostname: "ydghorluedeqhuwnokqn.supabase.co",
+        port: "",
         pathname: "/storage/v1/object/sign/flats/**",
       },
       {
         protocol: "https",
         hostname: "ydghorluedeqhuwnokqn.supabase.co",
         port: "",
+        pathname: "/storage/v1/object/public/flats/**",
+      },
+      {
+        protocol: "https",
+        hostname: "ydghorluedeqhuwnokqn.supabase.co",
+        port: "",
         pathname: "/storage/v1/object/sign/sandals/**",
+      },
+      {
+        protocol: "https",
+        hostname: "ydghorluedeqhuwnokqn.supabase.co",
+        port: "",
+        pathname: "/storage/v1/object/public/sandals/**",
       },
       {
         protocol: "https",

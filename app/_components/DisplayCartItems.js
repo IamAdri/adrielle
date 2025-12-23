@@ -22,7 +22,7 @@ function DisplayCartItems({ currentUser }) {
       );
       setCartItems(cartItemsDetails);
     })();
-  }, [currentUser, cartItems]);
+  }, [currentUser]);
   //Redirect to product page when clicking on product image
   const handleDisplayImage = (item) => {
     setColorSrc(item.selectedColorSrc);
@@ -45,6 +45,7 @@ function DisplayCartItems({ currentUser }) {
           <div className="relative w-100 md:w-150 lg:w-200">
             {cartItems.length > 0 &&
               cartItems.map((cartItem) => {
+                console.log(cartItem);
                 return (
                   <ul
                     className="flex flex-col gap-15 mt-15"

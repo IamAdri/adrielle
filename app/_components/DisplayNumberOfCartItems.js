@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect } from "react";
 import { useCartItems } from "../_contextAPI/CartItemsContextApi";
 import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";

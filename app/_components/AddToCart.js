@@ -1,20 +1,77 @@
 "use client";
 import { useChooseSize } from "../_contextAPI/ChooseSizeContextApi";
-import {
-  getCartItems,
-  insertCartItem,
-  updateCartPricePerQuantityColumn,
-  updateCartQuantityColumn,
-} from "../_lib/data-service";
-import { useEffect, useRef, useState } from "react";
-import { useCartItems } from "../_contextAPI/CartItemsContextApi";
-import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
-import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
+import { getCartItems } from "../_lib/data-service";
 import ButtonForSize from "./ButtonForSize";
 import Drawer from "./Drawer";
-import { colorsAvailableFunction } from "../_lib/helper";
+import { useAddToCart } from "../_customHooks/useAddToCart";
 
 function AddToCart({ item, selectedColorSrc, priceAfterDiscount }) {
+  const { clickedSize, isNotSelected, setIsNotSelected, setSameCartItem } =
+    useChooseSize();
+  const {
+    buttonSizeRef,
+    buttonAddToCartRef,
+    isCurrentUser,
+    setQuantity,
+    displayedImageInCart,
+  } = useAddToCart({
+    item,
+    priceAfterDiscount,
+    selectedColorSrc,
+  });
+  //Add product to cart on click event/ update quantity if product with same criteria (size, color) already exists
+  const handleAddToCart = async () => {
+    const cartItems = await getCartItems(
+      isCurrentUser,
+      localStorage.getItem("guestID")
+    );
+    if (!clickedSize && item.itemType !== "accessories") setIsNotSelected(true);
+    if (clickedSize || item.itemType === "accessories") {
+      const isItemInCart = cartItems.filter((itemFiltered) => {
+        return (
+          item.id === itemFiltered.cart_id &&
+          itemFiltered.size === clickedSize &&
+          itemFiltered.selectedColorSrc === displayedImageInCart
+        );
+      });
+      if (isItemInCart.length > 0) {
+        setSameCartItem(true);
+        setQuantity(isItemInCart[0].quantity + 1);
+      } else {
+        setSameCartItem(false);
+      }
+    }
+  };
+  return (
+    <div className="flex flex-col items-start gap-1">
+      {item.itemType === "accessories" ? null : (
+        <div className="w-fit">
+          <div className="flex mt-10 justify-between">
+            <p className="text-left">Choose your size</p>
+            <Drawer />
+          </div>
+          <ButtonForSize buttonSizeRef={buttonSizeRef} />
+        </div>
+      )}
+      <button
+        ref={buttonAddToCartRef}
+        className="bg-deepgrey mt-10 justify-center w-45 h-15 py-1.5 cursor-pointer font-bold text-lg text-warmwhite hover:text-xl hover:w-50"
+        onClick={handleAddToCart}
+      >
+        Add to cart
+      </button>
+      {isNotSelected && (
+        <p>
+          Please choose required size!<span className="text-red">*</span>
+        </p>
+      )}
+    </div>
+  );
+}
+
+export default AddToCart;
+
+/*function AddToCart({ item, selectedColorSrc, priceAfterDiscount }) {
   const {
     clickedSize,
     setClickedSize,
@@ -93,6 +150,7 @@ function AddToCart({ item, selectedColorSrc, priceAfterDiscount }) {
       }
     })();
   }, [sameCartItem, clickedSize, quantity, pricePerQuantity]);
+
   //Reset to "" size for cart in case user clicked anywhere otside size button before adding to cart
   useEffect(() => {
     function handleClick(e) {
@@ -173,3 +231,4 @@ function AddToCart({ item, selectedColorSrc, priceAfterDiscount }) {
 }
 
 export default AddToCart;
+*/

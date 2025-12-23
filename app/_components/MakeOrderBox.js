@@ -1,13 +1,43 @@
 "use client";
-import { useEffect, useState } from "react";
-import { getCartItems } from "../_lib/data-service";
-import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
-import { supabase } from "../_lib/supabase";
-import { useCartItems } from "../_contextAPI/CartItemsContextApi";
 import { redirect, usePathname } from "next/navigation";
 import Button from "./Button";
+import { useUpdateOrderPriceBox } from "../_customHooks/useUpdateOrderPriceBox";
 
 function MakeOrderBox({ currentUser }) {
+  const pathname = usePathname();
+  const { totalProductsPrice, deliveryCost } = useUpdateOrderPriceBox();
+  //Redirect to delivery/login page if user is/not loged in
+  const handleGoToDelivery = () => {
+    currentUser === "not loged in"
+      ? redirect("/login")
+      : pathname === "/bag"
+      ? redirect("/delivery")
+      : redirect("/bag");
+  };
+  return (
+    <div className="border-2 border-lightlavender rounded-sm py-5 px-10 h-full">
+      <div className="flex flex-col gap-5">
+        <h2 className="font-bold text-xl">Order summary</h2>
+        <div className=" flex flex-col items-start gap-3">
+          <span>Product cost: {totalProductsPrice} EUR</span>
+          <span>Delivery cost: {deliveryCost} EUR</span>
+          <span className="font-bold text-lg">
+            Total: {Number((totalProductsPrice + deliveryCost).toFixed(2))} EUR
+          </span>
+        </div>
+        <div className="flex justify-center">
+          <Button handleClick={handleGoToDelivery}>
+            {pathname === "/bag" ? "Continue" : "Back to cart"}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default MakeOrderBox;
+
+/*function MakeOrderBox({ currentUser }) {
   const pathname = usePathname();
   const { isCurrentUser } = useCurrentUserEmail();
   const { isCart } = useCartItems();
@@ -58,7 +88,9 @@ function MakeOrderBox({ currentUser }) {
   }, [itemsFromCart]);
   //Sum up all prices of products from cart
   useEffect(() => {
-    setTotalProductsPrice(pricesOfItems.reduce((acc, curr) => acc + curr, 0));
+    setTotalProductsPrice(
+      Number(pricesOfItems.reduce((acc, curr) => acc + curr, 0).toFixed(2))
+    );
   }, [pricesOfItems]);
   //Set delivery cost based on total price of cart products
   useEffect(() => {
@@ -84,7 +116,7 @@ function MakeOrderBox({ currentUser }) {
           <span>Product cost: {totalProductsPrice} EUR</span>
           <span>Delivery cost: {deliveryCost} EUR</span>
           <span className="font-bold text-lg">
-            Total: {totalProductsPrice + deliveryCost} EUR
+            Total: {Number((totalProductsPrice + deliveryCost).toFixed(2))} EUR
           </span>
         </div>
         <div className="flex justify-center">
@@ -98,3 +130,4 @@ function MakeOrderBox({ currentUser }) {
 }
 
 export default MakeOrderBox;
+*/

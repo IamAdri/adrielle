@@ -9,6 +9,7 @@ import {
 } from "../_lib/data-service";
 import { useFavoriteItems } from "../_contextAPI/FavoriteItemsContextApi";
 import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
+import { colorsAvailableFunction } from "../_lib/helper";
 
 function AddToFavorites({
   currentUser,
@@ -20,12 +21,10 @@ function AddToFavorites({
   const { isFavorite, setIsFavorite } = useFavoriteItems();
   const [isClicked, setIsClicked] = useState(false);
   const { colorSrc, clickedImage } = useChangingColor();
-
+  const { colorsAvailable, mainColorImage, secondColorGallery } =
+    colorsAvailableFunction(item);
   //Detect which color of product was displayed when user added product to favorites
-  const colorsAvailable = Object.keys(item.variants);
-  const mainColorImage = item.variants[colorsAvailable[0]][0];
   const displayedImageInFavorite = colorSrc !== "" ? colorSrc : mainColorImage;
-  const secondColorGallery = item.variants[colorsAvailable[1]];
   const chooseColor = secondColorGallery.includes(displayedImageInFavorite)
     ? colorsAvailable[1]
     : colorsAvailable[0];
