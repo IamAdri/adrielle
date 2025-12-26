@@ -4,12 +4,8 @@ import { getCartItems } from "../_lib/data-service";
 import ButtonForSize from "./ButtonForSize";
 import Drawer from "./Drawer";
 import { useAddToCart } from "../_customHooks/useAddToCart";
-import { useEffect, useRef, useState } from "react";
-import { supabase } from "../_lib/supabase";
-import { useRealTimeSubscription } from "../_customHooks/useRealTimeSubscription";
 
 function AddToCart({ item, selectedColorSrc, priceAfterDiscount }) {
-  const [isError, setIsError] = useState(false);
   const { clickedSize, isNotSelected, setIsNotSelected, setSameCartItem } =
     useChooseSize();
   const {
@@ -23,142 +19,7 @@ function AddToCart({ item, selectedColorSrc, priceAfterDiscount }) {
     priceAfterDiscount,
     selectedColorSrc,
   });
-  const [isMounted, setIsMounted] = useState(false);
-  //Update cart items when making changes in items table
-  useEffect(() => {
-    // Wait until client render is finished to avoid hydration mismatch
-    setIsMounted(true);
-  }, []);
-  const subscribedRef = useRef(false);
-  const channelRef = useRef(null);
-  useEffect(() => {
-    if (!isMounted) return;
-    if (subscribedRef.current) return;
-    subscribedRef.current = true;
-    console.log("MOUNT");
-    const channel = supabase
-      .channel("items")
-      .on(
-        "postgres_changes",
-        {
-          event: "DELETE",
-          schema: "public",
-          table: "items",
-        },
-        (payload) => {
-          console.log(payload);
-          return setIsError(true);
-        }
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "UPDATE",
-          schema: "public",
-          table: "items",
-        },
-        (payload) => {
-          console.log(payload);
-          return setIsError(true);
-        }
-      )
-      .subscribe((status) => {
-        console.log("FAV SUB STATUS:", status);
-        if (status === "SUBSCRIBED") {
-          subscribedRef.current = true;
-        }
-      });
-    channelRef.current = channel;
-    return () => {
-      if (channelRef.current && subscribedRef.current) {
-        supabase.removeChannel(channelRef.current);
-        subscribedRef.current = false;
-        channelRef.current = null;
-      }
-    };
-  }, []);
-  // useRealTimeSubscription({ onChange: () => setIsError(true) });
-  /*
-  useEffect(() => {
-    console.log("MOUNT");
-    const channel = supabase
-      .channel("items")
-      .on(
-        "postgres_changes",
-        {
-          event: "DELETE",
-          schema: "public",
-          table: "items",
-        },
-        (payload) => {
-          console.log(payload);
-          setIsError(true);
-        }
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "UPDATE",
-          schema: "public",
-          table: "items",
-        },
-        (payload) => {
-          console.log(payload);
-          setIsError(true);
-        }
-      )
-      .subscribe();
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);*/
-  //
-  /*
-  //Update item when making changes in items table
-  const subscribedRef = useRef(false);
-  useEffect(() => {
-    if (subscribedRef.current) return;
-    subscribedRef.current = true;
-    console.log("MOUNT");
-    const channel = supabase
-      .channel("items")
-      .on(
-        "postgres_changes",
-        {
-          event: "DELETE",
-          schema: "public",
-          table: "items",
-        },
-        (payload) => {
-          console.log(payload);
-          return setIsError(true);
-        }
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "UPDATE",
-          schema: "public",
-          table: "items",
-        },
-        (payload) => {
-          console.log(payload);
-          return setIsError(true);
-        }
-      )
-      .subscribe((status) => {
-        console.log("SUB STATUS:", status);
-      });
-    return () => {
-      console.log("UNMOUNT");
-      supabase.removeChannel(channel);
-    };
-  }, []);*/
-  if (isError) {
-    throw new Error(
-      "The product has been edited or deleted. Please go to home page to implement the update!"
-    );
-  }
+
   //Add product to cart on click event/ update quantity if product with same criteria (size, color) already exists
   const handleAddToCart = async () => {
     const cartItems = await getCartItems(

@@ -11,6 +11,7 @@ import {
 } from "../_lib/data-service";
 import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
 import { colorsAvailableFunction } from "../_lib/helper";
+import { supabase } from "../_lib/supabase";
 
 export function useAddToCart({ item, priceAfterDiscount, selectedColorSrc }) {
   const {
@@ -22,6 +23,7 @@ export function useAddToCart({ item, priceAfterDiscount, selectedColorSrc }) {
   const { isCurrentUser } = useCurrentUserEmail();
   const { setIsClickedImage } = useChangingColor();
   const [quantity, setQuantity] = useState(0);
+  const [isError, setIsError] = useState(false);
   const [pricePerQuantity, setPricePerQuantity] = useState(0);
   const { isCart, setIsCart } = useCartItems();
   const { colorSrc } = useChangingColor();
@@ -37,6 +39,55 @@ export function useAddToCart({ item, priceAfterDiscount, selectedColorSrc }) {
   const chooseColor = secondColorGallery.includes(displayedImageInCart)
     ? colorsAvailable[1]
     : colorsAvailable[0];
+
+  //Update cart items when making changes in items table
+  useEffect(() => {
+    console.log("MOUNT");
+    const channel = supabase
+      .channel("items")
+      .on(
+        "postgres_changes",
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "items",
+        },
+        (payload) => {
+          console.log(payload);
+          return setIsError(true);
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "items",
+        },
+        (payload) => {
+          console.log(payload);
+          return setIsError(true);
+        }
+      )
+      .subscribe();
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+  if (isError) {
+    throw new Error(
+      "The product has been edited or deleted. Please go to home page to implement the update!"
+    );
+  }
+  useEffect(() => {
+    if (isError) {
+      async function updateCartNumber() {
+        const cartItems = await getCartItems();
+        setIsCart(cartItems.length);
+      }
+      updateCartNumber();
+    }
+  }, [isError]);
 
   useEffect(() => {
     setIsClickedImage("");

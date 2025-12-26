@@ -41,22 +41,22 @@ export function useRealTimeSubscription({ onChange }) {
   }, [onChange, supabase]);
 }*/
 
-export function useRealTimeSubscription({ onChange }) {
+export function useRealTimeSubscription({ onChange, channelName }) {
   const [isMounted, setIsMounted] = useState(false);
   //Update cart items when making changes in items table
   useEffect(() => {
     // Wait until client render is finished to avoid hydration mismatch
     setIsMounted(true);
   }, []);
-  const subscribedRef = useRef(false);
-  const channelRef = useRef(null);
+  // const subscribedRef = useRef(false);
+  // const channelRef = useRef(null);
   useEffect(() => {
     if (!isMounted) return;
-    if (subscribedRef.current) return;
-    subscribedRef.current = true;
+    //  if (subscribedRef.current) return;
+    //  subscribedRef.current = true;
     console.log("MOUNT");
     const channel = supabase
-      .channel("items")
+      .channel(channelName)
       .on(
         "postgres_changes",
         {
@@ -83,17 +83,18 @@ export function useRealTimeSubscription({ onChange }) {
       )
       .subscribe((status) => {
         console.log("FAV SUB STATUS:", status);
-        if (status === "SUBSCRIBED") {
-          subscribedRef.current = true;
-        }
+        //     if (status === "SUBSCRIBED") {
+        //       subscribedRef.current = true;
+        //    }
       });
-    channelRef.current = channel;
+    // channelRef.current = channel;
     return () => {
-      if (channelRef.current && subscribedRef.current) {
-        supabase.removeChannel(channelRef.current);
-        subscribedRef.current = false;
-        channelRef.current = null;
-      }
+      supabase.removeChannel(channel);
+      //  if (channelRef.current && subscribedRef.current) {
+      //    supabase.removeChannel(channelRef.current);
+      //     subscribedRef.current = false;
+      //     channelRef.current = null;
+      //   }
     };
   }, [onChange]);
 }

@@ -48,42 +48,6 @@ function AddToFavorites({
     loadFavoriteItems();
   }, [isFavorite, isClicked, colorSrc]);
 
-  //Update item when making changes in items table
-  useEffect(() => {
-    const channel = supabase
-      .channel("items")
-      .on(
-        "postgres_changes",
-        {
-          event: "DELETE",
-          schema: "public",
-          table: "items",
-        },
-        (payload) => {
-          setIsError(true);
-        }
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "UPDATE",
-          schema: "public",
-          table: "items",
-        },
-        (payload) => {
-          setIsError(true);
-        }
-      )
-      .subscribe();
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
-  if (isError) {
-    throw new Error(
-      "The product has been edited or deleted. Please go to home page to implement the update!"
-    );
-  }
   //Add/remove product from favorites and update favorites table
   async function handleFavoriteItems(e) {
     setIsClicked(!isClicked);

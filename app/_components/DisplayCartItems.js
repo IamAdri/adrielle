@@ -8,9 +8,12 @@ import MakeOrderBox from "./MakeOrderBox";
 import { PricePerQuantityProvider } from "../_contextAPI/PricePerQuantityContextApi";
 import { useDisplayCartItems } from "../_customHooks/useDisplayCartItems";
 import { useRealTimeSubscription } from "../_customHooks/useRealTimeSubscription";
+import { supabase } from "../_lib/supabase";
+import { useEffect, useState } from "react";
 
 function DisplayCartItems({ currentUser }) {
   const { cartItems, setColorSrc } = useDisplayCartItems(currentUser);
+
   //Redirect to product page when clicking on product image
   const handleDisplayImage = (item) => {
     setColorSrc(item.selectedColorSrc);
