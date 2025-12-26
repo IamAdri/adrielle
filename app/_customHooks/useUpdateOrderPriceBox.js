@@ -1,9 +1,10 @@
 "use client";
 import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
 import { useCartItems } from "../_contextAPI/CartItemsContextApi";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getCartItems } from "../_lib/data-service";
 import { supabase } from "../_lib/supabase";
+import { useRealTimeSubscription } from "./useRealTimeSubscription";
 
 export function useUpdateOrderPriceBox() {
   const { isCurrentUser } = useCurrentUserEmail();
@@ -13,17 +14,25 @@ export function useUpdateOrderPriceBox() {
   const { totalProductsPrice, setTotalProductsPrice } = useCartItems();
   const [deliveryCost, setDeliveryCost] = useState(0);
   //Get cart items of active user
+  async function getItemsFromCart() {
+    const items = await getCartItems(
+      isCurrentUser,
+      localStorage.getItem("guestID")
+    );
+    setItemsFromCart(items);
+  }
   useEffect(() => {
-    (async function getItemsFromCart() {
-      const items = await getCartItems(
-        isCurrentUser,
-        localStorage.getItem("guestID")
-      );
-      setItemsFromCart(items);
-    })();
+    getItemsFromCart();
   }, [isCurrentUser, isCart]);
+  // console.log(totalProductsPrice);
   //Update order box prices when making change in cart products and quantities
+  // useRealTimeSubscription({ onChange: () => getItemsFromCart() });
+  const subscribedRef = useRef(false);
+  const channelRef = useRef(null);
   useEffect(() => {
+    if (subscribedRef.current) return;
+    subscribedRef.current = true;
+    console.log("MOUNT");
     const channel = supabase
       .channel("cart")
       .on(
@@ -34,15 +43,42 @@ export function useUpdateOrderPriceBox() {
           table: "cart",
         },
         (payload) => {
-          setItemsFromCart((prev) => [
-            payload.new,
-            ...prev.filter((item) => item.id !== payload.new.id),
-          ]);
+          return getItemsFromCart();
+          //  setItemsFromCart((prev) => [
+          //    payload.new,
+          //    ...prev.filter((item) => item.id !== payload.new.id),
+          //  ]);
         }
       )
-      .subscribe();
+      .on(
+        "postgres_changes",
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "cart",
+        },
+        (payload) => {
+          return getItemsFromCart();
+          //  setItemsFromCart((prev) => [
+          //   payload.new,
+          //   ...prev.filter((item) => item.id !== payload.new.id),
+          //  ]);
+        }
+      )
+      .subscribe((status) => {
+        console.log("FAV SUB STATUS:", status);
+        if (status === "SUBSCRIBED") {
+          subscribedRef.current = true;
+        }
+      });
+    channelRef.current = channel;
     return () => {
-      supabase.removeChannel(channel);
+      supabase.removeChannel(channelRef.current);
+      if (channelRef.current && subscribedRef.current) {
+        supabase.removeChannel(channelRef.current);
+        subscribedRef.current = false;
+        channelRef.current = null;
+      }
     };
   }, [itemsFromCart]);
   //Create an array with prices per quantity of all products from cart

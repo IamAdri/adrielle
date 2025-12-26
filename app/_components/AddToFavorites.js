@@ -10,6 +10,7 @@ import {
 import { useFavoriteItems } from "../_contextAPI/FavoriteItemsContextApi";
 import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
 import { colorsAvailableFunction } from "../_lib/helper";
+import { supabase } from "../_lib/supabase";
 
 function AddToFavorites({
   currentUser,
@@ -20,6 +21,7 @@ function AddToFavorites({
 }) {
   const { isFavorite, setIsFavorite } = useFavoriteItems();
   const [isClicked, setIsClicked] = useState(false);
+  const [isError, setIsError] = useState(false);
   const { colorSrc, clickedImage } = useChangingColor();
   const { colorsAvailable, mainColorImage, secondColorGallery } =
     colorsAvailableFunction(item);
@@ -28,25 +30,60 @@ function AddToFavorites({
   const chooseColor = secondColorGallery.includes(displayedImageInFavorite)
     ? colorsAvailable[1]
     : colorsAvailable[0];
-
+  async function loadFavoriteItems() {
+    const favoriteItems = await getFavoriteItems(
+      currentUser,
+      localStorage.getItem("guestID")
+    );
+    setIsFavorite(favoriteItems.length);
+    const favoriteExists = favoriteItems.some(
+      (favorite) =>
+        favorite.favorite_id === item.id &&
+        favorite.selectedColor === chooseColor
+    );
+    setIsClicked(favoriteExists);
+  }
   //Load favorite items from supabase based on user who is using website
   useEffect(() => {
-    async function loadFavoriteItems() {
-      const favoriteItems = await getFavoriteItems(
-        currentUser,
-        localStorage.getItem("guestID")
-      );
-      setIsFavorite(favoriteItems.length);
-      const favoriteExists = favoriteItems.some(
-        (favorite) =>
-          favorite.favorite_id === item.id &&
-          favorite.selectedColor === chooseColor
-      );
-      setIsClicked(favoriteExists);
-    }
     loadFavoriteItems();
   }, [isFavorite, isClicked, colorSrc]);
 
+  //Update item when making changes in items table
+  useEffect(() => {
+    const channel = supabase
+      .channel("items")
+      .on(
+        "postgres_changes",
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "items",
+        },
+        (payload) => {
+          setIsError(true);
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "items",
+        },
+        (payload) => {
+          setIsError(true);
+        }
+      )
+      .subscribe();
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+  if (isError) {
+    throw new Error(
+      "The product has been edited or deleted. Please go to home page to implement the update!"
+    );
+  }
   //Add/remove product from favorites and update favorites table
   async function handleFavoriteItems(e) {
     setIsClicked(!isClicked);

@@ -4,8 +4,12 @@ import { getCartItems } from "../_lib/data-service";
 import ButtonForSize from "./ButtonForSize";
 import Drawer from "./Drawer";
 import { useAddToCart } from "../_customHooks/useAddToCart";
+import { useEffect, useRef, useState } from "react";
+import { supabase } from "../_lib/supabase";
+import { useRealTimeSubscription } from "../_customHooks/useRealTimeSubscription";
 
 function AddToCart({ item, selectedColorSrc, priceAfterDiscount }) {
+  const [isError, setIsError] = useState(false);
   const { clickedSize, isNotSelected, setIsNotSelected, setSameCartItem } =
     useChooseSize();
   const {
@@ -19,6 +23,53 @@ function AddToCart({ item, selectedColorSrc, priceAfterDiscount }) {
     priceAfterDiscount,
     selectedColorSrc,
   });
+  useRealTimeSubscription({ onChange: () => setIsError(true) });
+  /*
+  //Update item when making changes in items table
+  const subscribedRef = useRef(false);
+  useEffect(() => {
+    if (subscribedRef.current) return;
+    subscribedRef.current = true;
+    console.log("MOUNT");
+    const channel = supabase
+      .channel("items")
+      .on(
+        "postgres_changes",
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "items",
+        },
+        (payload) => {
+          console.log(payload);
+          return setIsError(true);
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "items",
+        },
+        (payload) => {
+          console.log(payload);
+          return setIsError(true);
+        }
+      )
+      .subscribe((status) => {
+        console.log("SUB STATUS:", status);
+      });
+    return () => {
+      console.log("UNMOUNT");
+      supabase.removeChannel(channel);
+    };
+  }, []);*/
+  if (isError) {
+    throw new Error(
+      "The product has been edited or deleted. Please go to home page to implement the update!"
+    );
+  }
   //Add product to cart on click event/ update quantity if product with same criteria (size, color) already exists
   const handleAddToCart = async () => {
     const cartItems = await getCartItems(

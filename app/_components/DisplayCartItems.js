@@ -3,26 +3,14 @@ import Image from "next/image";
 import ButtonForDeletingCartItem from "./ButtonForDeletingCartItem";
 import ButtonForAddingQuantity from "./ButtonForAddingQuantity";
 import MainHeading from "./MainHeading";
-import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
 import { redirect } from "next/navigation";
 import MakeOrderBox from "./MakeOrderBox";
 import { PricePerQuantityProvider } from "../_contextAPI/PricePerQuantityContextApi";
-import { useEffect, useState } from "react";
-import { getItemsDetailsByCartTable } from "../_lib/data-service";
+import { useDisplayCartItems } from "../_customHooks/useDisplayCartItems";
+import { useRealTimeSubscription } from "../_customHooks/useRealTimeSubscription";
 
 function DisplayCartItems({ currentUser }) {
-  const { setColorSrc } = useChangingColor();
-  const [cartItems, setCartItems] = useState([]);
-  //Load cart products of active user
-  useEffect(() => {
-    (async function loadCartItemsDetails() {
-      const cartItemsDetails = await getItemsDetailsByCartTable(
-        currentUser,
-        localStorage.getItem("guestID")
-      );
-      setCartItems(cartItemsDetails);
-    })();
-  }, [currentUser]);
+  const { cartItems, setColorSrc } = useDisplayCartItems(currentUser);
   //Redirect to product page when clicking on product image
   const handleDisplayImage = (item) => {
     setColorSrc(item.selectedColorSrc);
@@ -45,7 +33,6 @@ function DisplayCartItems({ currentUser }) {
           <div className="relative w-100 md:w-150 lg:w-200">
             {cartItems.length > 0 &&
               cartItems.map((cartItem) => {
-                console.log(cartItem);
                 return (
                   <ul
                     className="flex flex-col gap-15 mt-15"
