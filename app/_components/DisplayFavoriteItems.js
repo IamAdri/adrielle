@@ -3,13 +3,11 @@ import { useEffect, useRef, useState } from "react";
 import { getItemsDetailsByFavoriteTable } from "../_lib/data-service";
 import FavoriteItem from "./FavoriteItem";
 import { supabase } from "../_lib/supabase";
-import { useRealTimeSubscription } from "../_customHooks/useRealTimeSubscription";
 import { useFavoriteItems } from "../_contextAPI/FavoriteItemsContextApi";
 
 function DisplayFavoriteItems({ currentUser }) {
   const { isFavorite, setIsFavorite } = useFavoriteItems();
   const [favoriteItems, setFavoriteItems] = useState([]);
-  const [isMounted, setIsMounted] = useState(false);
   //Load favorite items of active user
   async function loadFavoriteItemsDetails() {
     const favoriteItemsDetails = await getItemsDetailsByFavoriteTable(
@@ -34,8 +32,7 @@ function DisplayFavoriteItems({ currentUser }) {
           schema: "public",
           table: "favorites",
         },
-        (payload) => {
-          console.log(payload);
+        () => {
           loadFavoriteItemsDetails();
         }
       )

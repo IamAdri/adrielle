@@ -39,10 +39,8 @@ export function useAddToCart({ item, priceAfterDiscount, selectedColorSrc }) {
   const chooseColor = secondColorGallery.includes(displayedImageInCart)
     ? colorsAvailable[1]
     : colorsAvailable[0];
-
   //Update cart items when making changes in items table
   useEffect(() => {
-    console.log("MOUNT");
     const channel = supabase
       .channel("items")
       .on(
@@ -53,7 +51,6 @@ export function useAddToCart({ item, priceAfterDiscount, selectedColorSrc }) {
           table: "items",
         },
         (payload) => {
-          console.log(payload);
           return setIsError(true);
         }
       )
@@ -65,7 +62,6 @@ export function useAddToCart({ item, priceAfterDiscount, selectedColorSrc }) {
           table: "items",
         },
         (payload) => {
-          console.log(payload);
           return setIsError(true);
         }
       )
@@ -79,15 +75,6 @@ export function useAddToCart({ item, priceAfterDiscount, selectedColorSrc }) {
       "The product has been edited or deleted. Please go to home page to implement the update!"
     );
   }
-  useEffect(() => {
-    if (isError) {
-      async function updateCartNumber() {
-        const cartItems = await getCartItems();
-        setIsCart(cartItems.length);
-      }
-      updateCartNumber();
-    }
-  }, [isError]);
 
   useEffect(() => {
     setIsClickedImage("");

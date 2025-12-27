@@ -19,14 +19,8 @@ function DisplayedNumberOfFavoriteItems({ currentUser }) {
   }
   useEffect(() => {
     setIsCurrentUser(currentUser);
-
     loadFavoriteItems();
   }, [guestIDIsRemoved]);
-
-  //  useRealTimeSubscription({
-  //   channelName: "numberCartRealtime",
-  //    onChange: () => loadFavoriteItems(),
-  //  });
 
   return <span>{isFavorite > 0 && isFavorite}</span>;
 }

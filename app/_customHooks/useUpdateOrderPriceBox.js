@@ -1,10 +1,9 @@
 "use client";
 import { useCurrentUserEmail } from "../_contextAPI/CurrentUserEmailContextApi";
 import { useCartItems } from "../_contextAPI/CartItemsContextApi";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { getCartItems } from "../_lib/data-service";
 import { supabase } from "../_lib/supabase";
-import { useRealTimeSubscription } from "./useRealTimeSubscription";
 
 export function useUpdateOrderPriceBox() {
   const { isCurrentUser } = useCurrentUserEmail();
@@ -24,15 +23,8 @@ export function useUpdateOrderPriceBox() {
   useEffect(() => {
     getItemsFromCart();
   }, [isCurrentUser, isCart]);
-  // console.log(totalProductsPrice);
-  //Update order box prices when making change in cart products and quantities
-  // useRealTimeSubscription({ onChange: () => getItemsFromCart() });
-  const subscribedRef = useRef(false);
-  const channelRef = useRef(null);
+  //Update price when changes are made in cart items
   useEffect(() => {
-    if (subscribedRef.current) return;
-    subscribedRef.current = true;
-    console.log("MOUNT");
     const channel = supabase
       .channel("cart")
       .on(
@@ -42,12 +34,8 @@ export function useUpdateOrderPriceBox() {
           schema: "public",
           table: "cart",
         },
-        (payload) => {
+        () => {
           return getItemsFromCart();
-          //  setItemsFromCart((prev) => [
-          //    payload.new,
-          //    ...prev.filter((item) => item.id !== payload.new.id),
-          //  ]);
         }
       )
       .on(
@@ -57,28 +45,13 @@ export function useUpdateOrderPriceBox() {
           schema: "public",
           table: "cart",
         },
-        (payload) => {
+        () => {
           return getItemsFromCart();
-          //  setItemsFromCart((prev) => [
-          //   payload.new,
-          //   ...prev.filter((item) => item.id !== payload.new.id),
-          //  ]);
         }
       )
-      .subscribe((status) => {
-        console.log("FAV SUB STATUS:", status);
-        if (status === "SUBSCRIBED") {
-          subscribedRef.current = true;
-        }
-      });
-    channelRef.current = channel;
+      .subscribe();
     return () => {
-      supabase.removeChannel(channelRef.current);
-      if (channelRef.current && subscribedRef.current) {
-        supabase.removeChannel(channelRef.current);
-        subscribedRef.current = false;
-        channelRef.current = null;
-      }
+      supabase.removeChannel(channel);
     };
   }, [itemsFromCart]);
   //Create an array with prices per quantity of all products from cart

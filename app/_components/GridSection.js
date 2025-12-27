@@ -15,6 +15,7 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import Button from "./Button";
 import { colorsAvailableFunction, priceWithDiscount } from "../_lib/helper";
+import { supabase } from "../_lib/supabase";
 
 function GridSection({ selectItemsOfSameCategory, currentUser }) {
   const { radioValue } = useRadioValue();
@@ -23,7 +24,48 @@ function GridSection({ selectItemsOfSameCategory, currentUser }) {
   const [currentSliceStart, setCurrentSliceStart] = useAtom(sliceStartAtom);
   const [currentSliceEnd, setCurrentSliceEnd] = useAtom(sliceEndAtom);
   const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
-  //Order products ascending/descending price based on sorting option chosen
+  //Update cart items when making changes in items table
+  useEffect(() => {
+    const channel = supabase
+      .channel("itemsForCatalog")
+      .on(
+        "postgres_changes",
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "items",
+        },
+        () => {
+          return window.location.reload();
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "items",
+        },
+        () => {
+          return window.location.reload();
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "items",
+        },
+        () => {
+          return window.location.reload();
+        }
+      )
+      .subscribe();
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
   const ascendingOrder = selectItemsOfSameCategory
     .slice()
     .sort(function (a, b) {

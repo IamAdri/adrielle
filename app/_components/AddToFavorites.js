@@ -10,7 +10,6 @@ import {
 import { useFavoriteItems } from "../_contextAPI/FavoriteItemsContextApi";
 import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
 import { colorsAvailableFunction } from "../_lib/helper";
-import { supabase } from "../_lib/supabase";
 
 function AddToFavorites({
   currentUser,
@@ -21,7 +20,6 @@ function AddToFavorites({
 }) {
   const { isFavorite, setIsFavorite } = useFavoriteItems();
   const [isClicked, setIsClicked] = useState(false);
-  const [isError, setIsError] = useState(false);
   const { colorSrc, clickedImage } = useChangingColor();
   const { colorsAvailable, mainColorImage, secondColorGallery } =
     colorsAvailableFunction(item);
@@ -65,6 +63,7 @@ function AddToFavorites({
         localStorage.getItem("guestID")
       );
       setIsFavorite(updatedArray.length);
+      ``;
     }
     if (isClicked) {
       await removeFavoriteItem(

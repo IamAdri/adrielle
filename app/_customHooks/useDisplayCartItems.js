@@ -1,9 +1,8 @@
 "use client";
 import { useChangingColor } from "../_contextAPI/ChangingColorContextApi";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { getItemsDetailsByCartTable } from "../_lib/data-service";
 import { supabase } from "../_lib/supabase";
-import { useRealTimeSubscription } from "./useRealTimeSubscription";
 import { useCartItems } from "../_contextAPI/CartItemsContextApi";
 
 export function useDisplayCartItems(currentUser) {
