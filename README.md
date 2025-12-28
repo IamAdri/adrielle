@@ -1,14 +1,14 @@
 # Adrielle website
 
 ## Description
-Adrielle is an ecommerce website for a fictional shop of women`s shoes. 
+Adrielle is a fictiv ecommerce website women`s shoes. 
 
-This project is an example for my portofolio and it can do the following main tasks:
+This project is a demo for my portofolio and it can do the following main tasks:
 
 - CRUD actions expected in an ecommerce website: fetch products, add or remove from favorites and cart, write a review or make an order. 
 - Show and edit user`s details such as delivery address, personal orders and reviews.
 - Authenticate users with NextAuth via Google Provider.
-- RLS policies in Supabase so that user can have access only to their personal details.
+- Save products from favorites and cart if any of user before he logged in and transfer to user account.
 - Light/dark mode.
 
 
@@ -20,10 +20,7 @@ This project is an example for my portofolio and it can do the following main ta
 
 
 ## Getting Started
-Before interactig with website please note that I have implemented required RLS policies so it is safe to insert your email address to test the login process.
-  
-
-## Deployed version - [click here!](https://adrielle.vercel.app)
+## Deployed version with Vercel - [click here!](https://adrielle.vercel.app)
 
 ### Dependencies
 
@@ -34,24 +31,25 @@ Before interactig with website please note that I have implemented required RLS 
 * Supabse Authenticator with Google Provider
 * Styled Components
 
-### Installing
+## Getting Started
 
-* The deployed version of website - admin-panel-lemon-two.vercel.app.
-*CHECK LATER HOT TO CLONE WITH GITHUB
+## Installing
+*Clone repository:
 
-### Executing program
-
-* How to run the program
-* Step-by-step bullets
-```
-code blocks for commands
+```bash 
+git clone (https://github.com/IamAdri/adrielle.git)
 ```
 
-## Help
-
-Any advise for common problems or issues.
+*Install dependencies:
+```bash 
+npm install
 ```
-command to run if program contains helper info
+
+
+*Run the development server:
+
+```bash
+npm run dev
 ```
 
 ## Reflection
@@ -75,19 +73,6 @@ This project is licensed under the [NAME HERE] License - see the LICENSE.md file
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
