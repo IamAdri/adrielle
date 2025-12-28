@@ -1,7 +1,7 @@
 # Adrielle website
 
 ## Description
-**Adrielle** is a fictiv e-commerce website of women`s shoes. 
+**Adrielle** is a demo e-commerce website of women`s shoes. 
 
 This project is a **demo for my portofolio** and it can do the following main tasks:
 
