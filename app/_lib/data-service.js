@@ -24,27 +24,6 @@ export async function getItemByName(name) {
   return data;
 }
 
-export async function checkItemChanged(item) {
-  //console.log(item);
-  const { data, error } = await supabase
-    .from("items")
-    .select("*")
-    .eq("id", item.id)
-    .eq("name", item.name)
-    .eq("description", item.description)
-    .eq("variants", item.variants)
-    .eq("price", item.price)
-    .eq("discount", item.discount)
-    .eq("category", item.category)
-    .eq("itemType", item.itemType);
-
-  if (error) {
-    console.log(error);
-    throw new Error("Could not load item.");
-  }
-  return data;
-}
-
 export async function getFavoriteItems(logedInUser, guestID) {
   const { data, error } = await supabase
     .from("favorites")
