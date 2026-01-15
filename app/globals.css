@@ -62,15 +62,6 @@ html.dark {
   --font-mono: var(--font-geist-mono);
 }
 
-@layer base {
-  *,
-  ::before,
-  ::after {
-    border-width: 0;
-    border-style: none;
-  }
-}
-
 @layer components {
   .spinner {
     margin: 3.2rem auto 1.6rem;
