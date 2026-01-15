@@ -27,7 +27,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${notoSans.className} flex flex-col w-screen h-screen`}>
+      <body className={`${notoSans.className} flex flex-col w-full h-screen`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

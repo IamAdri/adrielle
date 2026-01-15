@@ -16,7 +16,7 @@ async function Catalog({ category, productsData }) {
       : item.category.includes(categoryName) && item.itemType === "accessories"
   );
   return (
-    <div className="xl:mx-55 lg:mx-35 mx-25">
+    <div className="xl:mx-55 lg:mx-35 mx-25 will-change-transform">
       <RadioValueProvider>
         <SortingItems />
         <GridSection

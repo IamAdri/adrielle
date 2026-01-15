@@ -14,7 +14,7 @@ async function Page({ params }) {
   const shoes = await getItems();
   return (
     <div>
-      <div className="flex justify-start ml-10 gap-1 items-center mt-5">
+      <div className="flex justify-start ml-10 gap-1 items-center mt-5 ">
         <Link href="/shoes" className="font-medium hover:underline ">
           Shoes
         </Link>
